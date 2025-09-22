@@ -182,13 +182,6 @@ export default function Footer() {
               <Link href="#" className="hover:text-yellow-300 transition-colors">Sitemap</Link>
             </div>
           </div>
-          
-          {/* Inspirational Quote */}
-          <div className="text-center mt-8 pt-6 border-t border-blue-700">
-            <p className="text-blue-200 italic text-sm">
-              "Ahimsa Paramo Dharma" - Non-violence is the supreme religion
-            </p>
-          </div>
         </div>
       </div>
     </footer>
