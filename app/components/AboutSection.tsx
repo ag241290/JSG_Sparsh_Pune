@@ -5,26 +5,22 @@ export default function AboutSection() {
     {
       icon: Heart,
       title: 'Community Service',
-      description: 'Organizing charitable activities and helping those in need within and beyond our community.',
-      hindi: '???????? ????'
+      description: 'Organizing charitable activities and helping those in need within and beyond our community.'
     },
     {
       icon: Calendar,
       title: 'Cultural Events',
-      description: 'Celebrating Jain festivals, organizing cultural programs, and preserving our rich traditions.',
-      hindi: '?????????? ?????????'
+      description: 'Celebrating Jain festivals, organizing cultural programs, and preserving our rich traditions.'
     },
     {
       icon: Users,
       title: 'Social Networking',
-      description: 'Building connections among Jain families in Pune through regular social gatherings.',
-      hindi: '??????? ??????????'
+      description: 'Building connections among Jain families in Pune through regular social gatherings.'
     },
     {
       icon: Award,
       title: 'Youth Development',
-      description: 'Mentoring young minds and providing platforms for their personal and professional growth.',
-      hindi: '???? ?????'
+      description: 'Mentoring young minds and providing platforms for their personal and professional growth.'
     }
   ]
 
@@ -36,13 +32,10 @@ export default function AboutSection() {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             About JSG SPARSH Pune
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             JSG SPARSH Pune is a vibrant social organization dedicated to bringing together 
             the Jain community in Pune. We focus on preserving our cultural heritage while 
-            adapting to modern times.
-          </p>
-          <p className="text-base text-primary-600 font-hindi">
-            ????? ???????? ??? ?????? ?? ????? ???? ?? ????? ???????? ?? ??? ?????? ??
+            adapting to modern times and building stronger community bonds.
           </p>
         </div>
 
@@ -53,12 +46,9 @@ export default function AboutSection() {
               <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg mb-4">
                 <feature.icon className="text-primary-600" size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {feature.title}
               </h3>
-              <p className="text-sm text-primary-600 font-hindi mb-2">
-                {feature.hindi}
-              </p>
               <p className="text-gray-600 text-sm leading-relaxed">
                 {feature.description}
               </p>
@@ -77,8 +67,8 @@ export default function AboutSection() {
                 traditions meet modernity, and every member feels valued and connected.
               </p>
               <div className="bg-primary-50 p-4 rounded-lg">
-                <p className="text-primary-800 font-hindi text-center">
-                  "?????? ???? ?????" - Non-violence is the supreme religion
+                <p className="text-primary-800 text-center font-medium">
+                  "Ahimsa Paramo Dharma" - Non-violence is the supreme religion
                 </p>
               </div>
             </div>

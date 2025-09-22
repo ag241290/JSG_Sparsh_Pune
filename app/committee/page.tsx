@@ -87,12 +87,10 @@ export default function Committee() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Our Committee
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Meet the dedicated volunteers who work tirelessly to serve our community and 
-            organize various activities throughout the year.
-          </p>
-          <p className="text-base text-primary-600 font-hindi">
-            ?????? ???? ??? ??????? ????? ??????????
+            organize various activities throughout the year. Our committed team ensures 
+            smooth operations and meaningful engagement for all members.
           </p>
         </div>
 

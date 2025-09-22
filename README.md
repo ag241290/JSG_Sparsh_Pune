@@ -10,7 +10,7 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
 - **Gallery Page**: Photo collections from past events with category filters
 - **Responsive Design**: Optimized for all devices
 - **Modern UI**: Built with Tailwind CSS for a clean, professional look
-- **Hindi Support**: Bilingual content with Devanagari script support
+- **Community Focus**: English language interface designed for the Pune Jain community
 
 ## Tech Stack
 
@@ -50,19 +50,20 @@ This project is configured for easy deployment on Vercel:
 
 ## Project Structure
 
-```plaintext
-??? app/
-?   ??? components/          # Reusable components
-?   ??? committee/          # Committee page
-?   ??? events/             # Events page
-?   ??? gallery/            # Gallery page
-?   ??? globals.css         # Global styles
-?   ??? layout.tsx          # Root layout
-?   ??? page.tsx            # Home page
-??? public/                 # Static assets
-??? next.config.js          # Next.js configuration
-??? tailwind.config.js      # Tailwind CSS configuration
-??? package.json           # Dependencies and scripts
+```
+JSG-Portal/
+|-- app/
+|   |-- components/          # Reusable components
+|   |-- committee/          # Committee page
+|   |-- events/             # Events page
+|   |-- gallery/            # Gallery page
+|   |-- globals.css         # Global styles
+|   |-- layout.tsx          # Root layout
+|   `-- page.tsx            # Home page
+|-- public/                 # Static assets
+|-- next.config.js          # Next.js configuration
+|-- tailwind.config.js      # Tailwind CSS configuration
+`-- package.json           # Dependencies and scripts
 ```
 
 ## Contributing

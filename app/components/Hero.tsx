@@ -14,9 +14,9 @@ export default function Hero() {
             </span>
           </h1>
           
-          {/* Hindi Tagline */}
-          <p className="text-xl md:text-2xl mb-4 font-hindi text-orange-100">
-            ??? ?????? - ???? ??? ?????
+          {/* Tagline */}
+          <p className="text-xl md:text-2xl mb-4 text-orange-100">
+            Jain Social Group - Unity in Community
           </p>
           
           {/* English Description */}

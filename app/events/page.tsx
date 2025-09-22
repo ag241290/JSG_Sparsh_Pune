@@ -116,12 +116,10 @@ export default function Events() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Upcoming Events
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Stay updated with our exciting events, festivals, and community activities. 
-            Join us in celebrating our culture and building stronger community bonds.
-          </p>
-          <p className="text-base text-primary-600 font-hindi">
-            ????? ??????????? ??? ??? ??? ?? ?????? ?? ??????
+            Join us in celebrating our culture and building stronger community bonds through 
+            meaningful participation and shared experiences.
           </p>
         </div>
 

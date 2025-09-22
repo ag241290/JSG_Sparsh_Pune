@@ -124,12 +124,10 @@ export default function Gallery() {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Photo Gallery
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Relive the beautiful moments from our community events, festivals, and gatherings. 
-            Each picture tells a story of unity, celebration, and togetherness.
-          </p>
-          <p className="text-base text-primary-600 font-hindi">
-            ????? ????? ?? ?????? - ?????? ?? ???? ?? ??
+            Each picture tells a story of unity, celebration, and togetherness. Browse through 
+            our collection of memories and cherished moments.
           </p>
         </div>
 

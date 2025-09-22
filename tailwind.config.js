@@ -32,9 +32,6 @@ module.exports = {
           800: '#075985',
           900: '#0c4a6e',
         }
-      },
-      fontFamily: {
-        'hindi': ['Devanagari Sangam MN', 'Noto Sans Devanagari', 'sans-serif'],
       }
     },
   },
