@@ -1,9 +1,9 @@
-import { HandHeart, Users, Calendar, Award } from 'lucide-react'
+import { Heart, Users, Calendar, Award } from 'lucide-react'
 
 export default function AboutSection() {
   const features = [
     {
-      icon: HandHeart,
+      icon: Heart,
       title: 'Community Service',
       description: 'Organizing charitable activities and helping those in need within and beyond our community.',
       hindi: '???????? ????'

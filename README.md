@@ -50,7 +50,7 @@ This project is configured for easy deployment on Vercel:
 
 ## Project Structure
 
-```
+```plaintext
 ??? app/
 ?   ??? components/          # Reusable components
 ?   ??? committee/          # Committee page
