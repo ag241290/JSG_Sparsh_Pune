@@ -51,7 +51,7 @@ export default function AboutSection() {
         </div>
 
         {/* JSG Federation Section */}
-        <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-3xl p-8 md:p-12 shadow-lg border border-blue-200">
+        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-blue-200">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="flex-1 text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start mb-6">
@@ -90,10 +90,10 @@ export default function AboutSection() {
             <div className="flex-shrink-0">
               <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-gray-100">
                 <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto">
-                  <img
-                    src="/images/JSG_Federation.jpeg"
-                    alt="JSG International Federation Logo"
-                    className="w-full h-full object-contain filter drop-shadow-sm"
+                  <img 
+                    src="/images/JSG_Federation.jpeg" 
+                    alt="JSG International Federation Logo" 
+                    className="w-full h-full object-contain relative z-10 rounded-xl"
                   />
                 </div>
               </div>
