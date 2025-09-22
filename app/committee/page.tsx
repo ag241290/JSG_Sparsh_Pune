@@ -127,14 +127,14 @@ export default function Committee() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         {/* Page Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
             Our Committee 2025-2026
           </h1>
-          <p className="text-lg text-gray-600 max-w-4xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto px-2 leading-relaxed">
             Meet the dedicated team of JSG SPARSH Pune who work tirelessly to serve our community. 
             Our organizational structure includes the Core Group, specialized PROs (Public Relations Officers), 
             and dynamic Group Leaders managing our four vibrant member groups.
@@ -142,42 +142,42 @@ export default function Committee() {
         </div>
 
         {/* Core Group - BLUE THEME */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
             Core Group
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {coreGroup.map((member, index) => {
               const IconComponent = member.icon
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white text-center">
-                    <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 sm:p-6 text-white text-center">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
                       {member.position === 'Founder President' ? (
-                        <IconComponent size={28} />
+                        <IconComponent size={20} className="sm:w-7 sm:h-7" />
                       ) : (
-                        <span className="text-2xl font-bold">
+                        <span className="text-lg sm:text-2xl font-bold">
                           {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                    <p className="text-blue-100 font-medium">{member.position}</p>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 leading-tight">{member.name}</h3>
+                    <p className="text-blue-100 font-medium text-sm sm:text-base">{member.position}</p>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  <div className="p-4 sm:p-6">
+                    <p className="text-gray-600 text-sm mb-3 sm:mb-4 leading-relaxed min-h-[4rem]">
                       {member.description}
                     </p>
                     <div className="space-y-2">
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={14} className="mr-2" />
-                        <a href={`mailto:${member.email}`} className="hover:text-blue-600 truncate">
+                        <Mail size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`mailto:${member.email}`} className="hover:text-blue-600 truncate text-xs">
                           {member.email}
                         </a>
                       </div>
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Phone size={14} className="mr-2" />
-                        <a href={`tel:${member.phone}`} className="hover:text-blue-600">
+                        <Phone size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`tel:${member.phone}`} className="hover:text-blue-600 text-xs">
                           {member.phone}
                         </a>
                       </div>
@@ -190,36 +190,36 @@ export default function Committee() {
         </div>
 
         {/* PROs (Public Relations Officers) - SOLID YELLOW THEME */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
             PROs (Public Relations Officers)
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {pros.map((member, index) => {
               const IconComponent = member.icon
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                  <div className="bg-yellow-500 p-6 text-white text-center">
-                    <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <IconComponent size={28} />
+                  <div className="bg-yellow-500 p-4 sm:p-6 text-white text-center">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                      <IconComponent size={20} className="sm:w-7 sm:h-7" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                    <p className="text-yellow-100 font-medium">{member.position}</p>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 leading-tight">{member.name}</h3>
+                    <p className="text-yellow-100 font-medium text-sm sm:text-base">{member.position}</p>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  <div className="p-4 sm:p-6">
+                    <p className="text-gray-600 text-sm mb-3 sm:mb-4 leading-relaxed min-h-[4rem]">
                       {member.description}
                     </p>
                     <div className="space-y-2">
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={14} className="mr-2" />
-                        <a href={`mailto:${member.email}`} className="hover:text-yellow-600 truncate">
+                        <Mail size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`mailto:${member.email}`} className="hover:text-yellow-600 truncate text-xs">
                           {member.email}
                         </a>
                       </div>
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Phone size={14} className="mr-2" />
-                        <a href={`tel:${member.phone}`} className="hover:text-yellow-600">
+                        <Phone size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`tel:${member.phone}`} className="hover:text-yellow-600 text-xs">
                           {member.phone}
                         </a>
                       </div>
@@ -232,37 +232,37 @@ export default function Committee() {
         </div>
 
         {/* Group Leaders */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
             Group Leaders
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {groupLeaders.map((member, index) => {
               const IconComponent = member.icon
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
-                  <div className={`bg-gradient-to-r ${member.color} p-6 text-white text-center`}>
-                    <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <IconComponent size={28} />
+                  <div className={`bg-gradient-to-r ${member.color} p-4 sm:p-6 text-white text-center`}>
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                      <IconComponent size={20} className="sm:w-7 sm:h-7" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                    <p className="text-white/90 font-medium mb-1">{member.position}</p>
-                    <p className="text-white/80 text-sm font-bold">{member.groupName}</p>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-1 leading-tight">{member.name}</h3>
+                    <p className="text-white/90 font-medium mb-1 text-sm sm:text-base">{member.position}</p>
+                    <p className="text-white/80 text-xs sm:text-sm font-bold">{member.groupName}</p>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  <div className="p-4 sm:p-6">
+                    <p className="text-gray-600 text-sm mb-3 sm:mb-4 leading-relaxed min-h-[4rem]">
                       {member.description}
                     </p>
                     <div className="space-y-2">
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={14} className="mr-2" />
-                        <a href={`mailto:${member.email}`} className="hover:text-primary-600 truncate">
+                        <Mail size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`mailto:${member.email}`} className="hover:text-primary-600 truncate text-xs">
                           {member.email}
                         </a>
                       </div>
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Phone size={14} className="mr-2" />
-                        <a href={`tel:${member.phone}`} className="hover:text-primary-600">
+                        <Phone size={12} className="mr-2 flex-shrink-0" />
+                        <a href={`tel:${member.phone}`} className="hover:text-primary-600 text-xs">
                           {member.phone}
                         </a>
                       </div>
@@ -274,8 +274,8 @@ export default function Committee() {
           </div>
           
           {/* Group Information Text */}
-          <div className="text-center mt-8">
-            <p className="text-sm text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <div className="text-center mt-6 sm:mt-8">
+            <p className="text-sm text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
               JSG SPARSH Pune is organized into four vibrant groups, each with its unique identity and energy. 
               These groups foster closer bonds among members and create exciting opportunities for participation 
               in various activities and events.

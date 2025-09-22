@@ -50,10 +50,10 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center mb-8">
-            <div className="relative w-24 h-24">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 text-center">
+          <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24">
               <img
                 src="/images/JSG_SPARSH.jpeg"
                 alt="JSG SPARSH Pune Logo"
@@ -61,52 +61,52 @@ export default function AboutPage() {
               />
             </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">About JSG SPARSH Pune</h1>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">About JSG SPARSH Pune</h1>
+          <p className="text-lg sm:text-xl lg:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed px-2">
             Building Unity, Preserving Traditions, Serving Community
           </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
           
           {/* About Section */}
-          <div className="text-center mb-20">
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8 leading-relaxed">
+          <div className="text-center mb-16 sm:mb-20">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
               In 2024, we launched JSG Pune SPARSH Group with a clear vision: to build a strong, 
               unified community based on the principles of brotherhood and mutual respect. The group 
               is proud to have CORE COMMITTEE & members from all four Jain sects working together 
               as one cohesive Jain Social Group.
             </p>
-            <div className="bg-gradient-to-r from-blue-50 to-yellow-50 p-8 rounded-3xl max-w-3xl mx-auto shadow-md border border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-yellow-50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl max-w-3xl mx-auto shadow-md border border-blue-200">
               <p className="text-blue-800 font-bold text-lg mb-2">Our Guiding Principle</p>
-              <p className="text-blue-700 text-2xl font-semibold italic">
+              <p className="text-blue-700 text-xl sm:text-2xl font-semibold italic leading-tight">
                 "Walk together, talk together, and act with one mind"
               </p>
-              <div className="w-20 h-1 bg-gradient-to-r from-blue-400 to-yellow-400 mx-auto mt-4 rounded-full"></div>
+              <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-400 to-yellow-400 mx-auto mt-3 sm:mt-4 rounded-full"></div>
             </div>
           </div>
 
           {/* Key Focus Areas */}
-          <div className="mb-20">
-            <h2 className="text-3xl font-bold text-blue-800 mb-12 text-center">
+          <div className="mb-16 sm:mb-20">
+            <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-8 sm:mb-12 text-center">
               Our Key Focus Areas
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {features.map((feature, index) => (
                 <div 
                   key={index} 
-                  className="group bg-white p-8 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-100"
+                  className="group bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-100"
                 >
-                  <div className={`flex items-center justify-center w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="text-white" size={28} />
+                  <div className={`flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${feature.gradient} rounded-xl sm:rounded-2xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="text-white" size={20} />
                   </div>
-                  <h3 className="text-xl font-bold text-blue-800 mb-4">
+                  <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-3 sm:mb-4">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                     {feature.description}
                   </p>
                 </div>
@@ -115,28 +115,28 @@ export default function AboutPage() {
           </div>
 
           {/* Core Values */}
-          <div className="mb-20">
-            <h2 className="text-3xl font-bold text-blue-800 mb-12 text-center">
+          <div className="mb-16 sm:mb-20">
+            <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-8 sm:mb-12 text-center">
               Our Core Values
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-blue-50 p-8 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200">
-                <h3 className="text-xl font-bold text-blue-800 mb-4">Community & Brotherhood</h3>
-                <p className="text-blue-700 leading-relaxed">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+              <div className="bg-blue-50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200">
+                <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-3 sm:mb-4">Community & Brotherhood</h3>
+                <p className="text-blue-700 leading-relaxed text-sm sm:text-base">
                   Strong emphasis on creating a supportive and nurturing environment where trust, 
                   compassion, and respect are central to the relationships formed within the community.
                 </p>
               </div>
-              <div className="bg-yellow-50 p-8 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-yellow-200">
-                <h3 className="text-xl font-bold text-yellow-800 mb-4">Unity in Diversity</h3>
-                <p className="text-yellow-700 leading-relaxed">
+              <div className="bg-yellow-50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-yellow-200">
+                <h3 className="text-lg sm:text-xl font-bold text-yellow-800 mb-3 sm:mb-4">Unity in Diversity</h3>
+                <p className="text-yellow-700 leading-relaxed text-sm sm:text-base">
                   Bringing together individuals from diverse Jain sects, highlighting the strength 
                   that comes from collaboration and shared values across different traditions.
                 </p>
               </div>
-              <div className="bg-blue-50 p-8 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200">
-                <h3 className="text-xl font-bold text-blue-800 mb-4">Holistic Growth</h3>
-                <p className="text-blue-700 leading-relaxed">
+              <div className="bg-blue-50 p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200">
+                <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-3 sm:mb-4">Holistic Growth</h3>
+                <p className="text-blue-700 leading-relaxed text-sm sm:text-base">
                   Vision encompasses both spiritual well-being and professional opportunities, 
                   recognizing that faith and commerce can coexist harmoniously to benefit the community.
                 </p>
@@ -145,41 +145,41 @@ export default function AboutPage() {
           </div>
 
           {/* Mission & Statistics */}
-          <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-3xl p-10 shadow-lg border border-blue-200">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-lg border border-blue-200">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold text-blue-800 mb-6">Our Mission</h2>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6">Our Mission</h2>
+                <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 leading-relaxed">
                   To create a strong, united Jain community in Pune that upholds the principles of 
                   Jainism while embracing progress and inclusivity. We strive to be a platform where 
                   traditions meet modernity, and every member feels valued and connected.
                 </p>
-                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
                   Our core philosophy reflects the group's commitment to collective growth, unity, 
                   and empowerment, where both personal connections and collaborative business ventures thrive.
                 </p>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-200">
-                  <p className="text-blue-800 text-center font-semibold text-lg italic">
+                <div className="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-sm border border-blue-200">
+                  <p className="text-blue-800 text-center font-semibold text-base sm:text-lg italic">
                     "Ahimsa Paramo Dharma" - Non-violence is the supreme religion
                   </p>
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 {achievements.map((achievement, index) => (
                   <div 
                     key={index}
-                    className={`text-center p-6 rounded-2xl ${achievement.bg} hover:shadow-md transition-all duration-300 shadow-sm border border-opacity-20`}
+                    className={`text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl ${achievement.bg} hover:shadow-md transition-all duration-300 shadow-sm border border-opacity-20`}
                   >
-                    <div className="flex justify-center mb-4">
-                      <div className={`p-3 ${achievement.iconBg} rounded-xl`}>
-                        <achievement.icon className="text-white" size={24} />
+                    <div className="flex justify-center mb-3 sm:mb-4">
+                      <div className={`p-2 sm:p-3 ${achievement.iconBg} rounded-lg sm:rounded-xl`}>
+                        <achievement.icon className="text-white" size={18} />
                       </div>
                     </div>
-                    <div className={`text-3xl font-bold ${achievement.text} mb-2`}>
+                    <div className={`text-2xl sm:text-3xl font-bold ${achievement.text} mb-1 sm:mb-2`}>
                       {achievement.value}
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">
+                    <div className="text-xs sm:text-sm text-gray-600 font-medium">
                       {achievement.label}
                     </div>
                   </div>
@@ -189,34 +189,34 @@ export default function AboutPage() {
           </div>
 
           {/* Vision Section */}
-          <div className="mt-20 text-center">
-            <h2 className="text-3xl font-bold text-blue-800 mb-8">Our Vision</h2>
+          <div className="mt-16 sm:mt-20 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-6 sm:mb-8">Our Vision</h2>
             <div className="max-w-4xl mx-auto">
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed px-2">
                 To be the leading Jain social organization in Pune that exemplifies unity in diversity, 
                 fosters spiritual and professional growth, and serves as a beacon of community service 
                 and cultural preservation for future generations.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-md border border-blue-100">
-                  <Heart className="text-blue-600 mx-auto mb-3" size={32} />
-                  <h3 className="font-semibold text-blue-800 mb-2">Community Service</h3>
-                  <p className="text-sm text-gray-600">Dedicated to serving society through various Dan Patra initiatives</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-md border border-blue-100">
+                  <Heart className="text-blue-600 mx-auto mb-2 sm:mb-3" size={24} />
+                  <h3 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">Community Service</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">Dedicated to serving society through various Dan Patra initiatives</p>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-yellow-100">
-                  <Users className="text-yellow-600 mx-auto mb-3" size={32} />
-                  <h3 className="font-semibold text-yellow-800 mb-2">Unity Building</h3>
-                  <p className="text-sm text-gray-600">Bringing together all Jain sects under one umbrella</p>
+                <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-md border border-yellow-100">
+                  <Users className="text-yellow-600 mx-auto mb-2 sm:mb-3" size={24} />
+                  <h3 className="font-semibold text-yellow-800 mb-2 text-sm sm:text-base">Unity Building</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">Bringing together all Jain sects under one umbrella</p>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-blue-100">
-                  <Sparkles className="text-blue-600 mx-auto mb-3" size={32} />
-                  <h3 className="font-semibold text-blue-800 mb-2">Cultural Preservation</h3>
-                  <p className="text-sm text-gray-600">Maintaining and celebrating our rich Jain heritage</p>
+                <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-md border border-blue-100">
+                  <Sparkles className="text-blue-600 mx-auto mb-2 sm:mb-3" size={24} />
+                  <h3 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">Cultural Preservation</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">Maintaining and celebrating our rich Jain heritage</p>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-yellow-100">
-                  <Award className="text-yellow-600 mx-auto mb-3" size={32} />
-                  <h3 className="font-semibold text-yellow-800 mb-2">Excellence</h3>
-                  <p className="text-sm text-gray-600">Striving for excellence in all our endeavors</p>
+                <div className="bg-white p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-md border border-yellow-100">
+                  <Award className="text-yellow-600 mx-auto mb-2 sm:mb-3" size={24} />
+                  <h3 className="font-semibold text-yellow-800 mb-2 text-sm sm:text-base">Excellence</h3>
+                  <p className="text-xs sm:text-sm text-gray-600">Striving for excellence in all our endeavors</p>
                 </div>
               </div>
             </div>
