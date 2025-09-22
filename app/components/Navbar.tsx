@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu, X, Home, Users, Calendar, Camera, Heart, Info } from 'lucide-react'
+import { Menu, X, Home, Users, Calendar, Heart, Info, Trophy } from 'lucide-react'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,8 +22,8 @@ export default function Navbar() {
     { href: '/about', label: 'About', icon: Info },
     { href: '/committee', label: 'Committee', icon: Users },
     { href: '/events', label: 'Events', icon: Calendar },
+    { href: '/spl02', label: 'SPL 02', icon: Trophy },
     { href: '/social', label: 'Social', icon: Heart },
-    { href: '/gallery', label: 'Gallery', icon: Camera },
   ]
 
   return (

@@ -19,7 +19,6 @@ export default function Footer() {
     { href: '/committee', label: 'Committee' },
     { href: '/events', label: 'Events' },
     { href: '/social', label: 'Social Initiatives' },
-    { href: '/gallery', label: 'Gallery' },
   ]
 
   const socialLinks = [

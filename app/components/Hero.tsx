@@ -41,7 +41,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-slide-up">
             <Link 
-              href="/events" 
+              href="/spl02" 
               className="group bg-white text-blue-700 px-10 py-4 rounded-2xl font-semibold hover:bg-yellow-50 transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               <Calendar size={22} />

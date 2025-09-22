@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Heart, BookOpen, Leaf, Users, Droplets, ArrowRight, Target, Calendar, MapPin } from 'lucide-react'
@@ -6,13 +6,19 @@ import { Heart, BookOpen, Leaf, Users, Droplets, ArrowRight, Target, Calendar, M
 export default function Social() {
   const [selectedCategory, setSelectedCategory] = useState('all')
 
+  // Truncate description to ensure consistent length
+  const truncateDescription = (text: string, maxLength: number = 120) => {
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength).trim() + '...'
+  }
+
   const danPatraInitiatives = [
     {
       id: 1,
       title: 'SPARSH Education Dan',
       subtitle: 'JSG EDUCON',
       icon: BookOpen,
-      description: 'Supporting education for underprivileged children in our community and beyond. Providing scholarships, books, and educational resources.',
+      description: 'Supporting education for underprivileged children in our community and beyond. Providing scholarships, books, and educational resources to help students achieve their dreams.',
       category: 'Education',
       impact: '50+ students supported',
       color: 'from-blue-500 to-blue-600',
@@ -24,7 +30,7 @@ export default function Social() {
       title: 'SPARSH Go-Mata Dan',
       subtitle: 'JSG GO GRASS',
       icon: Leaf,
-      description: 'Cow protection and care initiatives. Supporting gaushalas, providing fodder, and promoting sustainable cow welfare programs.',
+      description: 'Cow protection and care initiatives. Supporting gaushalas, providing fodder, and promoting sustainable cow welfare programs for the protection of these sacred animals.',
       category: 'Animal Welfare',
       impact: '200+ cows benefited',
       color: 'from-green-500 to-green-600',
@@ -36,7 +42,7 @@ export default function Social() {
       title: 'SPARSH Sadharmik Seva Dan',
       subtitle: 'Helping Jain Needy Families',
       icon: Users,
-      description: 'Direct financial and material support to Jain families in need. Emergency assistance, medical support, and livelihood programs.',
+      description: 'Direct financial and material support to Jain families in need. Emergency assistance, medical support, and livelihood programs to strengthen our community bonds.',
       category: 'Community Support',
       impact: '30+ families assisted',
       color: 'from-purple-500 to-purple-600',
@@ -48,7 +54,7 @@ export default function Social() {
       title: 'SPARSH Vaiyavacha',
       subtitle: 'Community Service',
       icon: Heart,
-      description: 'Various community service activities including temple maintenance, cultural preservation, and religious program support.',
+      description: 'Various community service activities including temple maintenance, cultural preservation, and religious program support to maintain our spiritual heritage.',
       category: 'Religious Service',
       impact: 'Multiple temples supported',
       color: 'from-orange-500 to-orange-600',
@@ -57,10 +63,10 @@ export default function Social() {
     },
     {
       id: 5,
-      title: 'SPARSH Social Activity Contribution Dan',
+      title: 'SPARSH Social Activity Dan',
       subtitle: 'Community Programs',
       icon: Target,
-      description: 'Funding and supporting various social activities, community events, and programs that benefit society at large.',
+      description: 'Funding and supporting various social activities, community events, and programs that benefit society at large and promote social welfare in the community.',
       category: 'Social Service',
       impact: '15+ programs funded',
       color: 'from-indigo-500 to-indigo-600',
@@ -72,7 +78,7 @@ export default function Social() {
       title: 'SPARSH Rakta Dan',
       subtitle: 'Blood Donation Drive',
       icon: Droplets,
-      description: 'Regular blood donation camps in collaboration with hospitals. Organizing 4-day drives and emergency blood support.',
+      description: 'Regular blood donation camps in collaboration with hospitals. Organizing 4-day drives and emergency blood support to save lives in critical situations.',
       category: 'Health Service',
       impact: '100+ units donated',
       color: 'from-red-500 to-red-600',
@@ -176,9 +182,12 @@ export default function Social() {
                     <p className="text-white/90 text-sm font-medium">{initiative.subtitle}</p>
                   </div>
                   <div className="p-6">
-                    <p className="text-gray-600 mb-4 leading-relaxed">
-                      {initiative.description}
-                    </p>
+                    {/* Fixed Height Description Container */}
+                    <div className="h-16 mb-4">
+                      <p className="text-gray-600 leading-relaxed text-sm">
+                        {truncateDescription(initiative.description, 120)}
+                      </p>
+                    </div>
                     <div className={`${initiative.bgColor} p-3 rounded-lg mb-4`}>
                       <p className={`${initiative.textColor} font-semibold text-sm`}>
                         Impact: {initiative.impact}
@@ -234,7 +243,7 @@ export default function Social() {
                 
                 <div className="bg-green-50 p-3 rounded-lg">
                   <p className="text-green-800 font-semibold text-sm">
-                    ? {program.impact}
+                    ✅ {program.impact}
                   </p>
                 </div>
               </div>
