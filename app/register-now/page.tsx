@@ -3,9 +3,24 @@
 import { useState } from 'react'
 import { Upload, CreditCard, User, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check } from 'lucide-react'
 
+interface FormData {
+  parentName: string
+  fullName: string
+  mobileNumber: string
+  age: string
+  skillset: string
+  bowlingArm: string
+  photo: File | null
+  cricHeroesLink: string
+  jerseyName: string
+  jerseyNumber: string
+  jerseySize: string
+  cricketExperience?: string
+}
+
 export default function RegisterPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     parentName: '',
     fullName: '',
     mobileNumber: '',
@@ -94,7 +109,7 @@ export default function RegisterPage() {
     { size: 'XXXL', chest: '44-46', label: 'XXXL (44-46")' }
   ]
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -146,13 +161,13 @@ export default function RegisterPage() {
             </div>
             <div className="relative z-10">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">
-                              SPL 02 Registration
+                🏏 SPL 02 Registration
               </h1>
               <p className="text-blue-100 text-base sm:text-lg">
                 Join the most awaited Box Cricket Tournament
               </p>
               <p className="text-yellow-200 text-sm sm:text-base font-medium mt-2">
-                 November 15-16, 2025
+                📅 November 15-16, 2025
               </p>
             </div>
           </div>
