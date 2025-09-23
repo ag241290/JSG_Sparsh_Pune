@@ -19,11 +19,24 @@ export async function POST(request: NextRequest) {
     const jerseyNumber = formData.get('jerseyNumber') as string
     const jerseySize = formData.get('jerseySize') as string
 
+    // Extract payment details
+    const transactionId = formData.get('transactionId') as string
+    const paymentStatus = formData.get('paymentStatus') as string || 'completed'
+
     // Validate required fields
     if (!category || !fullName || !mobileNumber || !age || !skillset || !bowlingArm || !jerseyName || !jerseyNumber || !jerseySize) {
       console.error('Missing required fields')
       return NextResponse.json(
         { error: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
+
+    // Validate transaction details if payment status is completed
+    if (paymentStatus === 'completed' && !transactionId) {
+      console.error('Missing transaction ID for completed payment')
+      return NextResponse.json(
+        { error: 'Transaction ID is required for completed payments' },
         { status: 400 }
       )
     }
@@ -45,38 +58,78 @@ export async function POST(request: NextRequest) {
     const cricHeroesLinkValue = formData.get('cricHeroesLink') as string | null
     const cricHeroesLink = cricHeroesLinkValue ? cricHeroesLinkValue.trim() : undefined
 
-    // First, handle photo upload if provided
+    // Generate unique ID for file uploads
+    const uniqueId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+
+    // Handle photo upload
     const photo = formData.get('photo') as File
     let photoUrl = null
 
     if (photo && photo.size > 0) {
       console.log('Processing photo upload:', photo.name, `${photo.size} bytes`)
       
-      // Generate temporary ID for photo upload
-      const tempId = `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-      
       try {
-        photoUrl = await uploadPhoto(photo, tempId)
+        photoUrl = await uploadPhoto(photo, `${uniqueId}-photo`)
         
         if (photoUrl) {
-          console.log('Photo uploaded successfully to storage:', photoUrl)
+          console.log('Photo uploaded successfully:', photoUrl)
         } else {
-          console.error('Photo upload to storage failed')
+          console.error('Photo upload returned null')
           return NextResponse.json(
-            { error: 'Failed to upload photo. Please try again.' },
+            { error: 'Failed to upload participant photo. Please check file format and try again.' },
             { status: 500 }
           )
         }
       } catch (photoError) {
-        console.error('Photo processing error:', photoError)
+        console.error('Photo upload error:', photoError)
         return NextResponse.json(
-          { error: 'Failed to process photo. Please try again.' },
+          { error: 'Error processing participant photo. Please try again.' },
           { status: 500 }
         )
       }
+    } else {
+      console.error('No photo provided or photo is empty')
+      return NextResponse.json(
+        { error: 'Participant photo is required' },
+        { status: 400 }
+      )
     }
 
-    // Create registration data with photo URL included
+    // Handle transaction screenshot upload
+    const transactionScreenshot = formData.get('transactionScreenshot') as File
+    let transactionScreenshotUrl = null
+
+    if (transactionScreenshot && transactionScreenshot.size > 0) {
+      console.log('Processing transaction screenshot upload:', transactionScreenshot.name, `${transactionScreenshot.size} bytes`)
+      
+      try {
+        transactionScreenshotUrl = await uploadPhoto(transactionScreenshot, `${uniqueId}-transaction`)
+        
+        if (transactionScreenshotUrl) {
+          console.log('Transaction screenshot uploaded successfully:', transactionScreenshotUrl)
+        } else {
+          console.error('Transaction screenshot upload returned null')
+          return NextResponse.json(
+            { error: 'Failed to upload transaction screenshot. Please check file format and try again.' },
+            { status: 500 }
+          )
+        }
+      } catch (screenshotError) {
+        console.error('Transaction screenshot upload error:', screenshotError)
+        return NextResponse.json(
+          { error: 'Error processing transaction screenshot. Please try again.' },
+          { status: 500 }
+        )
+      }
+    } else if (paymentStatus === 'completed') {
+      console.error('No transaction screenshot provided for completed payment')
+      return NextResponse.json(
+        { error: 'Transaction screenshot is required for completed payments' },
+        { status: 400 }
+      )
+    }
+
+    // Create registration data with all details including transaction info
     const registrationData = {
       category: category as 'male' | 'female' | 'kids',
       full_name: fullName.trim(),
@@ -90,18 +143,28 @@ export async function POST(request: NextRequest) {
       jersey_name: jerseyName.trim(),
       jersey_number: jerseyNum,
       jersey_size: jerseySize,
-      photo_url: photoUrl || undefined, // Convert null to undefined for TypeScript compatibility
-      payment_status: 'pending' as const,
+      photo_url: photoUrl,
+      transaction_id: transactionId || undefined,
+      transaction_screenshot_url: transactionScreenshotUrl || undefined,
+      payment_status: paymentStatus as 'pending' | 'completed' | 'failed',
       approved: false
     }
 
-    console.log('Creating registration with photo URL:', photoUrl ? 'included' : 'none')
+    console.log('Creating registration with data:', {
+      category: registrationData.category,
+      full_name: registrationData.full_name,
+      hasPhoto: !!photoUrl,
+      hasTransactionScreenshot: !!transactionScreenshotUrl,
+      hasTransactionId: !!transactionId,
+      paymentStatus: registrationData.payment_status
+    })
+
     const { data: registration, error } = await createRegistration(registrationData)
 
     if (error) {
       console.error('Registration creation failed:', error)
       return NextResponse.json(
-        { error: `Database error: ${error.message || 'Unknown error'}` },
+        { error: `Database error: ${error.message || 'Failed to save registration'}` },
         { status: 500 }
       )
     }
@@ -114,8 +177,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('Registration created successfully with ID:', registration.id)
-    console.log('Photo URL in registration:', registration.photo_url)
+    console.log('Registration created successfully:', {
+      id: registration.id,
+      category: registration.category,
+      payment_status: registration.payment_status
+    })
 
     return NextResponse.json({
       success: true,
@@ -125,7 +191,9 @@ export async function POST(request: NextRequest) {
         full_name: registration.full_name,
         mobile_number: registration.mobile_number,
         payment_status: registration.payment_status,
-        photo_url: registration.photo_url
+        transaction_id: registration.transaction_id,
+        photo_url: registration.photo_url,
+        transaction_screenshot_url: registration.transaction_screenshot_url
       }
     })
 
@@ -134,7 +202,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(
       { 
-        error: 'Internal server error',
+        error: 'Internal server error occurred. Please try again.',
         details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }

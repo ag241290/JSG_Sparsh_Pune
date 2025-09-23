@@ -1,7 +1,8 @@
 ﻿'use client'
 
 import React, { useState } from 'react'
-import { Upload, CreditCard, UserCheck, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check, Loader2, Users } from 'lucide-react'
+import { Upload, CreditCard, UserCheck, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check, Loader2, Users, ImageIcon, CheckCircle } from 'lucide-react'
+import Image from 'next/image'
 
 interface FormData {
   parentName: string
@@ -16,6 +17,11 @@ interface FormData {
   jerseyNumber: string
   jerseySize: string
   cricketExperience?: string
+}
+
+interface PaymentData {
+  transactionId: string
+  transactionScreenshot: File | null
 }
 
 export default function RegisterPage() {
@@ -33,9 +39,12 @@ export default function RegisterPage() {
     jerseyNumber: '',
     jerseySize: ''
   })
+  const [paymentData, setPaymentData] = useState<PaymentData>({
+    transactionId: '',
+    transactionScreenshot: null
+  })
   const [showPayment, setShowPayment] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [registrationId, setRegistrationId] = useState<string | null>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
   const categories = [
@@ -85,14 +94,17 @@ export default function RegisterPage() {
     'Right Arm'
   ]
 
+  // Updated jersey sizes with kids sizes
   const jerseySizes = [
-    { size: 'XS', chest: '32-34', label: 'XS (32-34")' },
-    { size: 'S', chest: '34-36', label: 'S (34-36")' },
-    { size: 'M', chest: '36-38', label: 'M (36-38")' },
-    { size: 'L', chest: '38-40', label: 'L (38-40")' },
-    { size: 'XL', chest: '40-42', label: 'XL (40-42")' },
-    { size: 'XXL', chest: '42-44', label: 'XXL (42-44")' },
-    { size: 'XXXL', chest: '44-46', label: 'XXXL (44-46")' }
+    // Kids sizes (Age 7-14)
+    { size: 'XXS', chest: '28-30', label: 'XXS (28-30") - Kids' },
+    { size: 'XS', chest: '30-32', label: 'XS (30-32") - Kids/Adult' },
+    { size: 'S', chest: '32-34', label: 'S (32-34") - Kids/Adult' },
+    { size: 'M', chest: '34-36', label: 'M (34-36") - Adult' },
+    { size: 'L', chest: '36-38', label: 'L (36-38") - Adult' },
+    { size: 'XL', chest: '38-40', label: 'XL (38-40") - Adult' },
+    { size: 'XXL', chest: '40-42', label: 'XXL (40-42") - Adult' },
+    { size: 'XXXL', chest: '42-44', label: 'XXXL (42-44") - Adult' }
   ]
 
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -101,6 +113,14 @@ export default function RegisterPage() {
       [field]: value
     }))
     setSubmitError(null) // Clear error when user makes changes
+  }
+
+  const handlePaymentInputChange = (field: keyof PaymentData, value: string) => {
+    setPaymentData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+    setSubmitError(null)
   }
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,9 +132,23 @@ export default function RegisterPage() {
         return
       }
       
-      // Validate file type (jpg, jpeg, png, heic)
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic']
-      if (!allowedTypes.includes(file.type.toLowerCase())) {
+      // Validate file type by both MIME type and extension
+      const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic']
+      const fileExt = file.name.split('.').pop()?.toLowerCase()
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'heic']
+      
+      const mimeTypeValid = allowedMimeTypes.includes(file.type.toLowerCase())
+      const extensionValid = fileExt ? allowedExtensions.includes(fileExt) : false
+      
+      console.log('Client-side file validation:', {
+        fileName: file.name,
+        fileType: file.type,
+        extension: fileExt,
+        mimeTypeValid,
+        extensionValid
+      })
+
+      if (!mimeTypeValid && !extensionValid) {
         setSubmitError('Please upload a valid image file (JPG, JPEG, PNG, or HEIC)')
         return
       }
@@ -122,6 +156,44 @@ export default function RegisterPage() {
       setFormData(prev => ({
         ...prev,
         photo: file
+      }))
+      setSubmitError(null)
+    }
+  }
+
+  const handleScreenshotUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        setSubmitError('Screenshot size must be less than 10MB')
+        return
+      }
+      
+      // Validate file type by both MIME type and extension
+      const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic']
+      const fileExt = file.name.split('.').pop()?.toLowerCase()
+      const allowedExtensions = ['jpg', 'jpeg', 'png', 'heic']
+      
+      const mimeTypeValid = allowedMimeTypes.includes(file.type.toLowerCase())
+      const extensionValid = fileExt ? allowedExtensions.includes(fileExt) : false
+      
+      console.log('Client-side screenshot validation:', {
+        fileName: file.name,
+        fileType: file.type,
+        extension: fileExt,
+        mimeTypeValid,
+        extensionValid
+      })
+
+      if (!mimeTypeValid && !extensionValid) {
+        setSubmitError('Please upload a valid image file (JPG, JPEG, PNG, or HEIC)')
+        return
+      }
+
+      setPaymentData(prev => ({
+        ...prev,
+        transactionScreenshot: file
       }))
       setSubmitError(null)
     }
@@ -157,16 +229,37 @@ export default function RegisterPage() {
     return null
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const validatePayment = (): string | null => {
+    if (!paymentData.transactionId.trim()) return 'Please enter transaction ID'
+    if (!paymentData.transactionScreenshot) return 'Please upload transaction screenshot'
+    return null
+  }
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validate form
+    const validationError = validateForm()
+    if (validationError) {
+      setSubmitError(validationError)
+      return
+    }
+
+    // Proceed to payment page
+    setShowPayment(true)
+    setSubmitError(null)
+  }
+
+  const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitError(null)
 
     try {
-      // Validate form
-      const validationError = validateForm()
-      if (validationError) {
-        setSubmitError(validationError)
+      // Validate payment details
+      const paymentValidationError = validatePayment()
+      if (paymentValidationError) {
+        setSubmitError(paymentValidationError)
         setIsSubmitting(false)
         return
       }
@@ -188,12 +281,24 @@ export default function RegisterPage() {
       submitData.append('jerseyNumber', formData.jerseyNumber)
       submitData.append('jerseySize', formData.jerseySize)
       
-      // Add photo (we already validated it exists)
+      // Add payment details
+      submitData.append('transactionId', paymentData.transactionId.trim())
+      submitData.append('paymentStatus', 'completed') // Mark as completed since user provided transaction details
+      
+      // Add files with proper naming
       if (formData.photo) {
-        submitData.append('photo', formData.photo)
+        submitData.append('photo', formData.photo, formData.photo.name)
+      }
+      
+      if (paymentData.transactionScreenshot) {
+        submitData.append('transactionScreenshot', paymentData.transactionScreenshot, paymentData.transactionScreenshot.name)
       }
 
-      console.log('Submitting registration data...')
+      console.log('Submitting complete registration with payment details...')
+      console.log('Files being uploaded:', {
+        photo: formData.photo?.name,
+        transactionScreenshot: paymentData.transactionScreenshot?.name
+      })
 
       // Submit to API
       const response = await fetch('/api/register', {
@@ -204,13 +309,22 @@ export default function RegisterPage() {
       console.log('Response status:', response.status)
 
       if (!response.ok) {
-        // Try to get error details from response
         let errorMessage = 'Registration failed'
         try {
           const errorResult = await response.json()
           errorMessage = errorResult.error || errorMessage
+          console.error('Server error response:', errorResult)
         } catch (e) {
           console.error('Could not parse error response:', e)
+          // Try to get response text for debugging
+          try {
+            const errorText = await response.text()
+            console.error('Response text:', errorText)
+            errorMessage = `Server error (${response.status}): ${errorText.substring(0, 100)}...`
+          } catch (textError) {
+            console.error('Could not get response text:', textError)
+            errorMessage = `Server error (${response.status}): Unable to get error details`
+          }
         }
         throw new Error(errorMessage)
       }
@@ -222,44 +336,10 @@ export default function RegisterPage() {
         throw new Error('Invalid response from server')
       }
 
-      // Success - store registration ID and proceed to payment
-      setRegistrationId(result.registration.id)
-      setShowPayment(true)
-
-    } catch (error) {
-      console.error('Registration error:', error)
-      setSubmitError(error instanceof Error ? error.message : 'Registration failed. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handlePayment = async (paymentMethod: string) => {
-    if (!registrationId) return
-
-    setIsSubmitting(true)
-    try {
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000))
-
-      // Update payment status
-      const response = await fetch('/api/payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          registrationId,
-          paymentStatus: 'completed',
-          paymentDetails: { method: paymentMethod }
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error('Payment processing failed')
-      }
-
       // Success - show confirmation
       alert(`🎉 Registration Successful! 
       
+Registration ID: ${result.registration.id}
 Payment Status: Completed
       
 Thank you for registering for SPL 02! You will receive a confirmation email shortly.`)
@@ -268,8 +348,8 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
       handleCancel()
 
     } catch (error) {
-      console.error('Payment error:', error)
-      setSubmitError('Payment failed. Please try again.')
+      console.error('Registration error:', error)
+      setSubmitError(error instanceof Error ? error.message : 'Registration failed. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -290,8 +370,11 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
       jerseyNumber: '',
       jerseySize: ''
     })
+    setPaymentData({
+      transactionId: '',
+      transactionScreenshot: null
+    })
     setShowPayment(false)
-    setRegistrationId(null)
     setSubmitError(null)
   }
 
@@ -392,7 +475,7 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
           </div>
         ) : !showPayment ? (
           /* Registration Form */
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
+          <form onSubmit={handleFormSubmit} className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
             <div className="flex items-center justify-between mb-6 sm:mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-blue-800">
                 Registration Form - {categories.find(c => c.id === selectedCategory)?.name}
@@ -401,7 +484,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                 type="button"
                 onClick={() => setSelectedCategory('')}
                 className="text-gray-500 hover:text-gray-700 p-2"
-                disabled={isSubmitting}
               >
                 <X size={24} />
               </button>
@@ -423,7 +505,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                       onChange={(e) => handleInputChange('parentName', e.target.value)}
                       className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                       placeholder="Enter parent's full name"
-                      disabled={isSubmitting}
                     />
                   </div>
                 )}
@@ -440,7 +521,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter your full name"
-                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -457,7 +537,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter 10-digit mobile number"
-                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -475,7 +554,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     onChange={(e) => handleInputChange('age', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter your age"
-                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -489,7 +567,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     value={formData.skillset}
                     onChange={(e) => handleInputChange('skillset', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
-                    disabled={isSubmitting}
                   >
                     <option value="">Select your skillset</option>
                     {skillsets.map((skill) => (
@@ -510,7 +587,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     value={formData.bowlingArm}
                     onChange={(e) => handleInputChange('bowlingArm', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
-                    disabled={isSubmitting}
                   >
                     <option value="">Select bowling arm</option>
                     {bowlingArms.map((arm) => (
@@ -531,7 +607,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                       value={formData.cricketExperience || ''}
                       onChange={(e) => handleInputChange('cricketExperience', e.target.value)}
                       className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
-                      disabled={isSubmitting}
                     >
                       <option value="">Select experience level</option>
                       <option value="beginner">Beginner (0-2 years)</option>
@@ -557,9 +632,8 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                       onChange={handlePhotoUpload}
                       className="hidden"
                       id="photo-upload"
-                      disabled={isSubmitting}
                     />
-                    <label htmlFor="photo-upload" className={`cursor-pointer ${isSubmitting ? 'opacity-50' : ''}`}>
+                    <label htmlFor="photo-upload" className="cursor-pointer">
                       {formData.photo ? (
                         <div className="text-green-600">
                           <Check className="mx-auto mb-2" size={32} />
@@ -592,7 +666,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                     onChange={(e) => handleInputChange('cricHeroesLink', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="https://cricheros.com/profile/..."
-                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -617,7 +690,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                         onChange={(e) => handleInputChange('jerseyName', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
                         placeholder="Max 12 characters"
-                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -635,7 +707,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                         onChange={(e) => handleInputChange('jerseyNumber', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
                         placeholder="1-99"
-                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -649,7 +720,6 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
                         value={formData.jerseySize}
                         onChange={(e) => handleInputChange('jerseySize', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
-                        disabled={isSubmitting}
                       >
                         <option value="">Select size</option>
                         {jerseySizes.map((size) => (
@@ -672,118 +742,181 @@ Thank you for registering for SPL 02! You will receive a confirmation email shor
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base disabled:opacity-50"
-                disabled={isSubmitting}
+                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base disabled:opacity-50 flex items-center justify-center"
-                disabled={isSubmitting}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin mr-2" size={20} />
-                    Submitting...
-                  </>
-                ) : (
-                  'Proceed to Payment'
-                )}
+                Proceed to Payment
               </button>
             </div>
           </form>
         ) : (
-          /* Payment Section */
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
-            <div className="text-center mb-6 sm:mb-8">
-              <div className="bg-blue-600 text-white p-4 sm:p-6 rounded-xl sm:rounded-2xl mb-4">
-                <CreditCard className="mx-auto mb-2" size={32} />
-                <h2 className="text-xl sm:text-2xl font-bold">Payment Gateway</h2>
-                <p className="text-blue-100 mt-2 text-sm sm:text-base">
-                  Complete your registration with secure payment
+          /* Payment Section with QR Code - Optimized for Maximum QR Display */
+          <form onSubmit={handleFinalSubmit} className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
+            {/* Compact Payment Header */}
+            <div className="text-center mb-3 sm:mb-4">
+              <div className="bg-green-600 text-white p-2 sm:p-3 rounded-lg sm:rounded-xl mb-3">
+                <CreditCard className="mx-auto mb-1" size={20} />
+                <h2 className="text-base sm:text-lg font-bold">Complete Your Payment</h2>
+                <p className="text-green-100 mt-1 text-xs">
+                  Scan QR code, pay, and upload transaction details
                 </p>
               </div>
             </div>
 
-            {/* Registration Summary - Enhanced with all details */}
-            <div className="bg-blue-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-6 sm:mb-8">
-              <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-4">Registration Summary</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base">
+            {/* Compact Registration Summary */}
+            <div className="bg-blue-50 p-3 sm:p-4 rounded-lg sm:rounded-xl mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-bold text-blue-800 mb-3">
+                Registration Summary
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
                 <div><strong>Category:</strong> {categories.find(c => c.id === selectedCategory)?.name}</div>
-                <div><strong>Full Name:</strong> {formData.fullName}</div>
-                {formData.parentName && <div><strong>Parent Name:</strong> {formData.parentName}</div>}
+                <div><strong>Name:</strong> {formData.fullName}</div>
+                {formData.parentName && <div><strong>Parent:</strong> {formData.parentName}</div>}
                 <div><strong>Mobile:</strong> {formData.mobileNumber}</div>
                 <div><strong>Age:</strong> {formData.age} years</div>
-                <div><strong>Skillset:</strong> {formData.skillset}</div>
-                <div><strong>Bowling Arm:</strong> {formData.bowlingArm}</div>
-                {formData.cricketExperience && <div><strong>Experience:</strong> {formData.cricketExperience}</div>}
-                {formData.cricHeroesLink && <div><strong>Cric Heroes:</strong> <a href={formData.cricHeroesLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Profile Link</a></div>}
-                <div><strong>Jersey Name:</strong> {formData.jerseyName}</div>
-                <div><strong>Jersey Number:</strong> #{formData.jerseyNumber}</div>
-                <div><strong>Jersey Size:</strong> {formData.jerseySize}</div>
-                {formData.photo && <div><strong>Photo:</strong> {formData.photo.name}</div>}
+                <div><strong>Jersey:</strong> {formData.jerseyName} #{formData.jerseyNumber} ({formData.jerseySize})</div>
               </div>
             </div>
 
-            {/* Payment Amount */}
-            <div className="bg-yellow-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-6 sm:mb-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-bold text-yellow-800 mb-2">Registration Fee</h3>
-              <div className="text-3xl sm:text-4xl font-bold text-yellow-600">
+            {/* Compact Registration Fee */}
+            <div className="bg-yellow-50 p-2 sm:p-3 rounded-lg sm:rounded-xl mb-3 sm:mb-4 text-center">
+              <h3 className="text-base sm:text-lg font-bold text-yellow-800 mb-1">
+                Registration Fee
+              </h3>
+              <div className="text-xl sm:text-2xl font-bold text-yellow-600">
                 {selectedCategory === 'kids' ? '₹600' : '₹800'}
               </div>
-              <p className="text-yellow-700 text-sm sm:text-base mt-2">
+              <p className="text-yellow-700 text-xs mt-1">
                 Includes tournament entry, jersey, and refreshments
               </p>
             </div>
 
-            {/* Payment Options */}
-            <div className="space-y-4 sm:space-y-6">
-              <div className="border-2 border-gray-300 rounded-lg sm:rounded-xl p-4 sm:p-6">
-                <h4 className="font-bold text-gray-800 mb-3 flex items-center text-sm sm:text-base">
-                  <CreditCard className="mr-2" size={20} />
-                  Choose Payment Method
+            {/* Maximized QR Code Section */}
+            <div className="bg-green-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-4 sm:mb-6 text-center border-2 border-green-200">
+              <h3 className="text-lg sm:text-xl font-bold text-green-800 mb-4 sm:mb-6">
+                💳 Scan QR Code to Pay
+              </h3>
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border-2 border-green-300 w-full max-w-xs sm:max-w-sm">
+                  <Image
+                    src="/images/SPARSH_QR_Code.jpeg"
+                    alt="JSG SPARSH Payment QR Code"
+                    width={320}
+                    height={320}
+                    className="mx-auto rounded-lg w-full h-auto"
+                    priority
+                  />
+                </div>
+              </div>
+              <div className="text-green-700 space-y-2">
+                <p className="font-semibold text-sm sm:text-base">
+                  🏏 Scan with any UPI app (GPay, PhonePe, Paytm, etc.)
+                </p>
+                <p className="text-xs sm:text-sm">
+                  After payment, enter transaction details below
+                </p>
+              </div>
+            </div>
+
+            {/* Compact Transaction Details */}
+            <div className="space-y-3">
+              <div className="border-2 border-gray-300 rounded-lg p-3 sm:p-4">
+                <h4 className="font-bold text-gray-800 mb-3 flex items-center text-sm">
+                  <CheckCircle className="mr-2 text-green-600" size={16} />
+                  Enter Payment Details
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button
-                    onClick={() => handlePayment('upi')}
-                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>💳</span>}
-                    <span>UPI Payment</span>
-                  </button>
-                  <button
-                    onClick={() => handlePayment('paytm')}
-                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>📱</span>}
-                    <span>Paytm Wallet</span>
-                  </button>
-                  <button
-                    onClick={() => handlePayment('card')}
-                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>💳</span>}
-                    <span>Card Payment</span>
-                  </button>
+                
+                <div className="grid grid-cols-1 gap-3">
+                  {/* Transaction ID */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Transaction ID / UTR Number *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={paymentData.transactionId}
+                      onChange={(e) => handlePaymentInputChange('transactionId', e.target.value)}
+                      className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:border-green-500 focus:outline-none transition-colors text-sm"
+                      placeholder="Enter 12-digit transaction ID"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Find this in your payment app after successful payment
+                    </p>
+                  </div>
+
+                  {/* Transaction Screenshot */}
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Transaction Screenshot *
+                    </label>
+                    <div className={`border-2 border-dashed rounded-lg p-3 text-center transition-colors ${paymentData.transactionScreenshot ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-green-500'}`}>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png,image/heic"
+                        onChange={handleScreenshotUpload}
+                        className="hidden"
+                        id="screenshot-upload"
+                      />
+                      <label htmlFor="screenshot-upload" className="cursor-pointer">
+                        {paymentData.transactionScreenshot ? (
+                          <div className="text-green-600">
+                            <Check className="mx-auto mb-1" size={20} />
+                            <p className="text-xs font-medium">
+                              {paymentData.transactionScreenshot.name}
+                            </p>
+                            <p className="text-xs text-green-500 mt-1">Screenshot uploaded successfully</p>
+                          </div>
+                        ) : (
+                          <div className="text-gray-400">
+                            <ImageIcon className="mx-auto mb-1" size={20} />
+                            <p className="text-xs">
+                              Click to upload screenshot
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">JPG, JPEG, PNG, HEIC - Max size: 10MB</p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
+                  type="button"
                   onClick={() => setShowPayment(false)}
                   className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base disabled:opacity-50"
                   disabled={isSubmitting}
                 >
                   Back to Form
                 </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base disabled:opacity-50 flex items-center justify-center"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin mr-2" size={20} />
+                      Submitting Registration...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="mr-2" size={20} />
+                      Complete Registration
+                    </>
+                  )}
+                </button>
               </div>
             </div>
-          </div>
+          </form>
         )}
       </div>
     </div>

@@ -17,27 +17,29 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
   - Multi-category support (Male ?800, Female ?800, Kids ?600)
   - Photo upload functionality (JPG, JPEG, PNG, HEIC - 10MB max)
   - Jersey customization with dynamic pricing
-  - Payment gateway integration (ready for UPI/Paytm)
+  - **QR Code Payment Integration**: Scan QR code and upload transaction details
+  - Transaction ID and screenshot collection
   - Form validation and type safety
   - Real-time data storage with Supabase PostgreSQL
 
 ### **Admin Dashboard**
-- **?? Real-time Statistics**: Live registration counts and payment tracking
+- **?? Real-time Statistics**: Live registration counts by category
 - **?? Refresh Functionality**: Manual data refresh with loading states
-- **?? CSV Export**: Complete registration data export with all fields
-- **?? Search & Filter**: Advanced filtering by category, payment status, and search terms
+- **?? Customizable CSV Export**: Select columns to include in export
+- **?? Search & Filter**: Advanced filtering by category and search terms
 - **?? Visual Analytics**: Category-wise registration breakdown
+- **?? Transaction Tracking**: View transaction IDs and payment screenshots
 
 ### **Backend Integration**
 - **?? Supabase Database**: PostgreSQL database for registration data
-- **?? File Storage**: Supabase Storage for participant photos with URL persistence
+- **?? File Storage**: Supabase Storage for participant photos and transaction screenshots
 - **?? Row Level Security**: Secure data access policies
-- **?? Payment Tracking**: Payment status management and updates
+- **?? Transaction Management**: Transaction ID and screenshot storage
 - **??? Data Validation**: Server-side validation and error handling
 
 ### **Design & User Experience**
 - **?? Mobile-First Design**: Fully optimized for mobile devices with responsive layouts
-- **?? Modern UI**: Built with Tailwind CSS using blue/yellow/pink color themes
+- **?? Modern UI**: Built with Tailwind CSS using blue/yellow/pink/green color themes
 - **? Performance Optimized**: Fast loading times and smooth animations
 - **? Accessibility**: Proper ARIA labels, semantic HTML, and keyboard navigation
 
@@ -89,15 +91,20 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
 
 5. **Set up Supabase Database:**
    - Run the SQL migration in `supabase/migrations/001_create_registrations.sql`
+   - Run the additional migration in `supabase/migrations/002_add_transaction_fields.sql`
    - Create the `registrations` table and storage bucket
    - Set up Row Level Security policies
 
-6. **Run the development server:**
+6. **Add QR Code Image:**
+   - Place your payment QR code image at `public/images/SPARSH_QR_Code.jpeg`
+   - Ensure it contains bank details and payment information
+
+7. **Run the development server:**
    ```bash
    npm run dev
    ```
 
-7. **Open in browser:**
+8. **Open in browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### **Important URLs**
@@ -133,7 +140,7 @@ JSG-Portal/
 ?   ?   ??? page.tsx
 ?   ??? spl02/                  # SPL 02 tournament information
 ?   ?   ??? page.tsx
-?   ??? register-now/           # SPL 02 registration form
+?   ??? register-now/           # SPL 02 registration form with QR payment
 ?   ?   ??? page.tsx
 ?   ??? globals.css             # Global styles and Tailwind imports
 ?   ??? layout.tsx              # Root layout with metadata
@@ -143,12 +150,14 @@ JSG-Portal/
 ??? supabase/
 ?   ??? migrations/             # Database migration files
 ?       ??? 001_create_registrations.sql
+?       ??? 002_add_transaction_fields.sql
 ??? scripts/
 ?   ??? setup.js                # Automated setup script
 ??? public/
 ?   ??? images/                 # Static assets and logos
 ?       ??? JSG_SPARSH.jpeg     # Main JSG SPARSH logo
 ?       ??? JSG_Federation.jpeg # JSG Federation logo
+?       ??? SPARSH_QR_Code.jpeg # Payment QR code with bank details
 ??? .env.example                # Environment variables template
 ??? .env.local                  # Environment variables (not committed)
 ??? next.config.js              # Next.js configuration
@@ -178,6 +187,8 @@ registrations (
   jersey_number: INTEGER
   jersey_size: TEXT
   photo_url: TEXT (nullable)
+  transaction_id: TEXT (nullable) -- NEW: User-provided transaction ID
+  transaction_screenshot_url: TEXT (nullable) -- NEW: Transaction screenshot URL
   payment_status: TEXT (pending/completed/failed)
   registration_date: TIMESTAMP
   approved: BOOLEAN (default: false)
@@ -188,7 +199,7 @@ registrations (
 ```
 
 ### **Storage Buckets**
-- **registration-photos**: Stores participant photos with public access and CDN delivery
+- **registration-photos**: Stores participant photos and transaction screenshots with public access and CDN delivery
 
 ## ?? Mobile Optimization
 
@@ -199,7 +210,7 @@ The website is built with a **mobile-first approach** and includes:
 - **Mobile Navigation**: Collapsible menu with smooth animations
 - **Adaptive Layouts**: Grid systems that stack appropriately on mobile
 - **Performance**: Optimized images and minimal JavaScript for fast mobile loading
-- **Offline Support**: Progressive Web App capabilities with service workers
+- **QR Code Scanning**: Optimized QR code display for mobile scanning
 
 ## ?? Design System
 
@@ -236,41 +247,45 @@ The website is built with a **mobile-first approach** and includes:
   - Number (1-99 range)
   - Size selection with chest measurements
 - **Bowling Arm Options**: Simplified to Left Arm and Right Arm only
-- **Payment Integration**: Ready for UPI/Paytm gateway integration
+- **QR Code Payment Flow**: 
+  - Display QR code with bank details
+  - Collect transaction ID from user
+  - Upload transaction screenshot
+  - Complete registration with payment proof
 - **Type Safety**: Full TypeScript implementation with proper interfaces
 - **Real-time Validation**: Client and server-side validation with clear error messages
 
 ### **Backend Features**
 - **Secure Storage**: All data encrypted and stored in Supabase PostgreSQL
-- **File Management**: Photos stored in Supabase Storage with CDN delivery
-- **Payment Tracking**: Status updates and transaction logging
+- **File Management**: Photos and transaction screenshots stored in Supabase Storage with CDN delivery
+- **Transaction Tracking**: Transaction ID and screenshot URL storage
 - **Admin Dashboard**: Real-time registration monitoring with refresh capability
-- **Export Functionality**: Comprehensive CSV export with all registration data
+- **Export Functionality**: Customizable CSV export with column selection
 
 ## ????? Admin Dashboard Features
 
 ### **Registration Management**
 - **Real-time Statistics**: Live count of registrations by category
 - **Manual Refresh**: Dedicated refresh button with loading states
-- **Payment Tracking**: Monitor payment status and completion rates
-- **Search & Filter**: Find registrations by name, mobile, or jersey details
+- **Transaction Tracking**: View transaction IDs and payment screenshots
+- **Search & Filter**: Find registrations by name, mobile, jersey, or transaction ID
 - **Category Filter**: Filter by Male/Female/Kids categories
-- **Payment Filter**: Filter by Pending/Completed/Failed payments
 
-### **Data Export**
-- **Complete CSV Export**: All registration fields including:
+### **Customizable Data Export**
+- **Column Selection**: Choose which fields to include in CSV export:
   - Personal information (name, mobile, age)
   - Cricket details (skillset, bowling arm, experience)
   - Jersey information (name, number, size)
-  - Payment status and registration fees
+  - Transaction details (ID, screenshot URL, registration fee)
   - Photo URLs and approval status
   - Timestamps and team assignments
+- **Flexible Export**: Export only selected columns for targeted data analysis
+- **Automatic Filename**: Includes column count and date for easy identification
 
 ### **Visual Analytics**
 - **Registration Trends**: Track registration patterns over time
-- **Payment Analytics**: Monitor payment success rates
 - **Category Distribution**: Visual breakdown of participant categories
-- **Statistics Cards**: Total, Male, Female, Kids, Paid, and Pending counts
+- **Statistics Cards**: Total, Male, Female, and Kids registration counts
 
 ## ?? Dan Patra Initiatives
 
@@ -293,7 +308,9 @@ For detailed deployment instructions, see [VERCEL_SUPABASE_SETUP.md](./VERCEL_SU
 2. Connect repository to Vercel
 3. Set up environment variables in Vercel dashboard
 4. Configure Supabase project and database
-5. Deploy and test all functionalities
+5. Run database migrations
+6. Upload QR code image to public/images/
+7. Deploy and test all functionalities
 
 ### **Environment Variables Required**
 ```env
@@ -309,7 +326,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 - **Database Performance**: Indexed queries for sub-100ms response times
 - **SEO Optimized**: Proper meta tags, semantic HTML, and structured data
 - **Accessibility**: WCAG 2.1 AA compliant design patterns
-- **File Upload**: Efficient photo upload with progress indicators
+- **File Upload**: Efficient photo and screenshot upload with progress indicators
 
 ## ?? Development Commands
 
@@ -339,19 +356,21 @@ supabase db push
 ## ?? Recent Updates & Features
 
 ### **Latest Enhancements**
-- ? **Photo URL Database Fix**: Photos now properly save URLs to database
+- ? **QR Code Payment Integration**: Added QR code display and transaction collection
+- ? **Transaction Tracking**: Collect transaction ID and screenshot from users
+- ? **Customizable CSV Export**: Admin can select which columns to export
+- ? **Removed Payment Status Tracking**: Simplified admin dashboard without payment columns
+- ? **Enhanced Registration Flow**: Complete registration only after payment details provided
 - ? **Dynamic Registration Fees**: Male/Female ?800, Kids ?600
 - ? **Simplified Bowling Arms**: Only Left Arm and Right Arm options
 - ? **Enhanced Photo Upload**: 10MB limit with HEIC support
-- ? **Admin Dashboard Refresh**: Manual refresh button for real-time data
-- ? **Complete CSV Export**: All registration data with proper formatting
-- ? **Registration Summary**: Complete details on payment page
-- ? **Removed Registration ID**: Cleaner payment experience
 
 ### **Technical Improvements**
-- **Single Transaction Photo Upload**: Upload photo first, then create registration
+- **QR Code Display**: Mobile-optimized QR code presentation for easy scanning
+- **Transaction File Management**: Separate storage for transaction screenshots
+- **Database Schema Updates**: Added transaction_id and transaction_screenshot_url fields
 - **Better Error Handling**: Comprehensive error messages and logging
-- **TypeScript Safety**: Proper type definitions and null handling
+- **TypeScript Safety**: Proper type definitions including new transaction fields
 - **Mobile Performance**: Optimized for mobile-first user experience
 
 ## ?? Contributing
