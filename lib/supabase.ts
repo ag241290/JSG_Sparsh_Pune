@@ -105,7 +105,7 @@ export const uploadPhoto = async (file: File, registrationId: string): Promise<s
     console.log('Simple upload result:', { path: data?.path, err: error?.message })
     
     if (error) {
-      console.error('Upload failed:', { msg: error.message, status: error.statusCode })
+      console.error('Upload failed:', { msg: error.message, error })
       return null
     }
 
