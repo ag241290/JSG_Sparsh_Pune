@@ -1,12 +1,4 @@
 {
   "name": "Deploy to Vercel",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "out"
-      }
-    }
-  ]
+  "framework": "nextjs"
 }

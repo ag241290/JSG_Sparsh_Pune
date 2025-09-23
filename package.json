@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup": "node scripts/setup.js"
+    "setup": "node scripts/setup.js",
+    "fix-deployment": "node scripts/fix-deployment.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

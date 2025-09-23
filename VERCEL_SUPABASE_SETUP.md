@@ -92,7 +92,35 @@ Before starting, ensure you have:
 
 ### **Step 1: Prepare GitHub Repository**
 
-1. **Ensure .gitignore is Configured**
+1. **?? CRITICAL: Check vercel.json Configuration**
+   
+   If you have a `vercel.json` file, ensure it's configured correctly:
+   
+   **? INCORRECT (causes 404 errors):**
+   ```json
+   {
+     "builds": [
+       {
+         "src": "package.json",
+         "use": "@vercel/static-build",
+         "config": {
+           "distDir": "out"
+         }
+       }
+     ]
+   }
+   ```
+   
+   **? CORRECT (for Next.js with API routes):**
+   ```json
+   {
+     "framework": "nextjs"
+   }
+   ```
+   
+   **Or better yet, delete `vercel.json` completely** - Vercel will auto-detect Next.js!
+
+2. **Ensure .gitignore is Configured**
    ```gitignore
    # Next.js build artifacts (DO NOT COMMIT)
    .next/
@@ -116,7 +144,7 @@ Before starting, ensure you have:
    .supabase/
    ```
 
-2. **Remove Build Artifacts (if present)**
+3. **Remove Build Artifacts (if present)**
 
    ```bash
    # If you accidentally committed build files
@@ -124,18 +152,19 @@ Before starting, ensure you have:
    git commit -m "Remove build artifacts" 2>/dev/null || true
    ```
 
-3. **Push Latest Code**
+4. **Push Latest Code**
    ```bash
    git add .
-   git commit -m "Prepare for deployment"
+   git commit -m "Fix vercel.json and prepare for deployment"
    git push origin main
    ```
 
-4. **Verify Repository Structure**
+5. **Verify Repository Structure**
    - Ensure `package.json` has correct scripts
    - Verify `next.config.js` is properly configured (NO `output: 'export'`)
    - Check that API routes are in place
    - Confirm `.gitignore` excludes build artifacts
+   - **MOST IMPORTANT**: Verify `vercel.json` doesn't use static build configuration
 
 ### **Step 2: Connect to Vercel**
 
@@ -325,6 +354,48 @@ Solution:
 2. Check Vercel region settings
 3. Verify Supabase region matches user location
 4. Enable Vercel Analytics for detailed metrics
+```
+
+### **Deployment and Routing Issues**
+
+**Issue**: Getting 404 errors for `/spl02`, `/register-now`, `/admin` routes
+```
+Solution:
+1. Check if vercel.json has static build configuration - DELETE IT!
+2. Ensure next.config.js doesn't have 'output: export'
+3. Verify pages exist in correct app/ directory structure
+4. Redeploy after fixing vercel.json
+5. Check Vercel build logs for errors
+```
+
+**Issue**: Home page UI is broken or missing
+```
+Solution:
+1. Check if CSS files are being loaded correctly
+2. Verify component imports in app/page.tsx
+3. Ensure globals.css is imported in layout.tsx
+4. Check for JavaScript errors in browser console
+5. Verify Tailwind CSS configuration
+```
+
+**Issue**: API routes returning 404
+```
+Solution:
+1. Remove vercel.json static build configuration
+2. Ensure API routes are in app/api/ directory
+3. Verify route.ts files export correct HTTP methods
+4. Check environment variables are set in Vercel
+5. Redeploy after configuration changes
+```
+
+**Issue**: Build succeeds but routes still 404
+```
+Solution:
+1. Force redeploy in Vercel dashboard
+2. Check Vercel project settings for correct framework detection
+3. Clear Vercel cache and redeploy
+4. Verify no conflicting routing configurations
+5. Check Vercel function logs for errors
 ```
 
 ## ?? Security Best Practices
