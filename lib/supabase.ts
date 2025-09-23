@@ -9,13 +9,29 @@ if (!supabaseAnonKey) throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY env
 
 try { new URL(supabaseUrl) } catch { throw new Error('Invalid NEXT_PUBLIC_SUPABASE_URL format') }
 
+// For corporate networks - temporary SSL bypass (REMOVE IN PRODUCTION)
+if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+}
+
 // Public client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Service role client (server only)
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 export const supabaseServer = (typeof window === 'undefined' && serviceRoleKey)
-  ? createClient(supabaseUrl, serviceRoleKey, { auth: { autoRefreshToken: false, persistSession: false } })
+  ? createClient(supabaseUrl, serviceRoleKey, { 
+      auth: { autoRefreshToken: false, persistSession: false },
+      global: {
+        fetch: (url, options = {}) => {
+          console.log('Supabase fetch attempt:', url)
+          return fetch(url, {
+            ...options,
+            // Add any additional headers if needed for corporate proxy
+          })
+        }
+      }
+    })
   : null
 
 const getServerClient = () => (supabaseServer || supabase)
@@ -69,8 +85,9 @@ export interface Registration {
 
 export const uploadPhoto = async (file: File, registrationId: string): Promise<string | null> => {
   try {
-    const client = getServerClient()
-    console.log('UPLOAD START', { sr: !!supabaseServer, name: file?.name, size: file?.size, type: file?.type })
+    // Temporarily use anon client to bypass service role issues
+    const client = supabase // Force anon client for testing
+    console.log('UPLOAD START', { using_anon: true, name: file?.name, size: file?.size, type: file?.type })
     if (!file || file.size === 0) return null
     if (file.size > 10 * 1024 * 1024) return null
 
@@ -81,42 +98,23 @@ export const uploadPhoto = async (file: File, registrationId: string): Promise<s
     if (!allowedExt.includes(ext) && !allowedMime.includes(file.type.toLowerCase())) return null
 
     let fileName = `${registrationId}-${Date.now()}.${ext}`
+    console.log('Attempting simple upload with filename:', fileName)
 
-    // Best effort bucket visibility check
-    try {
-      const { data: buckets, error } = await client.storage.listBuckets()
-      if (error) console.warn('listBuckets error (ignore if permission):', error.message)
-      else console.log('Bucket present:', buckets?.some(b => b.name === 'registration-photos'))
-    } catch {}
-
-    const configs = [
-      { cacheControl: '3600', upsert: false, contentType: file.type },
-      { cacheControl: '3600', upsert: false },
-      { cacheControl: '3600', upsert: true, contentType: file.type }
-    ]
-
-    let result: any = null
-    let lastErr: any = null
-    for (let i = 0; i < configs.length; i++) {
-      const { data, error } = await client.storage.from('registration-photos').upload(fileName, file, configs[i] as any)
-      if (error) {
-        lastErr = error
-        console.warn('Upload attempt failed', i + 1, error.message)
-        if (error.message.includes('exists')) {
-          fileName = `${registrationId}-${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`
-        }
-        continue
-      }
-      result = data
-      break
-    }
-
-    if (!result) {
-      console.error('Upload failed (all attempts). Last:', { msg: lastErr?.message, status: lastErr?.status })
+    // Single simple upload attempt
+    const { data, error } = await client.storage.from('registration-photos').upload(fileName, file)
+    console.log('Simple upload result:', { path: data?.path, err: error?.message })
+    
+    if (error) {
+      console.error('Upload failed:', { msg: error.message, status: error.statusCode })
       return null
     }
 
-    const { data: pub } = client.storage.from('registration-photos').getPublicUrl(result.path)
+    if (!data) {
+      console.error('No upload data returned')
+      return null
+    }
+
+    const { data: pub } = client.storage.from('registration-photos').getPublicUrl(data.path)
     if (!pub?.publicUrl) return null
     console.log('UPLOAD OK', pub.publicUrl)
     return pub.publicUrl

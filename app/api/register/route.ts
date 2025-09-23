@@ -1,8 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createRegistration, uploadPhoto } from '@/lib/supabase'
 
+// Force Node.js runtime instead of Edge runtime
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   console.log('Registration API called')
+  
+  // Network diagnostics
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  console.log('SUPA_URL_OK', supabaseUrl?.length, supabaseUrl?.slice(0, 30))
+  console.log('SR_KEY_LEN', process.env.SUPABASE_SERVICE_ROLE_KEY?.length)
+  
+  try {
+    const healthResponse = await fetch(supabaseUrl + '/auth/v1/health')
+    console.log('AUTH_HEALTH_STATUS', healthResponse.status)
+  } catch (healthError) {
+    console.error('AUTH_HEALTH_FETCH_FAIL', healthError)
+  }
+  
+  try {
+    const storageResponse = await fetch(supabaseUrl + '/storage/v1/bucket')
+    console.log('STORAGE_HEALTH_STATUS', storageResponse.status)
+  } catch (storageError) {
+    console.error('STORAGE_HEALTH_FETCH_FAIL', storageError)
+  }
   
   try {
     const formData = await request.formData()
