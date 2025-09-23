@@ -43,7 +43,7 @@ export default function Events() {
       venue: 'Epitome, Pune',
       description: 'Glam & Glitter edition with Masti Mania, live band musical tambola by Abhishek Parekh, and high-energy Bachata-Bollywood fusion by actress Aiyli Giya. Dance floor alive till the end!',
       attendees: 180,
-      highlights: ['Live Band Tambola', 'Bachata-Bollywood Fusion', 'Celebrity Performance', 'DJ Night']
+      highlights: ['Live Band Tambola', 'Bachata', 'Celebrity Performance', 'DJ Night']
     }
   ]
 
@@ -66,11 +66,11 @@ export default function Events() {
         {/* Page Header */}
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-yellow-600 mb-4 sm:mb-6">
-            JSG SPARSH Events
+            Past Events
           </h1>
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
             Discover our vibrant community events - from cultural celebrations and adventure trips 
-            to memorable experiences that bring our JSG SPARSH family together. Relive the moments 
+            to memorable experiences that brought our JSG SPARSH family together. Relive the moments 
             that made our community stronger and more united.
           </p>
         </div>

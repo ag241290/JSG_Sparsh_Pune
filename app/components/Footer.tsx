@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react'
+import { Facebook, Instagram, Mail, Phone, MapPin, Youtube } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 export default function Footer() {
@@ -22,9 +22,27 @@ export default function Footer() {
   ]
 
   const socialLinks = [
-    { href: '#', icon: Facebook, label: 'Facebook' },
-    { href: '#', icon: Instagram, label: 'Instagram' },
-    { href: '#', icon: Twitter, label: 'Twitter' },
+    { 
+      href: '#', 
+      icon: Facebook, 
+      label: 'Facebook',
+      bgColor: 'bg-blue-600 hover:bg-blue-700',
+      textColor: 'text-white'
+    },
+    { 
+      href: '#', 
+      icon: Instagram, 
+      label: 'Instagram',
+      bgColor: 'bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600',
+      textColor: 'text-white'
+    },
+    { 
+      href: '#', 
+      icon: Youtube, 
+      label: 'YouTube',
+      bgColor: 'bg-red-600 hover:bg-red-700',
+      textColor: 'text-white'
+    },
   ]
 
   // Prevent hydration errors by not rendering until mounted
@@ -77,7 +95,7 @@ export default function Footer() {
               and serving society with unity in diversity.
             </p>
 
-            {/* Social Links */}
+            {/* Social Links - Now with Brand Colors */}
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {
                 const IconComponent = social.icon
@@ -85,32 +103,34 @@ export default function Footer() {
                   <a
                     key={index}
                     href={social.href}
-                    className="group p-3 bg-white/10 hover:bg-yellow-500 rounded-xl transition-all duration-300 hover:scale-110 border border-white/20"
+                    className={`group p-3 ${social.bgColor} rounded-xl transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl`}
                     aria-label={social.label}
                   >
-                    <IconComponent size={20} className="text-blue-100 group-hover:text-blue-900 transition-colors" />
+                    <IconComponent size={20} className={`${social.textColor} transition-colors`} />
                   </a>
                 )
               })}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
+          {/* Quick Links - Section Centered, Links Left-Aligned */}
+          <div className="text-left lg:text-center lg:flex lg:flex-col lg:items-center">
             <h3 className="font-bold text-xl mb-6 text-yellow-300">Quick Links</h3>
-            <ul className="space-y-4">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <Link 
-                    href={link.href} 
-                    className="text-blue-100 hover:text-yellow-300 transition-colors duration-200 flex items-center space-x-2 group text-base"
-                  >
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    <span>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="lg:inline-block">
+              <ul className="space-y-4 text-left">
+                {quickLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link 
+                      href={link.href} 
+                      className="text-blue-100 hover:text-yellow-300 transition-colors duration-200 flex items-center space-x-2 group text-base"
+                    >
+                      <span className="w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                      <span>{link.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}
@@ -150,16 +170,6 @@ export default function Footer() {
                   <p className="text-blue-200 text-sm">Pune, Maharashtra, India</p>
                 </div>
               </div>
-            </div>
-
-            {/* CTA Button - Solid Yellow */}
-            <div className="mt-8">
-              <Link
-                href="/social"
-                className="inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-semibold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
-              >
-                Join Our Community
-              </Link>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ﻿'use client'
 
-import { useState } from 'react'
-import { Upload, CreditCard, User, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check } from 'lucide-react'
+import React, { useState } from 'react'
+import { Upload, CreditCard, UserCheck, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check, Loader2, Users } from 'lucide-react'
 
 interface FormData {
   parentName: string
@@ -34,37 +34,32 @@ export default function RegisterPage() {
     jerseySize: ''
   })
   const [showPayment, setShowPayment] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [registrationId, setRegistrationId] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const categories = [
     {
       id: 'male',
       name: 'Male',
-      icon: User,
+      icon: UserCheck,
       color: 'bg-blue-600',
       hoverColor: 'hover:bg-blue-700',
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
-      criteria: [
-        'Age: 14+ years',
-        'Must be able to participate in box cricket',
-        'Previous cricket experience preferred',
-        'Team spirit and sportsmanship required'
-      ]
+      buttonGradient: 'from-blue-500 to-blue-600',
+      ageRequirement: 'Age: 14+ years'
     },
     {
       id: 'female',
       name: 'Female',
-      icon: User,
+      icon: Users,
       color: 'bg-pink-500',
       hoverColor: 'hover:bg-pink-600',
       bgColor: 'bg-pink-50',
       textColor: 'text-pink-800',
-      criteria: [
-        'Age: 14+ years',
-        'Must be able to participate in box cricket',
-        'Previous cricket experience preferred',
-        'Team spirit and sportsmanship required'
-      ]
+      buttonGradient: 'from-pink-500 to-pink-600',
+      ageRequirement: 'Age: 14+ years'
     },
     {
       id: 'kids',
@@ -74,12 +69,8 @@ export default function RegisterPage() {
       hoverColor: 'hover:bg-green-600',
       bgColor: 'bg-green-50',
       textColor: 'text-green-800',
-      criteria: [
-        'Age: 7-14 years',
-        'Parent/Guardian supervision required',
-        'Basic cricket knowledge helpful',
-        'Enthusiasm and willingness to learn'
-      ]
+      buttonGradient: 'from-green-500 to-green-600',
+      ageRequirement: 'Age: 7-14 years'
     }
   ]
 
@@ -90,13 +81,8 @@ export default function RegisterPage() {
   ]
 
   const bowlingArms = [
-    'Right Arm Fast',
-    'Right Arm Medium',
-    'Right Arm Spin',
-    'Left Arm Fast',
-    'Left Arm Medium',
-    'Left Arm Spin',
-    'Not Applicable'
+    'Left Arm',
+    'Right Arm'
   ]
 
   const jerseySizes = [
@@ -114,21 +100,179 @@ export default function RegisterPage() {
       ...prev,
       [field]: value
     }))
+    setSubmitError(null) // Clear error when user makes changes
   }
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        setSubmitError('Photo size must be less than 10MB')
+        return
+      }
+      
+      // Validate file type (jpg, jpeg, png, heic)
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic']
+      if (!allowedTypes.includes(file.type.toLowerCase())) {
+        setSubmitError('Please upload a valid image file (JPG, JPEG, PNG, or HEIC)')
+        return
+      }
+
       setFormData(prev => ({
         ...prev,
         photo: file
       }))
+      setSubmitError(null)
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Validation function
+  const validateForm = (): string | null => {
+    if (!formData.fullName.trim()) return 'Please enter your full name'
+    if (!formData.mobileNumber.trim()) return 'Please enter your mobile number'
+    if (!/^[0-9]{10}$/.test(formData.mobileNumber)) return 'Please enter a valid 10-digit mobile number'
+    if (!formData.age) return 'Please enter your age'
+    if (!formData.skillset) return 'Please select your skillset'
+    if (!formData.bowlingArm) return 'Please select your bowling arm'
+    if (!formData.photo) return 'Please upload your photo'
+    if (!formData.jerseyName.trim()) return 'Please enter name for jersey'
+    if (!formData.jerseyNumber) return 'Please enter jersey number'
+    if (!formData.jerseySize) return 'Please select jersey size'
+    
+    // Kids specific validation
+    if (selectedCategory === 'kids' && !formData.parentName.trim()) {
+      return 'Please enter parent/guardian name'
+    }
+    
+    // Age validation
+    const age = parseInt(formData.age)
+    if (selectedCategory === 'kids' && (age < 7 || age > 14)) {
+      return 'Age must be between 7-14 years for kids category'
+    }
+    if ((selectedCategory === 'male' || selectedCategory === 'female') && age < 14) {
+      return 'Age must be 14+ years for male/female category'
+    }
+    
+    return null
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setShowPayment(true)
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      // Validate form
+      const validationError = validateForm()
+      if (validationError) {
+        setSubmitError(validationError)
+        setIsSubmitting(false)
+        return
+      }
+
+      // Create FormData for file upload
+      const submitData = new FormData()
+      
+      // Add all form fields
+      submitData.append('category', selectedCategory)
+      submitData.append('fullName', formData.fullName.trim())
+      if (formData.parentName) submitData.append('parentName', formData.parentName.trim())
+      submitData.append('mobileNumber', formData.mobileNumber.trim())
+      submitData.append('age', formData.age)
+      submitData.append('skillset', formData.skillset)
+      submitData.append('bowlingArm', formData.bowlingArm)
+      if (formData.cricketExperience) submitData.append('cricketExperience', formData.cricketExperience)
+      if (formData.cricHeroesLink) submitData.append('cricHeroesLink', formData.cricHeroesLink.trim())
+      submitData.append('jerseyName', formData.jerseyName.trim())
+      submitData.append('jerseyNumber', formData.jerseyNumber)
+      submitData.append('jerseySize', formData.jerseySize)
+      
+      // Add photo (we already validated it exists)
+      if (formData.photo) {
+        submitData.append('photo', formData.photo)
+      }
+
+      console.log('Submitting registration data...')
+
+      // Submit to API
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        body: submitData
+      })
+
+      console.log('Response status:', response.status)
+
+      if (!response.ok) {
+        // Try to get error details from response
+        let errorMessage = 'Registration failed'
+        try {
+          const errorResult = await response.json()
+          errorMessage = errorResult.error || errorMessage
+        } catch (e) {
+          console.error('Could not parse error response:', e)
+        }
+        throw new Error(errorMessage)
+      }
+
+      const result = await response.json()
+      console.log('Registration result:', result)
+
+      if (!result.success || !result.registration?.id) {
+        throw new Error('Invalid response from server')
+      }
+
+      // Success - store registration ID and proceed to payment
+      setRegistrationId(result.registration.id)
+      setShowPayment(true)
+
+    } catch (error) {
+      console.error('Registration error:', error)
+      setSubmitError(error instanceof Error ? error.message : 'Registration failed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handlePayment = async (paymentMethod: string) => {
+    if (!registrationId) return
+
+    setIsSubmitting(true)
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000))
+
+      // Update payment status
+      const response = await fetch('/api/payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registrationId,
+          paymentStatus: 'completed',
+          paymentDetails: { method: paymentMethod }
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Payment processing failed')
+      }
+
+      // Success - show confirmation
+      alert(`🎉 Registration Successful! 
+      
+Payment Status: Completed
+      
+Thank you for registering for SPL 02! You will receive a confirmation email shortly.`)
+      
+      // Reset form
+      handleCancel()
+
+    } catch (error) {
+      console.error('Payment error:', error)
+      setSubmitError('Payment failed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleCancel = () => {
@@ -147,6 +291,8 @@ export default function RegisterPage() {
       jerseySize: ''
     })
     setShowPayment(false)
+    setRegistrationId(null)
+    setSubmitError(null)
   }
 
   return (
@@ -173,8 +319,15 @@ export default function RegisterPage() {
           </div>
         </div>
 
+        {/* Error Display */}
+        {submitError && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-red-800 text-sm">{submitError}</p>
+          </div>
+        )}
+
         {!selectedCategory ? (
-          /* Category Selection */
+          /* Category Selection - Enhanced Button Style */
           <div className="space-y-6 sm:space-y-8">
             <div className="text-center">
               <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6">
@@ -192,33 +345,49 @@ export default function RegisterPage() {
                   <div
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-blue-200 transform hover:-translate-y-1 min-h-[400px] flex flex-col"
+                    className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-3 border-transparent hover:border-blue-300 transform hover:-translate-y-2 hover:scale-105 min-h-[300px] flex flex-col relative overflow-hidden"
                   >
-                    <div className={`${category.color} p-4 sm:p-6 rounded-xl sm:rounded-2xl text-white text-center mb-4 sm:mb-6`}>
-                      <IconComponent size={32} className="sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3" />
-                      <h3 className="text-xl sm:text-2xl font-bold">{category.name}</h3>
-                    </div>
+                    {/* Animated Background Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-50/20 to-yellow-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className={`${category.bgColor} p-4 rounded-lg sm:rounded-xl mb-4 flex-grow`}>
-                      <h4 className={`${category.textColor} font-bold mb-2 text-sm sm:text-base`}>
-                        Eligibility Criteria:
-                      </h4>
-                      <ul className="space-y-1">
-                        {category.criteria.map((criterion, idx) => (
-                          <li key={idx} className={`${category.textColor} text-xs sm:text-sm flex items-start`}>
-                            <Check size={14} className="mr-2 mt-0.5 flex-shrink-0" />
-                            {criterion}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {/* Glowing Border Effect */}
+                    <div className="absolute inset-0 rounded-2xl sm:rounded-3xl border-2 border-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-500"></div>
                     
-                    <button className={`w-full ${category.color} ${category.hoverColor} text-white py-3 rounded-lg sm:rounded-xl font-bold hover:shadow-lg transition-all duration-300 text-sm sm:text-base`}>
-                      Select {category.name}
-                    </button>
+                    <div className="relative z-10 flex-1 flex flex-col">
+                      <div className={`bg-gradient-to-br ${category.buttonGradient} p-4 sm:p-6 rounded-xl sm:rounded-2xl text-white text-center mb-4 sm:mb-6 transform group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-xl`}>
+                        <IconComponent size={32} className="sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 group-hover:animate-bounce" />
+                        <h3 className="text-xl sm:text-2xl font-bold">{category.name}</h3>
+                      </div>
+                      
+                      {/* Simplified Age Requirement */}
+                      <div className="flex-1 flex items-center justify-center mb-4">
+                        <div className={`${category.bgColor} px-4 py-2 rounded-full border-2 border-transparent group-hover:border-opacity-50 transition-all duration-300`}>
+                          <p className={`${category.textColor} text-sm font-medium text-center`}>
+                            {category.ageRequirement}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced Button with Pulse Effect */}
+                      <button className={`w-full bg-gradient-to-r ${category.buttonGradient} ${category.hoverColor} text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-2xl transition-all duration-300 text-sm sm:text-base relative overflow-hidden group-hover:animate-pulse`}>
+                        {/* Button Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <span>Select {category.name}</span>
+                          <div className="w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 )
               })}
+            </div>
+            
+            {/* Additional Visual Feedback */}
+            <div className="text-center mt-8">
+              <p className="text-gray-500 text-sm animate-pulse">
+                ✨ Hover over a category to see it come to life!
+              </p>
             </div>
           </div>
         ) : !showPayment ? (
@@ -232,6 +401,7 @@ export default function RegisterPage() {
                 type="button"
                 onClick={() => setSelectedCategory('')}
                 className="text-gray-500 hover:text-gray-700 p-2"
+                disabled={isSubmitting}
               >
                 <X size={24} />
               </button>
@@ -253,6 +423,7 @@ export default function RegisterPage() {
                       onChange={(e) => handleInputChange('parentName', e.target.value)}
                       className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                       placeholder="Enter parent's full name"
+                      disabled={isSubmitting}
                     />
                   </div>
                 )}
@@ -269,6 +440,7 @@ export default function RegisterPage() {
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter your full name"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -285,6 +457,7 @@ export default function RegisterPage() {
                     onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter 10-digit mobile number"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -302,6 +475,7 @@ export default function RegisterPage() {
                     onChange={(e) => handleInputChange('age', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="Enter your age"
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -315,6 +489,7 @@ export default function RegisterPage() {
                     value={formData.skillset}
                     onChange={(e) => handleInputChange('skillset', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    disabled={isSubmitting}
                   >
                     <option value="">Select your skillset</option>
                     {skillsets.map((skill) => (
@@ -335,6 +510,7 @@ export default function RegisterPage() {
                     value={formData.bowlingArm}
                     onChange={(e) => handleInputChange('bowlingArm', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    disabled={isSubmitting}
                   >
                     <option value="">Select bowling arm</option>
                     {bowlingArms.map((arm) => (
@@ -355,6 +531,7 @@ export default function RegisterPage() {
                       value={formData.cricketExperience || ''}
                       onChange={(e) => handleInputChange('cricketExperience', e.target.value)}
                       className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                      disabled={isSubmitting}
                     >
                       <option value="">Select experience level</option>
                       <option value="beginner">Beginner (0-2 years)</option>
@@ -368,26 +545,38 @@ export default function RegisterPage() {
 
               {/* Right Column */}
               <div className="space-y-4 sm:space-y-6">
-                {/* Photo Upload */}
+                {/* Photo Upload - Updated with new validation */}
                 <div>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
                     Photo Upload *
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg sm:rounded-xl p-6 text-center hover:border-blue-500 transition-colors">
+                  <div className={`border-2 border-dashed rounded-lg sm:rounded-xl p-6 text-center transition-colors ${formData.photo ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-blue-500'}`}>
                     <input
                       type="file"
-                      accept="image/*"
-                      required
+                      accept="image/jpeg,image/jpg,image/png,image/heic"
                       onChange={handlePhotoUpload}
                       className="hidden"
                       id="photo-upload"
+                      disabled={isSubmitting}
                     />
-                    <label htmlFor="photo-upload" className="cursor-pointer">
-                      <Camera className="mx-auto mb-2 text-gray-400" size={32} />
-                      <p className="text-gray-600 text-sm sm:text-base">
-                        {formData.photo ? formData.photo.name : 'Click to upload photo'}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">Max size: 2MB</p>
+                    <label htmlFor="photo-upload" className={`cursor-pointer ${isSubmitting ? 'opacity-50' : ''}`}>
+                      {formData.photo ? (
+                        <div className="text-green-600">
+                          <Check className="mx-auto mb-2" size={32} />
+                          <p className="text-sm sm:text-base font-medium">
+                            {formData.photo.name}
+                          </p>
+                          <p className="text-xs text-green-500 mt-1">Photo uploaded successfully</p>
+                        </div>
+                      ) : (
+                        <div className="text-gray-400">
+                          <Camera className="mx-auto mb-2" size={32} />
+                          <p className="text-sm sm:text-base">
+                            Click to upload photo
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">JPG, JPEG, PNG, HEIC - Max size: 10MB</p>
+                        </div>
+                      )}
                     </label>
                   </div>
                 </div>
@@ -403,6 +592,7 @@ export default function RegisterPage() {
                     onChange={(e) => handleInputChange('cricHeroesLink', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
                     placeholder="https://cricheros.com/profile/..."
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -427,6 +617,7 @@ export default function RegisterPage() {
                         onChange={(e) => handleInputChange('jerseyName', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
                         placeholder="Max 12 characters"
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -444,6 +635,7 @@ export default function RegisterPage() {
                         onChange={(e) => handleInputChange('jerseyNumber', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
                         placeholder="1-99"
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -457,6 +649,7 @@ export default function RegisterPage() {
                         value={formData.jerseySize}
                         onChange={(e) => handleInputChange('jerseySize', e.target.value)}
                         className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
+                        disabled={isSubmitting}
                       >
                         <option value="">Select size</option>
                         {jerseySizes.map((size) => (
@@ -479,15 +672,24 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base"
+                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base disabled:opacity-50"
+                disabled={isSubmitting}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base disabled:opacity-50 flex items-center justify-center"
+                disabled={isSubmitting}
               >
-                Proceed to Payment
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin mr-2" size={20} />
+                    Submitting...
+                  </>
+                ) : (
+                  'Proceed to Payment'
+                )}
               </button>
             </div>
           </form>
@@ -504,48 +706,69 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Registration Summary */}
+            {/* Registration Summary - Enhanced with all details */}
             <div className="bg-blue-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-6 sm:mb-8">
-              <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-3">Registration Summary</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-4">Registration Summary</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base">
                 <div><strong>Category:</strong> {categories.find(c => c.id === selectedCategory)?.name}</div>
-                <div><strong>Name:</strong> {formData.fullName}</div>
+                <div><strong>Full Name:</strong> {formData.fullName}</div>
+                {formData.parentName && <div><strong>Parent Name:</strong> {formData.parentName}</div>}
                 <div><strong>Mobile:</strong> {formData.mobileNumber}</div>
-                <div><strong>Age:</strong> {formData.age}</div>
-                <div><strong>Jersey:</strong> {formData.jerseyName} #{formData.jerseyNumber}</div>
-                <div><strong>Size:</strong> {formData.jerseySize}</div>
+                <div><strong>Age:</strong> {formData.age} years</div>
+                <div><strong>Skillset:</strong> {formData.skillset}</div>
+                <div><strong>Bowling Arm:</strong> {formData.bowlingArm}</div>
+                {formData.cricketExperience && <div><strong>Experience:</strong> {formData.cricketExperience}</div>}
+                {formData.cricHeroesLink && <div><strong>Cric Heroes:</strong> <a href={formData.cricHeroesLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Profile Link</a></div>}
+                <div><strong>Jersey Name:</strong> {formData.jerseyName}</div>
+                <div><strong>Jersey Number:</strong> #{formData.jerseyNumber}</div>
+                <div><strong>Jersey Size:</strong> {formData.jerseySize}</div>
+                {formData.photo && <div><strong>Photo:</strong> {formData.photo.name}</div>}
               </div>
             </div>
 
             {/* Payment Amount */}
             <div className="bg-yellow-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-6 sm:mb-8 text-center">
               <h3 className="text-xl sm:text-2xl font-bold text-yellow-800 mb-2">Registration Fee</h3>
-              <div className="text-3xl sm:text-4xl font-bold text-yellow-600">₹500</div>
+              <div className="text-3xl sm:text-4xl font-bold text-yellow-600">
+                {selectedCategory === 'kids' ? '₹600' : '₹800'}
+              </div>
               <p className="text-yellow-700 text-sm sm:text-base mt-2">
                 Includes tournament entry, jersey, and refreshments
               </p>
             </div>
 
-            {/* Paytm UPI Payment */}
+            {/* Payment Options */}
             <div className="space-y-4 sm:space-y-6">
               <div className="border-2 border-gray-300 rounded-lg sm:rounded-xl p-4 sm:p-6">
                 <h4 className="font-bold text-gray-800 mb-3 flex items-center text-sm sm:text-base">
                   <CreditCard className="mr-2" size={20} />
-                  Payment Options
+                  Choose Payment Method
                 </h4>
-                <div className="space-y-3">
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="radio" name="payment" value="upi" className="text-blue-600" defaultChecked />
-                    <span className="text-sm sm:text-base">UPI Payment</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="radio" name="payment" value="paytm" className="text-blue-600" />
-                    <span className="text-sm sm:text-base">Paytm Wallet</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="radio" name="payment" value="card" className="text-blue-600" />
-                    <span className="text-sm sm:text-base">Credit/Debit Card</span>
-                  </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <button
+                    onClick={() => handlePayment('upi')}
+                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>💳</span>}
+                    <span>UPI Payment</span>
+                  </button>
+                  <button
+                    onClick={() => handlePayment('paytm')}
+                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>📱</span>}
+                    <span>Paytm Wallet</span>
+                  </button>
+                  <button
+                    onClick={() => handlePayment('card')}
+                    className="p-3 border-2 border-blue-300 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <span>💳</span>}
+                    <span>Card Payment</span>
+                  </button>
                 </div>
               </div>
 
@@ -553,15 +776,10 @@ export default function RegisterPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => setShowPayment(false)}
-                  className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base"
+                  className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base disabled:opacity-50"
+                  disabled={isSubmitting}
                 >
                   Back to Form
-                </button>
-                <button
-                  onClick={() => alert('Payment gateway integration will be implemented')}
-                  className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
-                >
-                  Pay ₹500 & Complete Registration
                 </button>
               </div>
             </div>
