@@ -168,8 +168,7 @@ export async function POST(request: NextRequest) {
       photo_url: photoUrl,
       transaction_id: transactionId || undefined,
       transaction_screenshot_url: transactionScreenshotUrl || undefined,
-      payment_status: paymentStatus as 'pending' | 'completed' | 'failed',
-      approved: false
+      payment_status: paymentStatus as 'pending' | 'completed' | 'failed'
     }
 
     console.log('Creating registration with data:', {

@@ -77,8 +77,6 @@ export interface Registration {
   transaction_screenshot_url?: string
   payment_status: 'pending' | 'completed' | 'failed'
   registration_date?: string
-  approved: boolean
-  team_assigned?: string
   created_at?: string
   updated_at?: string
 }
@@ -88,6 +86,7 @@ export interface Donation {
   id?: string
   name: string
   mobile_number: string
+  amount: number
   transaction_id: string
   transaction_screenshot_url?: string
   created_at?: string
@@ -145,10 +144,11 @@ export const uploadPhoto = async (file: File, registrationId: string): Promise<s
   }
 }
 
-// New function for uploading registration transaction screenshots
+// New function for uploading registration transaction screenshots - SIMPLIFIED VERSION
 export const uploadRegistrationTransactionScreenshot = async (file: File, registrationId: string): Promise<string | null> => {
   try {
-    const client = supabase
+    // Use the same approach as uploadPhoto for consistency
+    const client = supabase // Use anonymous client like profile photos
     console.log('REGISTRATION TRANSACTION UPLOAD START', { name: file?.name, size: file?.size, type: file?.type })
     if (!file || file.size === 0) return null
     if (file.size > 10 * 1024 * 1024) return null
@@ -159,9 +159,10 @@ export const uploadRegistrationTransactionScreenshot = async (file: File, regist
     const allowedMime = ['image/jpeg', 'image/jpg', 'image/png']
     if (!allowedExt.includes(ext) && !allowedMime.includes(file.type.toLowerCase())) return null
 
-    let fileName = `registration-transaction-${registrationId}-${Date.now()}.${ext}`
+    let fileName = `transaction-${registrationId}-${Date.now()}.${ext}`
     console.log('Attempting registration transaction screenshot upload with filename:', fileName)
 
+    // Upload to registration-transaction-ss bucket
     const { data, error } = await client.storage.from('registration-transaction-ss').upload(fileName, file)
     console.log('Registration transaction upload result:', { path: data?.path, err: error?.message })
     
@@ -181,6 +182,46 @@ export const uploadRegistrationTransactionScreenshot = async (file: File, regist
     return pub.publicUrl
   } catch (e) {
     console.error('uploadRegistrationTransactionScreenshot unexpected error:', e)
+    return null
+  }
+}
+
+// New function for uploading donation photos
+export const uploadDonationPhoto = async (file: File): Promise<string | null> => {
+  try {
+    const client = supabase
+    console.log('DONATION UPLOAD START', { name: file?.name, size: file?.size, type: file?.type })
+    if (!file || file.size === 0) return null
+    if (file.size > 10 * 1024 * 1024) return null
+
+    const ext = file.name.split('.').pop()?.toLowerCase()
+    if (!ext) return null
+    const allowedExt = ['jpg', 'jpeg', 'png']
+    const allowedMime = ['image/jpeg', 'image/jpg', 'image/png']
+    if (!allowedExt.includes(ext) && !allowedMime.includes(file.type.toLowerCase())) return null
+
+    let fileName = `donation-${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`
+    console.log('Attempting donation photo upload with filename:', fileName)
+
+    const { data, error } = await client.storage.from('donation-transaction-ss').upload(fileName, file)
+    console.log('Donation upload result:', { path: data?.path, err: error?.message })
+    
+    if (error) {
+      console.error('Donation upload failed:', { msg: error.message, error })
+      return null
+    }
+
+    if (!data) {
+      console.error('No donation upload data returned')
+      return null
+    }
+
+    const { data: pub } = client.storage.from('donation-transaction-ss').getPublicUrl(data.path)
+    if (!pub?.publicUrl) return null
+    console.log('DONATION UPLOAD OK', pub.publicUrl)
+    return pub.publicUrl
+  } catch (e) {
+    console.error('uploadDonationPhoto unexpected error:', e)
     return null
   }
 }

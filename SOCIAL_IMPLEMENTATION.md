@@ -15,6 +15,7 @@ Successfully implemented two popup modals for the Social page (`/social`) that a
   - `id` (UUID, Primary Key)
   - `name` (TEXT, Required)
   - `mobile_number` (TEXT, Required)
+  - `amount` (DECIMAL(10,2), Required) **NEW**
   - `transaction_id` (TEXT, Required)
   - `transaction_screenshot_url` (TEXT, Optional)
   - `created_at` (TIMESTAMP, Auto)
@@ -52,7 +53,8 @@ Successfully implemented two popup modals for the Social page (`/social`) that a
 ### 1. `DonationModal.tsx` (`app/social/components/`)
 - **Features**:
   - Displays SPARSH QR Code for payment
-  - Form fields: Name, Mobile Number, Transaction ID, Transaction Screenshot
+  - Form fields: Name, Mobile Number, Amount, Transaction ID, Transaction Screenshot
+  - Amount validation (minimum ₹1, maximum ₹9,99,999.99)
   - File validation (JPG, JPEG, PNG, max 10MB)
   - Real-time form validation
   - Success confirmation with auto-close
@@ -84,8 +86,9 @@ Successfully implemented two popup modals for the Social page (`/social`) that a
 ### 1. `/api/donation` (POST)
 - **Purpose**: Handle donation form submissions
 - **Validation**:
-  - Required fields: name, mobile_number, transaction_id, transaction_screenshot
+  - Required fields: name, mobile_number, amount, transaction_id, transaction_screenshot
   - 10-digit mobile number validation
+  - Amount validation (₹1 to ₹9,99,999.99)
   - File type and size validation
 - **Process**:
   - Upload screenshot to `donation-transaction-ss` bucket

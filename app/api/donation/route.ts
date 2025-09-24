@@ -7,11 +7,12 @@ export async function POST(request: NextRequest) {
     
     const name = formData.get('name') as string
     const mobile_number = formData.get('mobile_number') as string
+    const amount = formData.get('amount') as string
     const transaction_id = formData.get('transaction_id') as string
     const transaction_screenshot = formData.get('transaction_screenshot') as File
 
     // Validate required fields
-    if (!name || !mobile_number || !transaction_id || !transaction_screenshot) {
+    if (!name || !mobile_number || !amount || !transaction_id || !transaction_screenshot) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
@@ -22,6 +23,22 @@ export async function POST(request: NextRequest) {
     if (!/^\d{10}$/.test(mobile_number)) {
       return NextResponse.json(
         { error: 'Please enter a valid 10-digit mobile number' },
+        { status: 400 }
+      )
+    }
+
+    // Validate amount
+    const amountValue = parseFloat(amount)
+    if (isNaN(amountValue) || amountValue <= 0) {
+      return NextResponse.json(
+        { error: 'Please enter a valid amount' },
+        { status: 400 }
+      )
+    }
+
+    if (amountValue > 999999.99) {
+      return NextResponse.json(
+        { error: 'Amount cannot exceed ?9,99,999.99' },
         { status: 400 }
       )
     }
@@ -76,6 +93,7 @@ export async function POST(request: NextRequest) {
         {
           name: name.trim(),
           mobile_number: mobile_number.trim(),
+          amount: amountValue,
           transaction_id: transaction_id.trim(),
           transaction_screenshot_url: screenshot_url,
           created_at: new Date().toISOString()

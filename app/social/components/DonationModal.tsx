@@ -13,6 +13,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     mobile_number: '',
+    amount: '',
     transaction_id: '',
     transaction_screenshot: null as File | null
   })
@@ -78,6 +79,19 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
       setError('Please enter a valid 10-digit mobile number')
       return false
     }
+    if (!formData.amount.trim()) {
+      setError('Amount is required')
+      return false
+    }
+    const amountValue = parseFloat(formData.amount)
+    if (isNaN(amountValue) || amountValue <= 0) {
+      setError('Please enter a valid amount')
+      return false
+    }
+    if (amountValue > 999999.99) {
+      setError('Amount cannot exceed ₹9,99,999.99')
+      return false
+    }
     if (!formData.transaction_id.trim()) {
       setError('Transaction ID is required')
       return false
@@ -102,6 +116,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
       const submitData = new FormData()
       submitData.append('name', formData.name)
       submitData.append('mobile_number', formData.mobile_number)
+      submitData.append('amount', formData.amount)
       submitData.append('transaction_id', formData.transaction_id)
       if (formData.transaction_screenshot) {
         submitData.append('transaction_screenshot', formData.transaction_screenshot)
@@ -125,6 +140,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
         setFormData({
           name: '',
           mobile_number: '',
+          amount: '',
           transaction_id: '',
           transaction_screenshot: null
         })
@@ -147,6 +163,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
     setFormData({
       name: '',
       mobile_number: '',
+      amount: '',
       transaction_id: '',
       transaction_screenshot: null
     })
@@ -269,6 +286,32 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
                 required
                 disabled={loading}
               />
+            </div>
+
+            {/* Amount Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Donation Amount *
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">₹</span>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleInputChange}
+                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder="0.00"
+                  min="1"
+                  max="999999.99"
+                  step="0.01"
+                  required
+                  disabled={loading}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Enter the amount you are donating (minimum ₹1)
+              </p>
             </div>
 
             {/* Transaction ID Field */}

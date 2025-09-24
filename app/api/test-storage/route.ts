@@ -1,130 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-export async function GET() {
-  // Check environment variables
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  
-  return NextResponse.json({
-    timestamp: new Date().toISOString(),
-    environment: {
-      supabaseUrl: supabaseUrl ? `${supabaseUrl.substring(0, 20)}...` : 'missing',
-      supabaseKey: supabaseKey ? `${supabaseKey.substring(0, 10)}...` : 'missing',
-      nodeEnv: process.env.NODE_ENV || 'not set'
-    },
-    message: 'Quick environment check endpoint'
-  })
-}
+import { supabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
-    const { supabase } = await import('@/lib/supabase')
+    console.log('?? Testing storage bucket access...')
     
-    console.log('Testing Supabase storage...')
-
     // Test 1: List buckets
     const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets()
-    
-    if (bucketsError) {
-      console.error('Failed to list buckets:', bucketsError)
-      return NextResponse.json({
-        success: false,
-        step: 'list_buckets',
-        error: bucketsError.message,
-        details: bucketsError
-      }, { status: 500 })
-    }
+    console.log('Available buckets:', buckets?.map(b => b.name) || 'none')
+    if (bucketsError) console.error('Buckets error:', bucketsError)
 
-    console.log('Available buckets:', buckets?.map(b => b.name))
+    // Test 2: Check specific bucket
+    const { data: bucketData, error: bucketError } = await supabase.storage.getBucket('registration-transaction-ss')
+    console.log('registration-transaction-ss bucket:', bucketData)
+    if (bucketError) console.error('Bucket error:', bucketError)
 
-    // Test 2: Check if registration-photos bucket exists
-    const registrationBucketExists = buckets?.some(bucket => bucket.name === 'registration-photos')
+    // Test 3: Try to upload a simple test file
+    const testFileContent = new Blob(['test content'], { type: 'text/plain' })
+    const testFile = new File([testFileContent], 'test.txt', { type: 'text/plain' })
     
-    if (!registrationBucketExists) {
-      // Try to create the bucket
-      console.log('Creating registration-photos bucket...')
-      const { data: createData, error: createError } = await supabase.storage.createBucket('registration-photos', {
-        public: true,
-        allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/heic'],
-        fileSizeLimit: 10485760 // 10MB
-      })
-      
-      if (createError) {
-        console.error('Failed to create bucket:', createError)
-        return NextResponse.json({
-          success: false,
-          step: 'create_bucket',
-          error: createError.message,
-          details: createError
-        }, { status: 500 })
-      }
-      
-      console.log('Bucket created successfully:', createData)
-    }
-
-    // Test 3: Try a test upload
-    const testContent = `Test upload at ${new Date().toISOString()}`
-    const testFile = new File([testContent], 'test.txt', { type: 'text/plain' })
-    const testFileName = `test-${Date.now()}.txt`
-    
-    console.log('Testing file upload...')
     const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('registration-photos')
-      .upload(testFileName, testFile)
+      .from('registration-transaction-ss')
+      .upload(`test-${Date.now()}.txt`, testFile)
     
-    if (uploadError) {
-      console.error('Test upload failed:', uploadError)
-      return NextResponse.json({
-        success: false,
-        step: 'test_upload',
-        error: uploadError.message,
-        details: uploadError
-      }, { status: 500 })
-    }
+    console.log('Test upload result:', { uploadData, uploadError })
 
-    console.log('Test upload successful:', uploadData.path)
-
-    // Test 4: Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('registration-photos')
-      .getPublicUrl(testFileName)
+    // Test 4: Try image upload to the bucket
+    const formData = await request.formData()
+    const testImage = formData.get('testImage') as File
     
-    console.log('Public URL:', publicUrl)
-
-    // Test 5: Clean up
-    const { error: deleteError } = await supabase.storage
-      .from('registration-photos')
-      .remove([testFileName])
-    
-    if (deleteError) {
-      console.warn('Failed to clean up test file:', deleteError)
+    if (testImage) {
+      console.log('Testing image upload:', { name: testImage.name, size: testImage.size, type: testImage.type })
+      
+      const fileName = `test-image-${Date.now()}.${testImage.name.split('.').pop()}`
+      const { data: imageUploadData, error: imageUploadError } = await supabase.storage
+        .from('registration-transaction-ss')
+        .upload(fileName, testImage)
+      
+      console.log('Image upload result:', { imageUploadData, imageUploadError })
+      
+      if (imageUploadData) {
+        const { data: publicUrl } = supabase.storage
+          .from('registration-transaction-ss')
+          .getPublicUrl(imageUploadData.path)
+        console.log('Public URL:', publicUrl)
+      }
     }
 
     return NextResponse.json({
       success: true,
-      tests: {
-        bucketsListed: true,
-        bucketExists: registrationBucketExists,
-        bucketCreated: !registrationBucketExists,
-        uploadTest: true,
-        publicUrlGenerated: !!publicUrl,
-        cleanup: !deleteError
-      },
-      buckets: buckets?.map(b => ({ name: b.name, public: b.public })),
-      testUpload: {
-        fileName: testFileName,
-        path: uploadData.path,
-        publicUrl
-      }
+      buckets: buckets?.map(b => b.name) || [],
+      bucketExists: !!bucketData,
+      testUpload: uploadData ? 'success' : 'failed',
+      uploadError: uploadError?.message,
+      imageUpload: testImage ? (uploadData ? 'success' : 'failed') : 'no image provided'
     })
 
   } catch (error) {
-    console.error('Storage test error:', error)
+    console.error('Test API error:', error)
     return NextResponse.json({
-      success: false,
-      step: 'unknown',
-      error: error instanceof Error ? error.message : 'Unknown error',
-      details: error
+      error: 'Test failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }
 }
