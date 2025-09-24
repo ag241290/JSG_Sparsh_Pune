@@ -2,9 +2,13 @@
 
 import { useState } from 'react'
 import { Heart, BookOpen, Leaf, Users, Droplets, ArrowRight, Target, Calendar, MapPin } from 'lucide-react'
+import DonationModal from './components/DonationModal'
+import VolunteerModal from './components/VolunteerModal'
 
 export default function Social() {
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false)
 
   // Truncate description to ensure consistent length
   const truncateDescription = (text: string, maxLength: number = 120) => {
@@ -193,10 +197,6 @@ export default function Social() {
                         Impact: {initiative.impact}
                       </p>
                     </div>
-                    <button className="w-full bg-primary-600 text-white py-2 px-4 rounded-lg hover:bg-primary-700 transition-colors duration-200 flex items-center justify-center space-x-2">
-                      <span>Contribute Now</span>
-                      <ArrowRight size={16} />
-                    </button>
                   </div>
                 </div>
               )
@@ -262,10 +262,16 @@ export default function Social() {
             values of our Jain heritage.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
+            <button 
+              onClick={() => setIsDonationModalOpen(true)}
+              className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200"
+            >
               Make a Contribution
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200">
+            <button 
+              onClick={() => setIsVolunteerModalOpen(true)}
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200"
+            >
               Volunteer with Us
             </button>
           </div>
@@ -291,6 +297,16 @@ export default function Social() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <DonationModal 
+        isOpen={isDonationModalOpen} 
+        onClose={() => setIsDonationModalOpen(false)} 
+      />
+      <VolunteerModal 
+        isOpen={isVolunteerModalOpen} 
+        onClose={() => setIsVolunteerModalOpen(false)} 
+      />
     </div>
   )
 }

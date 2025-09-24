@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRegistration, uploadPhoto } from '@/lib/supabase'
+import { createRegistration, uploadPhoto, uploadRegistrationTransactionScreenshot } from '@/lib/supabase'
 
 // Force Node.js runtime instead of Edge runtime
 export const runtime = 'nodejs'
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
       console.log('Processing transaction screenshot upload:', transactionScreenshot.name, `${transactionScreenshot.size} bytes`)
       
       try {
-        transactionScreenshotUrl = await uploadPhoto(transactionScreenshot, `${uniqueId}-transaction`)
+        transactionScreenshotUrl = await uploadRegistrationTransactionScreenshot(transactionScreenshot, uniqueId)
         
         if (transactionScreenshotUrl) {
           console.log('Transaction screenshot uploaded successfully:', transactionScreenshotUrl)

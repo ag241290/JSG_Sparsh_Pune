@@ -83,11 +83,32 @@ export interface Registration {
   updated_at?: string
 }
 
+// New interface for donations
+export interface Donation {
+  id?: string
+  name: string
+  mobile_number: string
+  transaction_id: string
+  transaction_screenshot_url?: string
+  created_at?: string
+}
+
+// New interface for enquiries (volunteers and join us)
+export interface Enquiry {
+  id?: string
+  name: string
+  address: string
+  mobile_number: string
+  type: 'volunteer' | 'general'
+  enquiry_type: 'Volunteer' | 'JoinUs'
+  created_at?: string
+}
+
 export const uploadPhoto = async (file: File, registrationId: string): Promise<string | null> => {
   try {
     // Temporarily use anon client to bypass service role issues
     const client = supabase // Force anon client for testing
-    console.log('UPLOAD START', { using_anon: true, name: file?.name, size: file?.size, type: file?.type })
+    console.log('PHOTO UPLOAD START', { using_anon: true, name: file?.name, size: file?.size, type: file?.type })
     if (!file || file.size === 0) return null
     if (file.size > 10 * 1024 * 1024) return null
 
@@ -97,29 +118,69 @@ export const uploadPhoto = async (file: File, registrationId: string): Promise<s
     const allowedMime = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic']
     if (!allowedExt.includes(ext) && !allowedMime.includes(file.type.toLowerCase())) return null
 
-    let fileName = `${registrationId}-${Date.now()}.${ext}`
-    console.log('Attempting simple upload with filename:', fileName)
+    let fileName = `profile-${registrationId}-${Date.now()}.${ext}`
+    console.log('Attempting profile photo upload with filename:', fileName)
 
-    // Single simple upload attempt
+    // Upload to registration-photos bucket (for profile pictures)
     const { data, error } = await client.storage.from('registration-photos').upload(fileName, file)
-    console.log('Simple upload result:', { path: data?.path, err: error?.message })
+    console.log('Profile photo upload result:', { path: data?.path, err: error?.message })
     
     if (error) {
-      console.error('Upload failed:', { msg: error.message, error })
+      console.error('Profile photo upload failed:', { msg: error.message, error })
       return null
     }
 
     if (!data) {
-      console.error('No upload data returned')
+      console.error('No profile photo upload data returned')
       return null
     }
 
     const { data: pub } = client.storage.from('registration-photos').getPublicUrl(data.path)
     if (!pub?.publicUrl) return null
-    console.log('UPLOAD OK', pub.publicUrl)
+    console.log('PROFILE PHOTO UPLOAD OK', pub.publicUrl)
     return pub.publicUrl
   } catch (e) {
     console.error('uploadPhoto unexpected error:', e)
+    return null
+  }
+}
+
+// New function for uploading registration transaction screenshots
+export const uploadRegistrationTransactionScreenshot = async (file: File, registrationId: string): Promise<string | null> => {
+  try {
+    const client = supabase
+    console.log('REGISTRATION TRANSACTION UPLOAD START', { name: file?.name, size: file?.size, type: file?.type })
+    if (!file || file.size === 0) return null
+    if (file.size > 10 * 1024 * 1024) return null
+
+    const ext = file.name.split('.').pop()?.toLowerCase()
+    if (!ext) return null
+    const allowedExt = ['jpg', 'jpeg', 'png']
+    const allowedMime = ['image/jpeg', 'image/jpg', 'image/png']
+    if (!allowedExt.includes(ext) && !allowedMime.includes(file.type.toLowerCase())) return null
+
+    let fileName = `registration-transaction-${registrationId}-${Date.now()}.${ext}`
+    console.log('Attempting registration transaction screenshot upload with filename:', fileName)
+
+    const { data, error } = await client.storage.from('registration-transaction-ss').upload(fileName, file)
+    console.log('Registration transaction upload result:', { path: data?.path, err: error?.message })
+    
+    if (error) {
+      console.error('Registration transaction upload failed:', { msg: error.message, error })
+      return null
+    }
+
+    if (!data) {
+      console.error('No registration transaction upload data returned')
+      return null
+    }
+
+    const { data: pub } = client.storage.from('registration-transaction-ss').getPublicUrl(data.path)
+    if (!pub?.publicUrl) return null
+    console.log('REGISTRATION TRANSACTION UPLOAD OK', pub.publicUrl)
+    return pub.publicUrl
+  } catch (e) {
+    console.error('uploadRegistrationTransactionScreenshot unexpected error:', e)
     return null
   }
 }
@@ -136,12 +197,60 @@ export const createRegistration = async (dataIn: Omit<Registration, 'id' | 'crea
   }
 }
 
+// New function for creating donations
+export const createDonation = async (dataIn: Omit<Donation, 'id' | 'created_at'>): Promise<{ data: Donation | null, error: any }> => {
+  try {
+    const client = getServerClient()
+    const { data, error } = await client.from('donations').insert([dataIn]).select().single()
+    if (error) console.error('Donation insert error:', error)
+    return { data, error }
+  } catch (e) {
+    console.error('createDonation unexpected error:', e)
+    return { data: null, error: e }
+  }
+}
+
+// New function for creating enquiries
+export const createEnquiry = async (dataIn: Omit<Enquiry, 'id' | 'created_at'>): Promise<{ data: Enquiry | null, error: any }> => {
+  try {
+    const client = getServerClient()
+    const { data, error } = await client.from('enquiries').insert([dataIn]).select().single()
+    if (error) console.error('Enquiry insert error:', error)
+    return { data, error }
+  } catch (e) {
+    console.error('createEnquiry unexpected error:', e)
+    return { data: null, error: e }
+  }
+}
+
 export const getRegistrations = async (): Promise<{ data: Registration[] | null, error: any }> => {
   try {
     const { data, error } = await getServerClient().from('registrations').select('*').order('created_at', { ascending: false })
     return { data, error }
   } catch (e) {
     console.error('getRegistrations error:', e)
+    return { data: null, error: e }
+  }
+}
+
+// New function for getting donations
+export const getDonations = async (): Promise<{ data: Donation[] | null, error: any }> => {
+  try {
+    const { data, error } = await getServerClient().from('donations').select('*').order('created_at', { ascending: false })
+    return { data, error }
+  } catch (e) {
+    console.error('getDonations error:', e)
+    return { data: null, error: e }
+  }
+}
+
+// New function for getting enquiries
+export const getEnquiries = async (): Promise<{ data: Enquiry[] | null, error: any }> => {
+  try {
+    const { data, error } = await getServerClient().from('enquiries').select('*').order('created_at', { ascending: false })
+    return { data, error }
+  } catch (e) {
+    console.error('getEnquiries error:', e)
     return { data: null, error: e }
   }
 }
