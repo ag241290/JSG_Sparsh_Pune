@@ -403,12 +403,6 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(registration.created_at || '').toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button className="text-blue-600 hover:text-blue-900 flex items-center">
-                        <Eye size={16} className="mr-1" />
-                        View
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
