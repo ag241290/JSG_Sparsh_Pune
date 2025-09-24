@@ -1,6 +1,6 @@
-'use client'
+﻿'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CheckCircle } from 'lucide-react'
 
 interface ConfirmationModalProps {
@@ -16,11 +16,44 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   playerName, 
   category 
 }) => {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      // Add padding to prevent layout shift when scrollbar is hidden
+      document.body.style.paddingRight = 'var(--scrollbar-width, 0px)'
+    } else {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+
+    // Calculate scrollbar width and set CSS variable
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`)
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 relative overflow-hidden">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto"
+      onClick={(e) => {
+        // Close modal if clicking on backdrop
+        if (e.target === e.currentTarget) {
+          onClose()
+        }
+      }}
+    >
+      <div 
+        className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 relative overflow-hidden my-8"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+      >
         {/* Animated Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-yellow-50 opacity-50"></div>
         
@@ -34,7 +67,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <div className="mx-auto w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4 animate-bounce">
               <CheckCircle className="text-white" size={32} />
             </div>
-            <div className="text-4xl mb-2">??</div>
+            <div className="text-4xl mb-2">🎉</div>
             <h2 className="text-2xl font-bold text-green-800 mb-2">
               Registration Successful!
             </h2>
@@ -60,42 +93,34 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-600">Payment:</span>
-                  <span className="text-green-600 font-semibold">? Completed</span>
+                  <span className="text-green-600 font-semibold">✅ Completed</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Tournament Info */}
-          <div className="bg-yellow-50 rounded-2xl p-4 mb-6 text-center">
-            <h4 className="font-bold text-yellow-800 mb-2">?? Tournament Details</h4>
+          <div className="bg-yellow-50 rounded-2xl p-4 mb-6">
+                      <h4 className="font-bold text-yellow-800 mb-2 text-center">🏆 Tournament Details</h4>
             <p className="text-yellow-700 text-sm mb-1">
               <strong>Date:</strong> November 15-16, 2025
             </p>
             <p className="text-yellow-700 text-sm">
-              <strong>Venue:</strong> Details will be shared soon
+              <strong>Venue:</strong> Pushpa Sports Arena (PSA)
             </p>
           </div>
 
           {/* Next Steps */}
           <div className="bg-blue-50 rounded-2xl p-4 mb-6">
-            <h4 className="font-bold text-blue-800 mb-3 text-center">?? What's Next?</h4>
+            <h4 className="font-bold text-blue-800 mb-3 text-center">🔜 What's Next?</h4>
             <div className="space-y-2 text-sm text-blue-700">
               <div className="flex items-start">
-                <span className="text-blue-500 mr-2">?</span>
-                <span>Your registration is under review</span>
+                <span className="text-blue-500 mr-2">🏆</span>
+                <span>See you in Auction on 10th October</span>
               </div>
               <div className="flex items-start">
-                <span className="text-blue-500 mr-2">?</span>
-                <span>You'll receive email confirmation within 24 hours</span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-blue-500 mr-2">?</span>
-                <span>Team assignments will be announced soon</span>
-              </div>
-              <div className="flex items-start">
-                <span className="text-blue-500 mr-2">?</span>
-                <span>Tournament schedule coming next week</span>
+                <span className="text-blue-500 mr-2">📋</span>
+                <span>Details will be shared soon</span>
               </div>
             </div>
           </div>
@@ -103,11 +128,14 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           {/* Contact Info */}
           <div className="text-center mb-6">
             <p className="text-gray-600 text-sm mb-2">
-              Questions? Contact us:
-            </p>
-            <p className="text-blue-600 font-semibold text-sm">
-              ?? jsgsparshpune@gmail.com
-            </p>
+              For any query, Contact us :
+                      </p>
+                      <span>📞 </span>
+            <a
+              href="/committee"
+                          className="inline-block text-center text-blue-600 font-semibold text-sm hover:text-blue-800 transition-colors duration-300 underline"
+            > Committee 
+            </a>
           </div>
 
           {/* Close Button */}

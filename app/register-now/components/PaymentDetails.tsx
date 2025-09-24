@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React from 'react'
 import { CreditCard, CheckCircle, Check, ImageIcon } from 'lucide-react'
@@ -47,7 +47,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           Registration Fee
         </h3>
         <div className="text-xl sm:text-2xl font-bold text-yellow-600">
-          {selectedCategory === 'kids' ? '?600' : '?800'}
+          {selectedCategory === 'kids' ? '₹600' : '₹800'}
         </div>
         <p className="text-yellow-700 text-xs mt-1">
           Includes tournament entry, jersey, and refreshments
@@ -57,7 +57,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
       {/* Maximized QR Code Section */}
       <div className="bg-green-50 p-4 sm:p-6 rounded-lg sm:rounded-xl mb-4 sm:mb-6 text-center border-2 border-green-200">
         <h3 className="text-lg sm:text-xl font-bold text-green-800 mb-4 sm:mb-6">
-          ?? Scan QR Code to Pay
+          📱 Scan QR Code to Pay
         </h3>
         <div className="flex justify-center mb-4 sm:mb-6">
           <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border-2 border-green-300 w-full max-w-xs sm:max-w-sm">
@@ -73,7 +73,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         </div>
         <div className="text-green-700 space-y-2">
           <p className="font-semibold text-sm sm:text-base">
-            ?? Scan with any UPI app (GPay, PhonePe, Paytm, etc.)
+            💳 Scan with any UPI app (GPay, PhonePe, Paytm, etc.)
           </p>
           <p className="text-xs sm:text-sm">
             After payment, enter transaction details below
@@ -90,6 +90,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           </h4>
           
           <div className="grid grid-cols-1 gap-3">
+
             {/* Transaction ID */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">

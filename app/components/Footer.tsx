@@ -23,21 +23,21 @@ export default function Footer() {
 
   const socialLinks = [
     { 
-      href: '#', 
+      href: 'https://www.facebook.com/profile.php?id=61557913960543', 
       icon: Facebook, 
       label: 'Facebook',
       bgColor: 'bg-blue-600 hover:bg-blue-700',
       textColor: 'text-white'
     },
     { 
-      href: '#', 
+      href: 'https://www.instagram.com/jsgpunesparsh/', 
       icon: Instagram, 
       label: 'Instagram',
       bgColor: 'bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600',
       textColor: 'text-white'
     },
     { 
-      href: '#', 
+      href: 'https://www.youtube.com/@JSGPUNESPARSH', 
       icon: Youtube, 
       label: 'YouTube',
       bgColor: 'bg-red-600 hover:bg-red-700',
@@ -103,6 +103,8 @@ export default function Footer() {
                   <a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`group p-3 ${social.bgColor} rounded-xl transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl`}
                     aria-label={social.label}
                   >
@@ -155,10 +157,10 @@ export default function Footer() {
                 <div>
                   <p className="text-blue-100 font-medium text-sm">Phone</p>
                   <a 
-                    href="tel:+919876543210"
+                    href="tel:+918975797500"
                     className="text-blue-200 hover:text-yellow-300 transition-colors text-sm"
                   >
-                    +91 98765 43210
+                    +91 89757 97500
                   </a>
                 </div>
               </div>

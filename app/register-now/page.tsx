@@ -168,9 +168,16 @@ export default function RegisterPage() {
     if (!formData.skillset) return 'Please select your skillset'
     if (!formData.bowlingArm) return 'Please select your bowling arm'
     if (!formData.photo) return 'Please upload your photo'
+    if (!formData.cricHeroesLink.trim()) return 'Please enter your Cric Heroes Link'
     if (!formData.jerseyName.trim()) return 'Please enter name for jersey'
     if (!formData.jerseyNumber) return 'Please enter jersey number'
     if (!formData.jerseySize) return 'Please select jersey size'
+    
+    // Validate Cric Heroes Link format
+    const cricHeroesPattern = /^https:\/\/cricheroes\.com\/player-profile\/\d+\/[^\/]+\/.*$/
+    if (!cricHeroesPattern.test(formData.cricHeroesLink)) {
+      return 'Please enter a valid Cric Heroes Link in the format: https://cricheroes.com/player-profile/ID/name/XXX'
+    }
     
     if (selectedCategory === 'kids' && !formData.parentName.trim()) {
       return 'Please enter parent/guardian name'
@@ -226,7 +233,8 @@ export default function RegisterPage() {
       submitData.append('skillset', formData.skillset)
       submitData.append('bowlingArm', formData.bowlingArm)
       if (formData.cricketExperience) submitData.append('cricketExperience', formData.cricketExperience)
-      if (formData.cricHeroesLink) submitData.append('cricHeroesLink', formData.cricHeroesLink.trim())
+      // Use the cricHeroesLink from formData (since it's no longer in paymentData)
+      submitData.append('cricHeroesLink', formData.cricHeroesLink.trim())
       submitData.append('jerseyName', formData.jerseyName.trim())
       submitData.append('jerseyNumber', formData.jerseyNumber)
       submitData.append('jerseySize', formData.jerseySize)
@@ -554,7 +562,7 @@ export default function RegisterPage() {
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
                     Photo Upload *
                   </label>
-                  <div className={`border-2 border-dashed rounded-lg sm:rounded-xl p-6 text-center transition-colors ${formData.photo ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-blue-500'}`}>
+                  <div className={`border-2 border-dashed rounded-lg sm:rounded-xl p-1 text-center transition-colors ${formData.photo ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-blue-500'}`}>
                     <input
                       type="file"
                       accept="image/jpeg,image/jpg,image/png,image/heic"
@@ -587,15 +595,19 @@ export default function RegisterPage() {
                 {/* Cric Heroes Link */}
                 <div>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
-                    Cric Heroes Link
+                    Cric Heroes Link *
                   </label>
                   <input
                     type="url"
+                    required
                     value={formData.cricHeroesLink}
                     onChange={(e) => handleInputChange('cricHeroesLink', e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
-                    placeholder="https://cricheros.com/profile/..."
+                    placeholder="https://cricheroes.com/player-profile/5594432/amit-gandhi/XXX"
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Format: https://cricheroes.com/player-profile/[ID]/[name]/
+                  </p>
                 </div>
 
                 {/* Jersey Section */}
@@ -657,9 +669,6 @@ export default function RegisterPage() {
                           </option>
                         ))}
                       </select>
-                      <p className="text-xs text-yellow-700 mt-1">
-                        Size chart based on chest measurement
-                      </p>
                     </div>
                   </div>
                 </div>
