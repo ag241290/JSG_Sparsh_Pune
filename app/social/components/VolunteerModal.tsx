@@ -281,8 +281,14 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
               <p className="text-yellow-700 text-sm mb-2">
                 Committee will contact you within 2-3 business days to discuss available opportunities.
               </p>
-              <p className="text-yellow-600 text-xs">
+              <p className="text-yellow-600 text-xs mb-2">
                 Thank you for your interest in serving the community!
+              </p>
+              <p className="text-xs text-gray-500 mt-2">
+                By submitting, you agree to our{' '}
+                <a href="/files/privacypolicy.pdf" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+                  Privacy Policy
+                </a>
               </p>
             </div>
           </div>

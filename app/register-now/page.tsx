@@ -61,7 +61,8 @@ export default function RegisterPage() {
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
       buttonGradient: 'from-blue-500 to-blue-600',
-      ageRequirement: 'Age: 14+ years'
+      ageRequirement: 'Age: 12+ years',
+      fee: '₹800'
     },
     {
       id: 'female',
@@ -72,7 +73,8 @@ export default function RegisterPage() {
       bgColor: 'bg-pink-50',
       textColor: 'text-pink-800',
       buttonGradient: 'from-pink-500 to-pink-600',
-      ageRequirement: 'Age: 14+ years'
+      ageRequirement: 'Age: 12+ years',
+      fee: '₹800'
     },
     {
       id: 'kids',
@@ -83,7 +85,8 @@ export default function RegisterPage() {
       bgColor: 'bg-green-50',
       textColor: 'text-green-800',
       buttonGradient: 'from-green-500 to-green-600',
-      ageRequirement: 'Age: 7-14 years'
+      ageRequirement: 'Age: 7-12 years',
+      fee: '₹600'
     }
   ]
 
@@ -174,7 +177,7 @@ export default function RegisterPage() {
     if (!formData.jerseySize) return 'Please select jersey size'
     
     // Validate Cric Heroes Link format
-    const cricHeroesPattern = /^https:\/\/cricheroes\.com\/player-profile\/\d+\/[^\/]+\/.*$/
+    const cricHeroesPattern = /^https:\/\/cricheroes\.com\/player-profile\/\d+\/[^\/]+\/.*$/;
     if (!cricHeroesPattern.test(formData.cricHeroesLink)) {
       return 'Please enter a valid Cric Heroes Link in the format: https://cricheroes.com/player-profile/ID/name/XXX'
     }
@@ -184,11 +187,11 @@ export default function RegisterPage() {
     }
     
     const age = parseInt(formData.age)
-    if (selectedCategory === 'kids' && (age < 7 || age > 14)) {
-      return 'Age must be between 7-14 years for kids category'
+    if (selectedCategory === 'kids' && (age < 7 || age > 12)) {
+      return 'Age must be between 7-12 years for kids category'
     }
-    if ((selectedCategory === 'male' || selectedCategory === 'female') && age < 14) {
-      return 'Age must be 14+ years for male/female category'
+    if ((selectedCategory === 'male' || selectedCategory === 'female') && age < 12) {
+      return 'Age must be 12+ years for male/female category'
     }
     
     return null
@@ -383,25 +386,55 @@ export default function RegisterPage() {
                         <h3 className="text-xl sm:text-2xl font-bold">{category.name}</h3>
                       </div>
                       
-                      <div className="flex-1 flex items-center justify-center mb-4">
+                      <div className="flex-1 flex flex-col items-center justify-center mb-4 space-y-3">
                         <div className={`${category.bgColor} px-4 py-2 rounded-full border-2 border-transparent group-hover:border-opacity-50 transition-all duration-300`}>
                           <p className={`${category.textColor} text-sm font-medium text-center`}>
                             {category.ageRequirement}
                           </p>
                         </div>
+                        <div className="text-center">
+                          <div className="text-lg font-bold text-gray-700 mb-1">
+                            Registration Fee
+                          </div>
+                          <div className="text-xl font-bold text-blue-600">
+                            {category.fee}
+                          </div>
+                        </div>
                       </div>
-                      
-                      <button className={`w-full bg-gradient-to-r ${category.buttonGradient} ${category.hoverColor} text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-2xl transition-all duration-300 text-sm sm:text-base relative overflow-hidden group-hover:animate-pulse`}>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                        <span className="relative z-10 flex items-center justify-center space-x-2">
-                          <span>Select {category.name}</span>
-                          <div className="w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
-                        </span>
-                      </button>
                     </div>
                   </div>
                 )
               })}
+            </div>
+            
+            {/* Non-refundable disclaimer */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-center">
+                <div className="text-yellow-800 text-center">
+                  <p className="text-sm font-medium">
+                    ⚠️ <strong>Important:</strong> Registration fees are non-refundable
+                  </p>
+                  <p className="text-xs mt-1 opacity-75">
+                    Please ensure all details are correct before proceeding with payment
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Privacy and Terms Notice */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="text-center text-blue-800">
+                <p className="text-sm">
+                  By registering, you agree to our{' '}
+                  <a href="/files/privacypolicy.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                    Privacy Policy
+                  </a>
+                  {' '}and{' '}
+                  <a href="/files/Termsandcondition.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                    Terms & Conditions
+                  </a>
+                </p>
+              </div>
             </div>
             
             <div className="text-center mt-8">
@@ -485,8 +518,8 @@ export default function RegisterPage() {
                   <input
                     type="number"
                     required
-                    min={selectedCategory === 'kids' ? 7 : 14}
-                    max={selectedCategory === 'kids' ? 14 : 60}
+                    min={selectedCategory === 'kids' ? 7 : 12}
+                    max={selectedCategory === 'kids' ? 12 : 60}
                     value={formData.age}
                     onChange={(e) => handleInputChange('age', e.target.value)}
                     className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"

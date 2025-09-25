@@ -285,6 +285,16 @@ const JoinUsModal: React.FC<JoinUsModalProps> = ({ isOpen, onClose }) => {
               <p className="text-yellow-700 text-sm mb-2">
                 Our membership committee will review your application and contact you within 2-3 business days
               </p>
+              <p className="text-xs text-gray-500 mt-2">
+                By submitting, you agree to our{' '}
+                <a href="/files/privacypolicy.pdf" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+                  Privacy Policy
+                </a>
+                {' '}and{' '}
+                <a href="/files/Termsandcondition.pdf" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+                  Terms & Conditions
+                </a>
+              </p>
             </div>
           </div>
         </div>

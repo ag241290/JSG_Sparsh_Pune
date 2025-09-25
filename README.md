@@ -21,6 +21,7 @@ JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing t
 ### **Registration System**
 - **:cricket_game: SPL 02 Tournament Registration**: Complete registration with:
   - Multi-category support (Male ?800, Female ?800, Kids ?600)
+  - Age requirements: Male/Female 12+ years, Kids 7-12 years
   - Photo upload functionality (JPG, JPEG, PNG, HEIC - 10MB max)
   - Jersey customization with dynamic pricing
   - **QR Code Payment Integration**: Scan QR code and upload transaction details
