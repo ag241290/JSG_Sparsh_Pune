@@ -2,24 +2,24 @@
 
 A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with Next.js and optimized for mobile-first experience with integrated Supabase backend and comprehensive social initiatives platform.
 
-## ?? What is JSG SPARSH Pune?
+## :star2: What is JSG SPARSH Pune?
 
 JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing together families through social, cultural, and charitable initiatives. As a proud member of the JSG International Federation, we organize events, tournaments, community service programs, and foster connections within the Jain community in Pune.
 
-## ? Features
+## :sparkles: Features
 
 ### **Core Pages**
-- **?? Home Page**: Hero section with community overview, statistics, and call-to-action buttons
-- **?? About Page**: Comprehensive information about JSG SPARSH Pune's mission, values, and vision
-- **?? Committee Page**: Meet our dedicated team members with detailed contact information
-- **?? Events Page**: Showcase of past memorable events with detailed descriptions and highlights
-- **?? Social Page**: Dan Patra initiatives and community service programs with interactive modals
-- **?? SPL 02 Page**: Comprehensive tournament information and sponsorship details
-- **?? Register Now Page**: Complete SPL 02 tournament registration with payment integration
-- **?? Admin Dashboard**: Real-time management of registrations, donations, and applications
+- **:house: Home Page**: Hero section with community overview, statistics, and call-to-action buttons
+- **:book: About Page**: Comprehensive information about JSG SPARSH Pune's mission, values, and vision
+- **:busts_in_silhouette: Committee Page**: Meet our dedicated team members with detailed contact information
+- **:tada: Events Page**: Showcase of past memorable events with detailed descriptions and highlights
+- **:heart: Social Page**: Dan Patra initiatives and community service programs with interactive modals
+- **:cricket_game: SPL 02 Page**: Comprehensive tournament information and sponsorship details
+- **:memo: Register Now Page**: Complete SPL 02 tournament registration with payment integration
+- **:gear: Admin Dashboard**: Real-time management of registrations, donations, and applications
 
 ### **Registration System**
-- **?? SPL 02 Tournament Registration**: Complete registration with:
+- **:cricket_game: SPL 02 Tournament Registration**: Complete registration with:
   - Multi-category support (Male ?800, Female ?800, Kids ?600)
   - Photo upload functionality (JPG, JPEG, PNG, HEIC - 10MB max)
   - Jersey customization with dynamic pricing
@@ -28,36 +28,36 @@ JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing t
   - Form validation and type safety
   - Real-time data storage with Supabase PostgreSQL
 
-### **?? Social Initiatives Platform**
-- **?? Donation System**: Complete donation management with:
+### **:handshake: Social Initiatives Platform**
+- **:moneybag: Donation System**: Complete donation management with:
   - QR Code payment integration with bank details
   - Amount field with currency validation (?1 to ?9,99,999.99)
   - Transaction ID and screenshot collection
   - Real-time donation tracking and storage
   - Mobile-optimized QR code scanning
 
-- **?? Volunteer Applications**: Comprehensive volunteer management with:
+- **:raising_hand: Volunteer Applications**: Comprehensive volunteer management with:
   - Application form with validation
   - Volunteer benefits and information display
   - Database storage with enquiry type tracking
   - Success confirmations and next steps
 
-- **?? Membership Applications**: Join Us functionality with:
+- **:dart: Membership Applications**: Join Us functionality with:
   - Navigation-level "Join Us" button
   - Community benefits display
   - Membership application processing
   - Automated follow-up information
 
 ### **Admin Dashboard**
-- **?? Real-time Statistics**: Live registration counts by category
-- **?? Refresh Functionality**: Manual data refresh with loading states
-- **?? Customizable CSV Export**: Select columns to include in export
-- **?? Search & Filter**: Advanced filtering by category and search terms
-- **?? Visual Analytics**: Category-wise registration breakdown
-- **?? Transaction Tracking**: View transaction IDs and payment screenshots
-- **?? Social Data Management**: View donations, volunteer applications, and membership requests
+- **:bar_chart: Real-time Statistics**: Live registration counts by category
+- **:arrows_clockwise: Refresh Functionality**: Manual data refresh with loading states
+- **:inbox_tray: Customizable CSV Export**: Select columns to include in export
+- **:mag: Search & Filter**: Advanced filtering by category and search terms
+- **:chart_with_upwards_trend: Visual Analytics**: Category-wise registration breakdown
+- **:credit_card: Transaction Tracking**: View transaction IDs and payment screenshots
+- **:heart: Social Data Management**: View donations, volunteer applications, and membership requests
 
-## ?? Important URLs
+## :globe_with_meridians: Important URLs
 
 ### Production (Vercel)
 - **Homepage**: [https://jsg-sparsh-pune.vercel.app/](https://jsg-sparsh-pune.vercel.app/)
@@ -76,7 +76,7 @@ JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing t
 - **Admin Dashboard**: [http://localhost:3000/admin](http://localhost:3000/admin)
 - **SPL 02 Info**: [http://localhost:3000/spl02](http://localhost:3000/spl02)
 
-## ?? Project Structure
+## :file_folder: Project Structure
 
 ```
 JSG-Portal/
@@ -146,7 +146,7 @@ JSG-Portal/
 ??? package.json               # Dependencies and scripts
 ```
 
-## ??? Technologies Used
+## :wrench: Technologies Used
 
 - **Frontend Framework**: Next.js 14 with TypeScript
 - **Styling**: Tailwind CSS with custom design system
@@ -160,7 +160,7 @@ JSG-Portal/
 - **Payment Integration**: QR code-based UPI payments
 - **Deployment**: Vercel with automatic CI/CD
 
-## ??? Architecture
+## :building_construction: Architecture
 
 ### **Frontend Architecture**
 - **Server Components**: Static generation for optimal performance
@@ -183,7 +183,7 @@ JSG-Portal/
 4. **File Handling**: Supabase Storage manages file uploads
 5. **Real-time Updates**: Admin dashboard reflects live changes
 
-## ?? Supabase Tables and Storage Buckets
+## :bar_chart: Supabase Tables and Storage Buckets
 
 ### **Database Tables**
 
@@ -225,7 +225,7 @@ JSG-Portal/
 - **Data Validation**: Server-side validation for all inputs
 - **Transaction Tracking**: Complete audit trail for payments
 
-## ?? Setup Instructions
+## :rocket: Setup Instructions
 
 1. **Clone the repository**: `git clone <repository-url>`
 2. **Navigate to the project directory**: `cd JSG-Portal`
@@ -250,4 +250,4 @@ JSG-Portal/
 
 ---
 
-**JSG SPARSH Pune** - Connecting Jain families through community, culture, and compassion. ??
+**JSG SPARSH Pune** - Connecting Jain families through community, culture, and compassion. :pray:
