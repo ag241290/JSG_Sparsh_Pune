@@ -1,4 +1,4 @@
-import { Mail, Phone, User, Crown, Users, Trophy, Smartphone, Heart, Zap } from 'lucide-react'
+import { Phone, User, Crown, Users, Trophy, Smartphone, Heart, Zap } from 'lucide-react'
 
 export default function Committee() {
   const coreGroup = [
@@ -6,7 +6,6 @@ export default function Committee() {
       name: 'Dhiraj Shah',
       position: 'Founder President',
       description: 'Visionary founder and leader driving JSG SPARSH Pune towards unity and community excellence.',
-      email: 'founder@jsgsparshpune.com',
       phone: '+91 8975797500',
       icon: Crown,
       category: 'core'
@@ -15,7 +14,6 @@ export default function Committee() {
       name: 'Arun Rathod',
       position: 'Vice President',
       description: 'Supporting the founder\'s vision, coordinating key initiatives and Leading community engagement',
-      email: 'vicepresident@jsgsparshpune.com',
       phone: '+91 9820369920',
       icon: User,
       category: 'core'
@@ -24,7 +22,6 @@ export default function Committee() {
       name: 'Bhavik Shah',
       position: 'Secretary',
       description: 'Managing administrative affairs, member communications, and maintaining records of all programs.',
-      email: 'secretary@jsgsparshpune.com',
       phone: '+91 9158858777',
       icon: User,
       category: 'core'
@@ -33,7 +30,6 @@ export default function Committee() {
       name: 'Vinod Jain',
       position: 'Treasurer',
       description: 'Overseeing financial management and ensuring transparent fund allocation for community programs.',
-      email: 'treasurer@jsgsparshpune.com',
       phone: '+91 9028847311',
       icon: User,
       category: 'core'
@@ -45,7 +41,6 @@ export default function Committee() {
       name: 'Mukesh Jain',
       position: 'PRO Sports',
       description: 'Organizing sports activities, adventure trips like Aqua Magic, and promoting physical wellness within the community.',
-      email: 'sports@jsgsparshpune.com',
       phone: '+91 9420277778',
       icon: Trophy,
       category: 'pro'
@@ -54,7 +49,6 @@ export default function Committee() {
       name: 'Jitendra Jain',
       position: 'PRO Business',
       description: 'Facilitating business networking, professional growth opportunities, and collaborative ventures among members.',
-      email: 'business@jsgsparshpune.com',
       phone: '+91 9822519391',
       icon: Users,
       category: 'pro'
@@ -63,7 +57,6 @@ export default function Committee() {
       name: 'Darshan Shah',
       position: 'PRO Digital',
       description: 'Managing digital presence, social media, website maintenance, and online community engagement platforms.',
-      email: 'digital@jsgsparshpune.com',
       phone: '+91 8793108002',
       icon: Smartphone,
       category: 'pro'
@@ -72,7 +65,6 @@ export default function Committee() {
       name: 'Timmeer Sanghavi',
       position: 'PRO Social',
       description: 'Leading Dan Patra initiatives, social service programs, and coordinating charitable activities for community welfare.',
-      email: 'social@jsgsparshpune.com',
       phone: '+91 9422313106',
       icon: Heart,
       category: 'pro'
@@ -85,7 +77,6 @@ export default function Committee() {
       position: 'Group 1 Leader',
       groupName: 'Gajab Toli',
       description: 'Leading the energetic Gajab Toli group, organizing exciting activities and fostering strong bonds among group members.',
-      email: 'group1@jsgsparshpune.com',
       phone: '+91 9822014999',
       icon: Zap,
       category: 'leader',
@@ -96,7 +87,6 @@ export default function Committee() {
       position: 'Group 2 Leader',
       groupName: 'Tashan Gang',
       description: 'Spearheading the stylish Tashan Gang, known for their cultural programs and vibrant participation in events.',
-      email: 'group2@jsgsparshpune.com',
       phone: '+91 7276319578',
       icon: Zap,
       category: 'leader',
@@ -107,7 +97,6 @@ export default function Committee() {
       position: 'Group 3 Leader',
       groupName: 'Jhakaas Club',
       description: 'Managing the fantastic Jhakaas Club, organizing fun-filled activities and maintaining high energy in all programs.',
-      email: 'group3@jsgsparshpune.com',
       phone: '+91 9881874309',
       icon: Zap,
       category: 'leader',
@@ -118,7 +107,6 @@ export default function Committee() {
       position: 'Group 4 Leader',
       groupName: 'Bawaal Brigade',
       description: 'Leading the dynamic Bawaal Brigade, known for creating excitement and memorable experiences in community events.',
-      email: 'group4@jsgsparshpune.com',
       phone: '+91 9028661666',
       icon: Zap,
       category: 'leader',
@@ -170,12 +158,6 @@ export default function Committee() {
                     </p>
                     <div className="space-y-2">
                       <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={12} className="mr-2 flex-shrink-0" />
-                        <a href={`mailto:${member.email}`} className="hover:text-blue-600 truncate text-xs">
-                          {member.email}
-                        </a>
-                      </div>
-                      <div className="flex items-center text-gray-500 text-sm">
                         <Phone size={12} className="mr-2 flex-shrink-0" />
                         <a href={`tel:${member.phone}`} className="hover:text-blue-600 text-xs">
                           {member.phone}
@@ -211,12 +193,6 @@ export default function Committee() {
                       {member.description}
                     </p>
                     <div className="space-y-2">
-                      <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={12} className="mr-2 flex-shrink-0" />
-                        <a href={`mailto:${member.email}`} className="hover:text-yellow-600 truncate text-xs">
-                          {member.email}
-                        </a>
-                      </div>
                       <div className="flex items-center text-gray-500 text-sm">
                         <Phone size={12} className="mr-2 flex-shrink-0" />
                         <a href={`tel:${member.phone}`} className="hover:text-yellow-600 text-xs">
@@ -254,12 +230,6 @@ export default function Committee() {
                       {member.description}
                     </p>
                     <div className="space-y-2">
-                      <div className="flex items-center text-gray-500 text-sm">
-                        <Mail size={12} className="mr-2 flex-shrink-0" />
-                        <a href={`mailto:${member.email}`} className="hover:text-primary-600 truncate text-xs">
-                          {member.email}
-                        </a>
-                      </div>
                       <div className="flex items-center text-gray-500 text-sm">
                         <Phone size={12} className="mr-2 flex-shrink-0" />
                         <a href={`tel:${member.phone}`} className="hover:text-primary-600 text-xs">
