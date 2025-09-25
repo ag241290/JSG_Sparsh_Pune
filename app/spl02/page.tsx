@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar, MapPin, Clock, Users, Trophy, Star, Target, Award, Phone, Mail, Play, Zap, Heart, Gift } from 'lucide-react'
+import { Calendar, MapPin, Clock, Users, Trophy, Star, Target, Award, Phone, Mail, Zap, Heart, Gift } from 'lucide-react'
 
 export default function SPL02() {
     const tournamentInfo = {
@@ -127,16 +127,14 @@ export default function SPL02() {
                                 🔥 {tournamentInfo.title} – {tournamentInfo.season} 🔥
                             </div>
 
-                            {/* Teaser Video Link */}
+                            {/* Register Now Button */}
                             <div className="pt-2 sm:pt-4">
                                 <a
-                                    href="https://youtu.be/kj3GMZgyCYc?si=I1XC9HMrZhS5DI0l"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="/register-now"
                                     className="inline-flex items-center space-x-2 bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold hover:bg-blue-50 transition-colors duration-200 shadow-lg text-sm sm:text-base"
                                 >
-                                    <Play size={16} className="sm:w-5 sm:h-5" />
-                                    <span>Watch Teaser Video</span>
+                                    <Trophy size={16} className="sm:w-5 sm:h-5" />
+                                    <span>Register Now</span>
                                 </a>
                             </div>
                         </div>

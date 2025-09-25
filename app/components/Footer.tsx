@@ -186,9 +186,9 @@ export default function Footer() {
             </div>
             
             <div className="flex items-center space-x-6 text-sm text-blue-200">
-              <Link href="/files/JSGSPARSH_PrivacyPolicy.pdf" target="_blank" className="hover:text-yellow-300 transition-colors">Privacy Policy</Link>
+              <Link href="/privacy-policy" className="hover:text-yellow-300 transition-colors">Privacy Policy</Link>
               <span className="text-blue-400">•</span>
-              <Link href="/files/JSGSPARSH_Terms&Condition.pdf" target="_blank" className="hover:text-yellow-300 transition-colors">Terms of Service</Link>
+              <Link href="/terms-and-conditions" className="hover:text-yellow-300 transition-colors">Terms of Service</Link>
               <span className="text-blue-400">•</span>
               <Link href="#" className="hover:text-yellow-300 transition-colors">Sitemap</Link>
             </div>

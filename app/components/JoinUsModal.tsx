@@ -287,11 +287,11 @@ const JoinUsModal: React.FC<JoinUsModalProps> = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xs text-gray-500 mt-2">
                 By submitting, you agree to our{' '}
-                <a href="/files/JSGSPARSH_PrivacyPolicy.pdf" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+                <a href="/privacy-policy" className="text-primary-600 hover:text-primary-700 underline">
                   Privacy Policy
                 </a>
                 {' '}and{' '}
-                <a href="/files/JSGSPARSH_Terms&Condition.pdf" target="_blank" className="text-primary-600 hover:text-primary-700 underline">
+                <a href="/terms-and-conditions" className="text-primary-600 hover:text-primary-700 underline">
                   Terms & Conditions
                 </a>
               </p>
