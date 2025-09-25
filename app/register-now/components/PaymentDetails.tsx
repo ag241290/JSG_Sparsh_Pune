@@ -93,7 +93,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
 
             {/* Transaction ID */}
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 Transaction ID / UTR Number *
               </label>
               <input
@@ -101,10 +101,10 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
                 required
                 value={paymentData.transactionId}
                 onChange={(e) => onPaymentInputChange('transactionId', e.target.value)}
-                className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:border-green-500 focus:outline-none transition-colors text-sm"
+                className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:border-green-500 focus:outline-none transition-colors text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 placeholder="Enter 12-digit transaction ID"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Find this in your payment app after successful payment
               </p>
             </div>

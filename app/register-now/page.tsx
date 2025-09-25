@@ -432,7 +432,7 @@ export default function RegisterPage() {
                 {/* Parent Name - Only for Kids */}
                 {selectedCategory === 'kids' && (
                   <div>
-                    <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Father/Mother Name *
                     </label>
                     <input
@@ -440,7 +440,7 @@ export default function RegisterPage() {
                       required
                       value={formData.parentName}
                       onChange={(e) => handleInputChange('parentName', e.target.value)}
-                      className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       placeholder="Enter parent's full name"
                     />
                   </div>
@@ -448,7 +448,7 @@ export default function RegisterPage() {
 
                 {/* Full Name */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -456,14 +456,14 @@ export default function RegisterPage() {
                     required
                     value={formData.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Enter your full name"
                   />
                 </div>
 
                 {/* Mobile Number */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Mobile Number *
                   </label>
                   <input
@@ -472,14 +472,14 @@ export default function RegisterPage() {
                     pattern="[0-9]{10}"
                     value={formData.mobileNumber}
                     onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Enter 10-digit mobile number"
                   />
                 </div>
 
                 {/* Age */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Age *
                   </label>
                   <input
@@ -489,21 +489,21 @@ export default function RegisterPage() {
                     max={selectedCategory === 'kids' ? 14 : 60}
                     value={formData.age}
                     onChange={(e) => handleInputChange('age', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Enter your age"
                   />
                 </div>
 
                 {/* Skillset */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Skillset *
                   </label>
                   <select
                     required
                     value={formData.skillset}
                     onChange={(e) => handleInputChange('skillset', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   >
                     <option value="">Select your skillset</option>
                     {skillsets.map((skill) => (
@@ -516,14 +516,14 @@ export default function RegisterPage() {
 
                 {/* Bowling Arm */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Bowling Arm *
                   </label>
                   <select
                     required
                     value={formData.bowlingArm}
                     onChange={(e) => handleInputChange('bowlingArm', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   >
                     <option value="">Select bowling arm</option>
                     {bowlingArms.map((arm) => (
@@ -537,13 +537,13 @@ export default function RegisterPage() {
                 {/* Cricket Experience for Male/Female */}
                 {(selectedCategory === 'male' || selectedCategory === 'female') && (
                   <div>
-                    <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Cricket Experience
                     </label>
                     <select
                       value={formData.cricketExperience || ''}
                       onChange={(e) => handleInputChange('cricketExperience', e.target.value)}
-                      className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     >
                       <option value="">Select experience level</option>
                       <option value="beginner">Beginner (0-2 years)</option>
@@ -594,7 +594,7 @@ export default function RegisterPage() {
 
                 {/* Cric Heroes Link */}
                 <div>
-                  <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Cric Heroes Link *
                   </label>
                   <input
@@ -602,7 +602,7 @@ export default function RegisterPage() {
                     required
                     value={formData.cricHeroesLink}
                     onChange={(e) => handleInputChange('cricHeroesLink', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="https://cricheroes.com/player-profile/5594432/amit-gandhi/XXX"
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -611,8 +611,8 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Jersey Section */}
-                <div className="bg-yellow-50 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-yellow-200">
-                  <h3 className="text-lg sm:text-xl font-bold text-yellow-800 mb-4 flex items-center">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-yellow-200 dark:border-yellow-800">
+                  <h3 className="text-lg sm:text-xl font-bold text-yellow-800 dark:text-yellow-300 mb-4 flex items-center">
                     <Shirt className="mr-2" size={20} />
                     Jersey Details
                   </h3>
@@ -620,7 +620,7 @@ export default function RegisterPage() {
                   <div className="space-y-4">
                     {/* Jersey Name */}
                     <div>
-                      <label className="block text-sm font-semibold text-yellow-800 mb-2">
+                      <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Name on Jersey *
                       </label>
                       <input
@@ -629,14 +629,14 @@ export default function RegisterPage() {
                         maxLength={12}
                         value={formData.jerseyName}
                         onChange={(e) => handleInputChange('jerseyName', e.target.value)}
-                        className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                         placeholder="Max 12 characters"
                       />
                     </div>
 
                     {/* Jersey Number */}
                     <div>
-                      <label className="block text-sm font-semibold text-yellow-800 mb-2">
+                      <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Number on Jersey *
                       </label>
                       <input
@@ -646,21 +646,21 @@ export default function RegisterPage() {
                         max="99"
                         value={formData.jerseyNumber}
                         onChange={(e) => handleInputChange('jerseyNumber', e.target.value)}
-                        className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                         placeholder="1-99"
                       />
                     </div>
 
                     {/* Jersey Size */}
                     <div>
-                      <label className="block text-sm font-semibold text-yellow-800 mb-2">
+                      <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Jersey Size *
                       </label>
                       <select
                         required
                         value={formData.jerseySize}
                         onChange={(e) => handleInputChange('jerseySize', e.target.value)}
-                        className="w-full border-2 border-yellow-300 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                       >
                         <option value="">Select size</option>
                         {jerseySizes.map((size) => (

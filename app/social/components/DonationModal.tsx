@@ -254,7 +254,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Full Name *
               </label>
               <input
@@ -262,7 +262,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 placeholder="Enter your full name"
                 required
                 disabled={loading}
@@ -271,7 +271,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
 
             {/* Mobile Number Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Mobile Number *
               </label>
               <input
@@ -279,7 +279,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
                 name="mobile_number"
                 value={formData.mobile_number}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 placeholder="Enter 10-digit mobile number"
                 maxLength={10}
                 pattern="[0-9]{10}"
@@ -290,17 +290,17 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
 
             {/* Amount Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Donation Amount *
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">₹</span>
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium">₹</span>
                 <input
                   type="number"
                   name="amount"
                   value={formData.amount}
                   onChange={handleInputChange}
-                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-8 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                   placeholder="0.00"
                   min="1"
                   max="999999.99"
@@ -309,14 +309,14 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
                   disabled={loading}
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Enter the amount you are donating (minimum ₹1)
               </p>
             </div>
 
             {/* Transaction ID Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Transaction ID *
               </label>
               <input
@@ -324,7 +324,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
                 name="transaction_id"
                 value={formData.transaction_id}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 placeholder="Enter transaction ID from payment"
                 required
                 disabled={loading}
@@ -333,7 +333,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
 
             {/* Transaction Screenshot Upload */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Transaction Screenshot *
               </label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">

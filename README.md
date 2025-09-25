@@ -2,6 +2,10 @@
 
 A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with Next.js and optimized for mobile-first experience with integrated Supabase backend and comprehensive social initiatives platform.
 
+## ?? What is JSG SPARSH Pune?
+
+JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing together families through social, cultural, and charitable initiatives. As a proud member of the JSG International Federation, we organize events, tournaments, community service programs, and foster connections within the Jain community in Pune.
+
 ## ? Features
 
 ### **Core Pages**
@@ -11,9 +15,11 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
 - **?? Events Page**: Showcase of past memorable events with detailed descriptions and highlights
 - **?? Social Page**: Dan Patra initiatives and community service programs with interactive modals
 - **?? SPL 02 Page**: Comprehensive tournament information and sponsorship details
+- **?? Register Now Page**: Complete SPL 02 tournament registration with payment integration
+- **?? Admin Dashboard**: Real-time management of registrations, donations, and applications
 
-### **Special Features**
-- **?? Registration System**: Complete SPL 02 tournament registration with:
+### **Registration System**
+- **?? SPL 02 Tournament Registration**: Complete registration with:
   - Multi-category support (Male ?800, Female ?800, Kids ?600)
   - Photo upload functionality (JPG, JPEG, PNG, HEIC - 10MB max)
   - Jersey customization with dynamic pricing
@@ -36,7 +42,7 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
   - Database storage with enquiry type tracking
   - Success confirmations and next steps
 
-- **??? Membership Applications**: Join Us functionality with:
+- **?? Membership Applications**: Join Us functionality with:
   - Navigation-level "Join Us" button
   - Community benefits display
   - Membership application processing
@@ -51,32 +57,24 @@ A modern, responsive website for JSG SPARSH Pune - Jain Social Group built with 
 - **?? Transaction Tracking**: View transaction IDs and payment screenshots
 - **?? Social Data Management**: View donations, volunteer applications, and membership requests
 
-### **Backend Integration**
-- **??? Supabase Database**: PostgreSQL database with multiple tables:
-  - `registrations`: Tournament registrations
-  - `donations`: Donation records with amounts
-  - `enquiries`: Volunteer applications and membership requests
-- **?? File Storage**: Multi-bucket Supabase Storage:
-  - `registration-photos`: Profile pictures
-  - `registration-transaction-ss`: Registration payment screenshots
-  - `donation-transaction-ss`: Donation payment screenshots
-- **?? Row Level Security**: Secure data access policies
-- **?? Transaction Management**: Complete payment tracking system
-- **? Data Validation**: Comprehensive server-side validation
+## ?? Important URLs
 
-### **Design & User Experience**
-- **?? Mobile-First Design**: Fully optimized for mobile devices with responsive layouts
-- **?? Modern UI**: Built with Tailwind CSS using blue/yellow/pink/green color themes
-- **? Performance Optimized**: Fast loading times and smooth animations
-- **? Accessibility**: Proper ARIA labels, semantic HTML, and keyboard navigation
-- **?? Interactive Modals**: Seamless popup experiences for social initiatives
+### Production (Vercel)
+- **Homepage**: [https://jsg-sparsh-pune.vercel.app/](https://jsg-sparsh-pune.vercel.app/)
+- **Registration**: [https://jsg-sparsh-pune.vercel.app/register-now](https://jsg-sparsh-pune.vercel.app/register-now)
+- **Social Initiatives**: [https://jsg-sparsh-pune.vercel.app/social](https://jsg-sparsh-pune.vercel.app/social)
+- **Admin Dashboard**: [https://jsg-sparsh-pune.vercel.app/admin](https://jsg-sparsh-pune.vercel.app/admin)
+- **SPL 02 Info**: [https://jsg-sparsh-pune.vercel.app/spl02](https://jsg-sparsh-pune.vercel.app/spl02)
+- **About**: [https://jsg-sparsh-pune.vercel.app/about](https://jsg-sparsh-pune.vercel.app/about)
+- **Committee**: [https://jsg-sparsh-pune.vercel.app/committee](https://jsg-sparsh-pune.vercel.app/committee)
+- **Events**: [https://jsg-sparsh-pune.vercel.app/events](https://jsg-sparsh-pune.vercel.app/events)
 
-### **Community Focus**
-- **?? JSG Federation Integration**: Proud member of JSG International Federation
-- **?? Real-time Statistics**: Community members, events organized, and impact metrics
-- **?? Dan Patra Initiatives**: 6 different charitable programs with consistent layouts
-- **?? Mobile Accessibility**: Optimized for community members who primarily use mobile devices
-- **?? Social Impact Tracking**: Complete donation and volunteer management system
+### Local Development
+- **Homepage**: [http://localhost:3000](http://localhost:3000)
+- **Registration**: [http://localhost:3000/register-now](http://localhost:3000/register-now)
+- **Social Initiatives**: [http://localhost:3000/social](http://localhost:3000/social)
+- **Admin Dashboard**: [http://localhost:3000/admin](http://localhost:3000/admin)
+- **SPL 02 Info**: [http://localhost:3000/spl02](http://localhost:3000/spl02)
 
 ## ?? Project Structure
 
@@ -88,15 +86,15 @@ JSG-Portal/
 ?   ?   ??? AboutSectionSimple.tsx # About preview with JSG Federation info
 ?   ?   ??? Navbar.tsx          # Responsive navigation bar with Join Us modal
 ?   ?   ??? Footer.tsx          # Footer with quick links and contact info
-?   ?   ??? JoinUsModal.tsx     # NEW: Membership application modal
+?   ?   ??? JoinUsModal.tsx     # Membership application modal
 ?   ??? api/                    # Next.js API routes
 ?   ?   ??? register/           # Registration API endpoint
 ?   ?   ?   ??? route.ts
-?   ?   ??? donation/           # NEW: Donation processing API
+?   ?   ??? donation/           # Donation processing API
 ?   ?   ?   ??? route.ts
-?   ?   ??? volunteer/          # NEW: Volunteer application API
+?   ?   ??? volunteer/          # Volunteer application API
 ?   ?   ?   ??? route.ts
-?   ?   ??? join-us/            # NEW: Membership application API
+?   ?   ??? join-us/            # Membership application API
 ?   ?   ?   ??? route.ts
 ?   ?   ??? test-storage/       # Storage testing and diagnostics
 ?   ?       ??? route.ts
@@ -109,28 +107,32 @@ JSG-Portal/
 ?   ??? events/                 # Events showcase page
 ?   ?   ??? page.tsx
 ?   ??? social/                 # Dan Patra initiatives page with modals
-?   ?   ??? page.tsx            # Updated with donation and volunteer modals
+?   ?   ??? page.tsx            # Social page with donation and volunteer modals
 ?   ?   ??? components/         # Social-specific modal components
-?   ?       ??? DonationModal.tsx    # NEW: Donation form with QR payment
-?   ?       ??? VolunteerModal.tsx   # NEW: Volunteer application form
+?   ?       ??? DonationModal.tsx    # Donation form with QR payment
+?   ?       ??? VolunteerModal.tsx   # Volunteer application form
 ?   ??? spl02/                  # SPL 02 tournament information
 ?   ?   ??? page.tsx
 ?   ??? register-now/           # SPL 02 registration form with QR payment
 ?   ?   ??? page.tsx
+?   ?   ??? components/         # Registration-specific components
+?   ?       ??? ConfirmationModal.tsx
+?   ?       ??? RegistrationSummary.tsx
+?   ?       ??? PaymentDetails.tsx
 ?   ??? globals.css             # Global styles and Tailwind imports
 ?   ??? layout.tsx              # Root layout with metadata
 ?   ??? page.tsx                # Home page combining Hero and About
 ??? lib/
-?   ??? supabase.ts             # Extended Supabase client with social functions
+?   ??? supabase.ts             # Supabase client with social functions
 ??? supabase/
 ?   ??? migrations/             # Database migration files
 ?   ?   ??? 001_create_registrations.sql
 ?   ?   ??? 002_add_transaction_fields.sql
-?   ?   ??? 003_create_social_tables.sql    # NEW: Social initiatives tables
-?   ??? fix-bucket-policies.sql            # Storage bucket policy fixes
-?   ??? add_amount_column.sql              # Donation amount field migration
+?   ?   ??? 003_create_social_tables.sql
+?   ??? fix-bucket-policies.sql
+?   ??? add_amount_column.sql
 ??? scripts/
-?   ??? setup-social.js          # Updated setup script for social features
+?   ??? setup-social.js          # Setup script for social features
 ??? public/
 ?   ??? images/                 # Static assets and logos
 ?       ??? JSG_SPARSH.jpeg     # Main JSG SPARSH logo
@@ -142,111 +144,88 @@ JSG-Portal/
 ??? tailwind.config.js          # Tailwind CSS configuration
 ??? tsconfig.json              # TypeScript configuration
 ??? package.json               # Dependencies and scripts
-??? SOCIAL_IMPLEMENTATION.md   # NEW: Social features documentation
-??? FEATURES_IMPLEMENTED.md    # Feature implementation details
-??? VERCEL_SUPABASE_SETUP.md   # Deployment guide
-??? UPLOAD_FIX_GUIDE.md        # NEW: File upload troubleshooting
-??? REGISTRATION_FIX_SUMMARY.md # NEW: Registration fixes documentation
 ```
 
-## Important URLs
-- **Homepage**: [http://localhost:3000](http://localhost:3000)
-- **Registration**: [http://localhost:3000/register-now](http://localhost:3000/register-now)
-- **?? Social Initiatives**: [http://localhost:3000/social](http://localhost:3000/social)
-- **Admin Dashboard**: [http://localhost:3000/admin](http://localhost:3000/admin)
-- **SPL 02 Info**: [http://localhost:3000/spl02](http://localhost:3000/spl02)
+## ??? Technologies Used
 
-## ??? Database Schema
+- **Frontend Framework**: Next.js 14 with TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Database**: Supabase PostgreSQL with Row Level Security
+- **File Storage**: Supabase Storage with multi-bucket architecture
+- **Authentication**: Supabase Auth (for admin access)
+- **UI Components**: Lucide React icons
+- **Image Optimization**: Next.js Image component
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Form Validation**: Client and server-side validation
+- **Payment Integration**: QR code-based UPI payments
+- **Deployment**: Vercel with automatic CI/CD
 
-### **Registrations Table**
-```sql
-registrations (
-  id: UUID (Primary Key)
-  category: TEXT (male/female/kids)
-  full_name: TEXT
-  parent_name: TEXT (nullable, for kids only)
-  mobile_number: TEXT
-  age: INTEGER
-  skillset: TEXT
-  bowling_arm: TEXT (Left Arm/Right Arm)
-  cricket_experience: TEXT (nullable)
-  cric_heroes_link: TEXT (nullable)
-  jersey_name: TEXT
-  jersey_number: INTEGER
-  jersey_size: TEXT
-  photo_url: TEXT (nullable)
-  transaction_id: TEXT (nullable)
-  transaction_screenshot_url: TEXT (nullable)
-  payment_status: TEXT (pending/completed/failed)
-  registration_date: TIMESTAMP
-  created_at: TIMESTAMP
-  updated_at: TIMESTAMP
-)
-```
+## ??? Architecture
 
-### **?? Donations Table**
-```sql
-donations (
-  id: UUID (Primary Key)
-  name: TEXT (Required)
-  mobile_number: TEXT (Required)
-  amount: DECIMAL(10,2) (Required) -- NEW: Donation amount with currency precision
-  transaction_id: TEXT (Required)
-  transaction_screenshot_url: TEXT (Optional)
-  created_at: TIMESTAMP (Auto)
-)
-```
+### **Frontend Architecture**
+- **Server Components**: Static generation for optimal performance
+- **Client Components**: Interactive forms and modals
+- **API Routes**: RESTful endpoints for data operations
+- **Responsive Design**: Mobile-first with progressive enhancement
+- **Type Safety**: Full TypeScript implementation
 
-### **?? Enquiries Table**
-```sql
-enquiries (
-  id: UUID (Primary Key)
-  name: TEXT (Required)
-  address: TEXT (Required)
-  mobile_number: TEXT (Required)
-  type: TEXT (Default: 'volunteer')
-  enquiry_type: TEXT (Values: 'Volunteer' | 'JoinUs', Required)
-  created_at: TIMESTAMP (Auto)
-)
-```
+### **Backend Integration**
+- **Supabase Database**: PostgreSQL with optimized queries
+- **File Storage**: Organized multi-bucket storage system
+- **Real-time Updates**: Live data synchronization
+- **Security**: Row Level Security policies and validation
+- **Error Handling**: Comprehensive error management
 
-### **Storage Buckets Organization**
-- **registration-photos**: Profile pictures from registration form (`/register-now/`)
-- **registration-transaction-ss**: Registration payment screenshots (`/register-now/`)
-- **donation-transaction-ss**: Donation payment screenshots (`/social/`)
+### **Data Flow**
+1. **User Interaction**: Forms collect user input with validation
+2. **API Processing**: Next.js API routes handle business logic
+3. **Database Operations**: Supabase manages data persistence
+4. **File Handling**: Supabase Storage manages file uploads
+5. **Real-time Updates**: Admin dashboard reflects live changes
 
-## ?? Recent Updates & Features
+## ?? Supabase Tables and Storage Buckets
 
-### **?? Latest Enhancements - Social Initiatives Platform**
-- **?? Complete Donation System**: Amount tracking with currency precision
-- **?? Volunteer Application Platform**: Comprehensive volunteer onboarding
-- **??? Membership Application System**: "Join Us" functionality with community benefits
-- **?? Multi-Modal Interface**: Three dedicated modals for different social initiatives
-- **??? Extended Database Schema**: New tables for donations and enquiries
-- **?? Organized File Storage**: Separate buckets for different transaction types
-- **?? Amount Validation**: Smart currency handling with range validation
-- **?? Enhanced Admin Dashboard**: Social data management and analytics
+### **Database Tables**
 
-### **Previous Enhancements**
-- **?? QR Code Payment Integration**: Added QR code display and transaction collection
-- **?? Transaction Tracking**: Collect transaction ID and screenshot from users
-- **?? Customizable CSV Export**: Admin can select which columns to export
-- **?? Enhanced Registration Flow**: Complete registration only after payment details provided
-- **?? Dynamic Registration Fees**: Male/Female ?800, Kids ?600
-- **?? Simplified Bowling Arms**: Only Left Arm and Right Arm options
-- **?? Enhanced Photo Upload**: 10MB limit with HEIC support
+#### **registrations**
+- **Purpose**: SPL 02 tournament registrations
+- **Key Fields**: category, full_name, mobile_number, age, transaction_id, payment_status
+- **File References**: photo_url, transaction_screenshot_url
 
-### **Technical Improvements**
-- **??? Multi-Table Architecture**: Organized data structure for different features
-- **?? Multi-Bucket Storage**: Separate storage for different file types
-- **?? Enhanced Security**: Row Level Security policies for all data
-- **?? Mobile QR Optimization**: Enhanced QR code presentation for mobile scanning
-- **?? Transaction File Management**: Organized storage for transaction screenshots
-- **? Comprehensive Validation**: Client and server-side validation for all forms
-- **?? Database Indexing**: Optimized queries with proper indexes
-- **?? TypeScript Safety**: Complete type definitions for all new features
+#### **donations**
+- **Purpose**: Community donation tracking
+- **Key Fields**: name, mobile_number, amount, transaction_id
+- **File References**: transaction_screenshot_url
 
-## Setup Instructions
+#### **enquiries**
+- **Purpose**: Volunteer applications and membership requests
+- **Key Fields**: name, address, mobile_number, enquiry_type
+- **Values**: enquiry_type ('Volunteer' | 'JoinUs')
+
+### **Storage Buckets**
+
+#### **registration-photos**
+- **Purpose**: Profile pictures from tournament registration
+- **File Types**: JPG, JPEG, PNG, HEIC
+- **Size Limit**: 10MB per file
+
+#### **registration-transaction-ss**
+- **Purpose**: Registration payment screenshots
+- **File Types**: JPG, JPEG, PNG, HEIC
+- **Size Limit**: 10MB per file
+
+#### **donation-transaction-ss**
+- **Purpose**: Donation payment screenshots
+- **File Types**: JPG, JPEG, PNG, HEIC
+- **Size Limit**: 10MB per file
+
+### **Security Features**
+- **Row Level Security**: Enabled on all tables
+- **Bucket Policies**: Secure file access and upload permissions
+- **Data Validation**: Server-side validation for all inputs
+- **Transaction Tracking**: Complete audit trail for payments
+
+## ?? Setup Instructions
 
 1. **Clone the repository**: `git clone <repository-url>`
 2. **Navigate to the project directory**: `cd JSG-Portal`
@@ -257,11 +236,10 @@ enquiries (
 5. **Set up Supabase Database:**
    - Run the SQL migration in `supabase/migrations/001_create_registrations.sql`
    - Run the additional migration in `supabase/migrations/002_add_transaction_fields.sql`
-   - **?? Run the social initiatives migration in `supabase/migrations/003_create_social_tables.sql`**
-   - Create the `registrations`, `donations`, and `enquiries` tables
-   - **?? Create storage buckets**: `registration-photos`, `registration-transaction-ss`, `donation-transaction-ss`
+   - Run the social initiatives migration in `supabase/migrations/003_create_social_tables.sql`
+   - Create storage buckets: `registration-photos`, `registration-transaction-ss`, `donation-transaction-ss`
    - Set up Row Level Security policies for all tables
-   - **?? Run bucket policy fixes from `supabase/fix-bucket-policies.sql` if needed**
+   - Run bucket policy fixes from `supabase/fix-bucket-policies.sql` if needed
 6. **Configure environment variables**:
    - Copy `.env.example` to `.env.local`
    - Update Supabase URL and anonymous key in `.env.local`
@@ -269,3 +247,7 @@ enquiries (
 8. **Access the website**: Open `http://localhost:3000` in your browser
 9. **Admin Dashboard**: Access admin dashboard at `http://localhost:3000/admin`
 10. **SPL 02 Registration**: Access registration form at `http://localhost:3000/register-now`
+
+---
+
+**JSG SPARSH Pune** - Connecting Jain families through community, culture, and compassion. ??
