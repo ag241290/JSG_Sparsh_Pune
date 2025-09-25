@@ -181,7 +181,7 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="text-center lg:text-left">
               <p className="text-blue-200 text-sm">
-                Copyright {currentYear} JSG SPARSH Pune. All rights reserved.
+                Copyright {currentYear} JAIN SOCIAL GROUP PUNE SPARSH. All rights reserved.
               </p>
             </div>
             
