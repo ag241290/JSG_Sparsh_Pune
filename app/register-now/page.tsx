@@ -426,11 +426,11 @@ export default function RegisterPage() {
               <div className="text-center text-blue-800">
                 <p className="text-sm">
                   By registering, you agree to our{' '}
-                  <a href="/files/privacypolicy.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                  <a href="/files/JSGSPARSH_PrivacyPolicy.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
                     Privacy Policy
                   </a>
                   {' '}and{' '}
-                  <a href="/files/Termsandcondition.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                  <a href="/files/JSGSPARSH_Terms&Condition.pdf" target="_blank" className="text-blue-600 hover:text-blue-800 underline font-medium">
                     Terms & Conditions
                   </a>
                 </p>
