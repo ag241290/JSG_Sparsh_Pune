@@ -80,70 +80,70 @@ JSG SPARSH Pune is a vibrant Jain community organization dedicated to bringing t
 
 ```
 JSG-Portal/
-??? app/
-?   ??? components/              # Reusable UI components
-?   ?   ??? Hero.tsx            # Main hero section with statistics
-?   ?   ??? AboutSectionSimple.tsx # About preview with JSG Federation info
-?   ?   ??? Navbar.tsx          # Responsive navigation bar with Join Us modal
-?   ?   ??? Footer.tsx          # Footer with quick links and contact info
-?   ?   ??? JoinUsModal.tsx     # Membership application modal
-?   ??? api/                    # Next.js API routes
-?   ?   ??? register/           # Registration API endpoint
-?   ?   ?   ??? route.ts
-?   ?   ??? donation/           # Donation processing API
-?   ?   ?   ??? route.ts
-?   ?   ??? volunteer/          # Volunteer application API
-?   ?   ?   ??? route.ts
-?   ?   ??? join-us/            # Membership application API
-?   ?   ?   ??? route.ts
-?   ?   ??? test-storage/       # Storage testing and diagnostics
-?   ?       ??? route.ts
-?   ??? admin/                  # Admin dashboard
-?   ?   ??? page.tsx            # Registration and social data management
-?   ??? about/                  # About page with mission and values
-?   ?   ??? page.tsx
-?   ??? committee/              # Committee page with member details
-?   ?   ??? page.tsx
-?   ??? events/                 # Events showcase page
-?   ?   ??? page.tsx
-?   ??? social/                 # Dan Patra initiatives page with modals
-?   ?   ??? page.tsx            # Social page with donation and volunteer modals
-?   ?   ??? components/         # Social-specific modal components
-?   ?       ??? DonationModal.tsx    # Donation form with QR payment
-?   ?       ??? VolunteerModal.tsx   # Volunteer application form
-?   ??? spl02/                  # SPL 02 tournament information
-?   ?   ??? page.tsx
-?   ??? register-now/           # SPL 02 registration form with QR payment
-?   ?   ??? page.tsx
-?   ?   ??? components/         # Registration-specific components
-?   ?       ??? ConfirmationModal.tsx
-?   ?       ??? RegistrationSummary.tsx
-?   ?       ??? PaymentDetails.tsx
-?   ??? globals.css             # Global styles and Tailwind imports
-?   ??? layout.tsx              # Root layout with metadata
-?   ??? page.tsx                # Home page combining Hero and About
-??? lib/
-?   ??? supabase.ts             # Supabase client with social functions
-??? supabase/
-?   ??? migrations/             # Database migration files
-?   ?   ??? 001_create_registrations.sql
-?   ?   ??? 002_add_transaction_fields.sql
-?   ?   ??? 003_create_social_tables.sql
-?   ??? fix-bucket-policies.sql
-?   ??? add_amount_column.sql
-??? scripts/
-?   ??? setup-social.js          # Setup script for social features
-??? public/
-?   ??? images/                 # Static assets and logos
-?       ??? JSG_SPARSH.jpeg     # Main JSG SPARSH logo
-?       ??? JSG_Federation.jpeg # JSG Federation logo
-?       ??? SPARSH_QR_Code.jpeg # Payment QR code with bank details
-??? .env.example                # Environment variables template
-??? .env.local                  # Environment variables (not committed)
-??? next.config.js              # Next.js configuration
-??? tailwind.config.js          # Tailwind CSS configuration
-??? tsconfig.json              # TypeScript configuration
-??? package.json               # Dependencies and scripts
+|-- app/
+    |-- components/              # Reusable UI components
+        |-- Hero.tsx            # Main hero section with statistics
+        |-- AboutSectionSimple.tsx # About preview with JSG Federation info
+        |-- Navbar.tsx          # Responsive navigation bar with Join Us modal
+        |-- Footer.tsx          # Footer with quick links and contact info
+        |-- JoinUsModal.tsx     # Membership application modal
+    |-- api/                    # Next.js API routes
+        |-- register/           # Registration API endpoint
+            |-- route.ts
+        |-- donation/           # Donation processing API
+            |-- route.ts
+        |-- volunteer/          # Volunteer application API
+            |-- route.ts
+        |-- join-us/            # Membership application API
+            |-- route.ts
+        |-- test-storage/       # Storage testing and diagnostics
+            |-- route.ts
+    |-- admin/                  # Admin dashboard
+        |-- page.tsx            # Registration and social data management
+    |-- about/                  # About page with mission and values
+        |-- page.tsx
+    |-- committee/              # Committee page with member details
+        |-- page.tsx
+    |-- events/                 # Events showcase page
+        |-- page.tsx
+    |-- social/                 # Dan Patra initiatives page with modals
+        |-- page.tsx            # Social page with donation and volunteer modals
+        |-- components/         # Social-specific modal components
+            |-- DonationModal.tsx    # Donation form with QR payment
+            |-- VolunteerModal.tsx   # Volunteer application form
+    |-- spl02/                  # SPL 02 tournament information
+        |-- page.tsx
+    |-- register-now/           # SPL 02 registration form with QR payment
+        |-- page.tsx
+        |-- components/         # Registration-specific components
+            |-- ConfirmationModal.tsx
+            |-- RegistrationSummary.tsx
+            |-- PaymentDetails.tsx
+    |-- globals.css             # Global styles and Tailwind imports
+    |-- layout.tsx              # Root layout with metadata
+    |-- page.tsx                # Home page combining Hero and About
+|-- lib/
+    |-- supabase.ts             # Supabase client with social functions
+|-- supabase/
+    |-- migrations/             # Database migration files
+        |-- 001_create_registrations.sql
+        |-- 002_add_transaction_fields.sql
+        |-- 003_create_social_tables.sql
+    |-- fix-bucket-policies.sql
+    |-- add_amount_column.sql
+|-- scripts/
+    |-- setup-social.js          # Setup script for social features
+|-- public/
+    |-- images/                 # Static assets and logos
+        |-- JSG_SPARSH.jpeg     # Main JSG SPARSH logo
+        |-- JSG_Federation.jpeg # JSG Federation logo
+        |-- SPARSH_QR_Code.jpeg # Payment QR code with bank details
+|-- .env.example                # Environment variables template
+|-- .env.local                  # Environment variables (not committed)
+|-- next.config.js              # Next.js configuration
+|-- tailwind.config.js          # Tailwind CSS configuration
+|-- tsconfig.json              # TypeScript configuration
+|-- package.json               # Dependencies and scripts
 ```
 
 ## :wrench: Technologies Used
