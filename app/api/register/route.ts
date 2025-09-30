@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
     const age = formData.get('age') as string
     const skillset = formData.get('skillset') as string
     const bowlingArm = formData.get('bowlingArm') as string
+    const battingStyle = formData.get('battingStyle') as string
     const jerseyName = formData.get('jerseyName') as string
     const jerseyNumber = formData.get('jerseyNumber') as string
     const jerseySize = formData.get('jerseySize') as string
@@ -46,7 +47,7 @@ export async function POST(request: NextRequest) {
     const paymentStatus = formData.get('paymentStatus') as string || 'completed'
 
     // Validate required fields
-    if (!category || !fullName || !mobileNumber || !age || !skillset || !bowlingArm || !jerseyName || !jerseyNumber || !jerseySize) {
+    if (!category || !fullName || !mobileNumber || !age || !skillset || !bowlingArm || !battingStyle || !jerseyName || !jerseyNumber || !jerseySize) {
       console.error('Missing required fields')
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -160,6 +161,7 @@ export async function POST(request: NextRequest) {
       age: ageNum,
       skillset: skillset,
       bowling_arm: bowlingArm,
+      batting_style: battingStyle,
       cricket_experience: formData.get('cricketExperience') as string || undefined,
       cric_heroes_link: cricHeroesLink,
       jersey_name: jerseyName.trim(),
