@@ -82,7 +82,7 @@ export default function SPL02() {
             role: "Treasurer",
             phone: "9028847311"
         },
-        {
+        { 
             name: "Dhiraj S Shah",
             role: "Founder President",
             phone: "8975797500"
@@ -99,95 +99,121 @@ export default function SPL02() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-yellow-50 py-6 sm:py-12">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-yellow-50 py-6 sm:py-12 animate-fade-in">
             <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
 
-                {/* Hero Section - Mobile Optimized */}
-                <div className="text-center mb-12 sm:mb-16 relative">
-                    <div className="bg-gradient-to-r from-blue-600 to-yellow-600 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 mb-6 sm:mb-8 relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-10">
-                            <div className="w-48 h-48 sm:w-96 sm:h-96 bg-white rounded-full -top-24 -right-24 sm:-top-48 sm:-right-48"></div>
-                            <div className="w-32 h-32 sm:w-64 sm:h-64 bg-white rounded-full -bottom-16 -left-16 sm:-bottom-32 sm:-left-32"></div>
-                        </div>
+                {/* Title Sponsor Section - Enhanced with animations and larger logo */}
+                <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-10 shadow-large border border-white/50 relative overflow-hidden group hover:shadow-glow-lg transition-all duration-500">
+                        
+                        
+                        <div className="relative z-10 space-y-2 sm:space-y-3">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800 hover:text-blue-600 transition-colors duration-300 leading-tight">
+                                JSG Pune Sparsh
+                            </h1>
+                            
+                            <p className="text-lg sm:text-xl text-gray-600 font-medium leading-tight">
+                                in proud association with
+                            </p>
+                            
+                            {/* Enhanced Title Sponsor Logo - Increased Size */}
+                            <div className="flex justify-center py-6">
+                                <div className="group/logo relative">
+                                    <img
+                                        src="/images/TitleSponsor.png"
+                                        alt="Title Sponsor"
+                                        className="relative max-h-32 sm:max-h-40 md:max-h-52 lg:max-h-64 xl:max-h-72 w-auto object-contain transition-all duration-500 drop-shadow-lg hover:drop-shadow-2xl filter hover:brightness-110"
+                                    />
+                                </div>
+                            </div>
+                            
+                            <p className="text-lg sm:text-xl text-gray-600 font-medium leading-tight">
+                                presents
+                            </p>
+                            
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-yellow-600 bg-clip-text text-transparent leading-tight">
+                                Sparsh Premier League
+                            </h2>
+                            
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-yellow-600 hover:text-yellow-500 transition-colors duration-300 leading-tight">
+                                Season 02
+                            </h3>
 
-                        <div className="relative z-10 space-y-4 sm:space-y-6">
-                            <div className="text-lg sm:text-2xl md:text-3xl font-bold animate-pulse">
-                                ✨ BLOCK YOUR DATES ! ✨
-                            </div>
-                            
-                            <div className="text-2xl sm:text-4xl md:text-5xl font-bold leading-tight">
+                            {/* Date */}
+                            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 animate-pulse pt-4">
                                 🥎 15 & 16 November 2025 🥎
-                            </div>
-                            
-                            <div className="text-xl sm:text-3xl md:text-4xl font-bold leading-tight">
-                                🏏 {tournamentInfo.subtitle}
-                            </div>
-                            
-                            <div className="text-lg sm:text-2xl md:text-3xl font-bold text-yellow-200 leading-tight">
-                                🔥 {tournamentInfo.title} – {tournamentInfo.season} 🔥
                             </div>
 
                             {/* Register Now Button */}
-                            <div className="pt-2 sm:pt-4">
+                            <div className="pt-4">
                                 <a
                                     href="/register-now"
-                                    className="inline-flex items-center space-x-2 bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold hover:bg-blue-50 transition-colors duration-200 shadow-lg text-sm sm:text-base"
+                                    className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:from-blue-700 hover:to-purple-700 hover:scale-110 transition-all duration-300 shadow-lg text-base sm:text-lg group/button"
                                 >
-                                    <Trophy size={16} className="sm:w-5 sm:h-5" />
+                                    <Trophy size={20} className="sm:w-6 sm:h-6 group-hover/button:animate-bounce" />
                                     <span>Register Now</span>
                                 </a>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Tournament Description - Mobile Optimized */}
-                    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-lg border border-blue-200 mb-6 sm:mb-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6">
+                {/* Tournament Description - Enhanced animations with center-aligned feature cards */}
+                <div className="mb-12 sm:mb-16">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-4 sm:p-8 shadow-large border border-white/50 mb-6 sm:mb-8 hover:shadow-glow transition-all duration-500 group">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6 group-hover:text-blue-600 transition-colors duration-300 text-center">
                             💥 Get ready for the ultimate cricket showdown!
                         </h2>
-                        <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed">
+                        <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed text-center">
                             The most anticipated Box Cricket Tournament is just around the corner, bringing you:
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                            <div className="bg-blue-50 p-3 sm:p-4 rounded-lg sm:rounded-xl">
-                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2">⚡</div>
+                            <div className="bg-blue-50 p-3 sm:p-4 rounded-2xl hover:bg-blue-100 hover:scale-105 transition-all duration-300 group/card text-center">
+                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2 group-hover/card:animate-bounce">⚡</div>
                                 <div className="font-bold text-blue-800 text-sm sm:text-base">Thrilling Matches</div>
                             </div>
-                            <div className="bg-yellow-50 p-3 sm:p-4 rounded-lg sm:rounded-xl">
-                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2">💪</div>
+                            <div className="bg-yellow-50 p-3 sm:p-4 rounded-2xl hover:bg-yellow-100 hover:scale-105 transition-all duration-300 group/card text-center">
+                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2 group-hover/card:animate-bounce">💪</div>
                                 <div className="font-bold text-yellow-800 text-sm sm:text-base">Fierce Competition</div>
                             </div>
-                            <div className="bg-green-50 p-3 sm:p-4 rounded-lg sm:rounded-xl">
-                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2">🎉</div>
+                            <div className="bg-green-50 p-3 sm:p-4 rounded-2xl hover:bg-green-100 hover:scale-105 transition-all duration-300 group/card text-center">
+                                <div className="text-xl sm:text-2xl mb-1 sm:mb-2 group-hover/card:animate-bounce">🎉</div>
                                 <div className="font-bold text-green-800 text-sm sm:text-base">Non-stop Excitement</div>
                             </div>
                         </div>
-                        <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6">
+                        <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 text-center">
                             Whether you're a player or a fan, this is the event you've been waiting for!
                         </p>
-                        <div className="text-sm sm:text-lg text-blue-800 font-bold">
+                        <div className="text-sm sm:text-lg text-blue-800 font-bold animate-pulse text-center">
                             📣 Stay Tuned for updates on: 🏅 Sponsorship 📝 Registration 🗓️ Schedules 🎁 Prizes
                         </div>
                     </div>
                 </div>
 
-                {/* Team Categories - Mobile Friendly */}
+                {/* Team Categories - Enhanced with stagger animations */}
                 <div className="mb-12 sm:mb-16">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-6 sm:mb-8 text-center">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-6 sm:mb-8 text-center hover:text-blue-600 transition-colors duration-300">
                         Tournament Categories
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
                         {teamCategories.map((team, index) => {
                             const IconComponent = team.icon
                             return (
-                                <div key={index} className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
-                                    <div className={`bg-gradient-to-r ${team.color} p-4 sm:p-6 rounded-xl sm:rounded-2xl text-white text-center mb-4 sm:mb-6`}>
-                                        <IconComponent size={32} className="sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4" />
+                                <div 
+                                    key={index} 
+                                    className="bg-white/90 backdrop-blur-sm rounded-3xl p-4 sm:p-8 shadow-large hover:shadow-glow-lg transition-all duration-500 border border-white/50 group hover:scale-105 hover:-translate-y-2"
+                                    style={{
+                                        animationDelay: `${index * 200}ms`,
+                                        animation: 'slideUp 0.8s ease-out forwards'
+                                    }}
+                                >
+                                    <div className={`bg-gradient-to-r ${team.color} p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-white text-center mb-4 sm:mb-6 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                                        <IconComponent size={32} className="sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 group-hover:animate-bounce" />
                                         <h3 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">{team.category}</h3>
-                                        <div className="text-2xl sm:text-4xl font-bold">{team.count}</div>
+                                        <div className="text-2xl sm:text-4xl font-bold group-hover:scale-110 transition-transform duration-300">{team.count}</div>
                                         <div className="text-xs sm:text-sm opacity-90">Teams</div>
                                     </div>
-                                    <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base">
+                                    <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base group-hover:text-gray-800 transition-colors duration-300">
                                         {team.description}
                                     </p>
                                 </div>
@@ -196,10 +222,10 @@ export default function SPL02() {
                     </div>
                 </div>
 
-                {/* Sponsorship Section - Mobile Optimized */}
+                {/* Sponsorship Section - Enhanced animations */}
                 <div className="mb-12 sm:mb-16">
-                    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 shadow-lg border border-gray-100">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-800 mb-4 sm:mb-8">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-4 sm:p-8 md:p-12 shadow-large border border-white/50 hover:shadow-glow-lg transition-all duration-500 group">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-800 mb-4 sm:mb-8 group-hover:text-blue-600 transition-colors duration-300">
                             Why Sponsor SPL-02?
                         </h2>
                         <p className="text-base sm:text-xl text-gray-700 text-center mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto">
@@ -207,65 +233,82 @@ export default function SPL02() {
                             that unites the community and delivers measurable visibility.
                         </p>
 
-                        {/* Sponsorship Benefits - Mobile Grid */}
+                        {/* Enhanced Sponsorship Benefits */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
                             {sponsorshipBenefits.map((benefit, index) => {
                                 const IconComponent = benefit.icon
                                 return (
-                                    <div key={index} className="text-center p-4 sm:p-6 bg-blue-50 rounded-xl sm:rounded-2xl hover:bg-blue-100 transition-colors duration-200">
-                                        <div className="bg-blue-600 text-white p-3 sm:p-4 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                                    <div 
+                                        key={index} 
+                                        className="text-center p-4 sm:p-6 bg-blue-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl hover:bg-blue-100 hover:scale-105 hover:-translate-y-1 transition-all duration-300 group/benefit border border-blue-100"
+                                        style={{
+                                            animationDelay: `${index * 150}ms`,
+                                            animation: 'fadeIn 0.6s ease-in-out forwards'
+                                        }}
+                                    >
+                                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 sm:p-4 rounded-full w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 flex items-center justify-center group-hover/benefit:animate-bounce shadow-lg">
                                             <IconComponent size={18} className="sm:w-6 sm:h-6" />
                                         </div>
-                                        <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-2 sm:mb-3">{benefit.title}</h3>
+                                        <h3 className="text-lg sm:text-xl font-bold text-blue-800 mb-2 sm:mb-3 group-hover/benefit:text-blue-600 transition-colors duration-300">{benefit.title}</h3>
                                         <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{benefit.description}</p>
                                     </div>
                                 )
                             })}
                         </div>
 
-                        {/* Call to Action - Mobile Friendly */}
-                        <div className="bg-gradient-to-r from-yellow-500 to-blue-600 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white text-center">
-                            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Let's Create Season 2 Together!</h3>
-                            <p className="text-base sm:text-xl mb-4 sm:mb-6 leading-relaxed">
-                                Be part of one of Pune's biggest community sporting events of 2025.
-                                Build your brand, celebrate cricket, and strengthen community ties.
-                            </p>
+                        {/* Enhanced Call to Action */}
+                        <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-blue-600 rounded-3xl sm:rounded-4xl p-6 sm:p-8 text-white text-center relative overflow-hidden group/cta hover:shadow-glow-lg transition-all duration-500">
+                            <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"></div>
+                            <div className="relative z-10">
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 group-hover/cta:scale-105 transition-transform duration-300">Let's Create Season 2 Together!</h3>
+                                <p className="text-base sm:text-xl mb-4 sm:mb-6 leading-relaxed">
+                                    Be part of one of Pune's biggest community sporting events of 2025.
+                                    Build your brand, celebrate cricket, and strengthen community ties.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Contact Section - Mobile Optimized */}
-                <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-12 shadow-lg border border-gray-100 text-center">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-800 mb-6 sm:mb-8">
+                {/* Enhanced Contact Section */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-4 sm:p-8 md:p-12 shadow-large border border-white/50 text-center hover:shadow-glow-lg transition-all duration-500 group">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-800 mb-6 sm:mb-8 group-hover:text-blue-600 transition-colors duration-300">
                         For Sponsorship Bookings and Inquiries
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
                         {contactPersons.map((person, index) => (
-                            <div key={index} className="bg-blue-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:bg-blue-100 transition-colors duration-200">
-                                <h4 className="text-lg sm:text-xl font-bold text-blue-800 mb-1 sm:mb-2">{person.name}</h4>
+                            <div 
+                                key={index} 
+                                className="bg-blue-50/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 hover:bg-blue-100 hover:scale-105 hover:-translate-y-1 transition-all duration-300 group/contact border border-blue-100"
+                                style={{
+                                    animationDelay: `${index * 200}ms`,
+                                    animation: 'slideUp 0.8s ease-out forwards'
+                                }}
+                            >
+                                <h4 className="text-lg sm:text-xl font-bold text-blue-800 mb-1 sm:mb-2 group-hover/contact:text-blue-600 transition-colors duration-300">{person.name}</h4>
                                 <p className="text-blue-600 font-medium mb-2 sm:mb-3 text-sm sm:text-base">{person.role}</p>
                                 <a
                                     href={`tel:${person.phone}`}
-                                    className="inline-flex items-center space-x-2 bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base"
+                                    className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-4 py-2 rounded-2xl hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-300 text-sm sm:text-base shadow-lg group/phone"
                                 >
-                                    <Phone size={14} className="sm:w-4 sm:h-4" />
+                                    <Phone size={14} className="sm:w-4 sm:h-4 group-hover/phone:animate-bounce" />
                                     <span>{person.phone}</span>
                                 </a>
                             </div>
                         ))}
                     </div>
 
-                    {/* Action Buttons - Mobile Stack */}
+                    {/* Enhanced Action Buttons */}
                     <div className="mt-6 sm:mt-8">
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                            <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-base sm:text-lg transition-all duration-300 shadow-lg w-full sm:w-auto">
-                                Become a Sponsor
+                            <button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 shadow-large w-full sm:w-auto hover:scale-105 hover:shadow-glow group/sponsor">
+                                <span className="group-hover/sponsor:animate-pulse">Become a Sponsor</span>
                             </button>
                             <button 
                                 onClick={handleBrochureDownload}
-                                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
+                                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg transition-all duration-300 w-full sm:w-auto hover:scale-105 hover:shadow-large group/download"
                             >
-                                Download Brochure
+                                <span className="group-hover/download:animate-pulse">Download Brochure</span>
                             </button>
                         </div>
                     </div>

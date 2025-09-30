@@ -318,7 +318,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-yellow-50 py-8 sm:py-12">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-yellow-50 py-8 sm:py-12 animate-fade-in">
       <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
         
         {/* Success Modal */}
@@ -329,38 +329,87 @@ export default function RegisterPage() {
           category={selectedCategory}
         />
         
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="bg-blue-600 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 mb-6 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10">
-              <div className="w-32 h-32 sm:w-48 sm:h-48 bg-white rounded-full -top-16 -right-16 sm:-top-24 sm:-right-24"></div>
-            </div>
-            <div className="relative z-10">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">
-                🏏 SPL 02 Registration
+        {/* Header with Enhanced Title Sponsor */}
+        <div className="text-center mb-8 sm:mb-12 animate-slide-up">
+          {/* Enhanced Title Sponsor Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-10 mb-6 shadow-large border border-white/50 relative overflow-hidden group hover:shadow-glow-lg transition-all duration-500">
+            {/* Animated background elements */}
+            
+            <div className="relative z-10 space-y-2 sm:space-y-3">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-800 hover:text-blue-600 transition-colors duration-300 leading-tight">
+                JSG Pune Sparsh
               </h1>
-              <p className="text-blue-100 text-base sm:text-lg">
-                Join the most awaited Box Cricket Tournament
+              
+              <p className="text-lg sm:text-xl text-gray-600 font-medium leading-tight">
+                in proud association with
               </p>
-              <p className="text-yellow-200 text-sm sm:text-base font-medium mt-2">
-                📅 November 15-16, 2025
+              
+              {/* Naturally Integrated Title Sponsor Logo */}
+              <div className="flex justify-center py-4 relative">
+                {/* Floating Elements Around Logo */}
+                              <div className="absolute inset-0 pointer-events-none">
+                              </div>
+
+                <div className="group/logo relative">
+                  {/* Pulsing Outer Ring - Very subtle */}
+                  <div className="absolute -inset-4 rounded-full border border-yellow-400/30 animate-ping opacity-10 group-hover/logo:opacity-25 transition-opacity duration-500" style={{ animationDuration: '4s' }}></div>
+                  
+                  {/* Natural Integration Container - No frames or borders */}
+                  <div className="relative transform group-hover/logo:scale-105 transition-all duration-500">
+                    {/* Subtle Glow Behind Logo */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 via-transparent to-yellow-100/50 blur-2xl opacity-0 group-hover/logo:opacity-60 transition-all duration-700"></div>
+                    
+                    {/* Logo - Naturally integrated */}
+                    <img
+                      src="/images/TitleSponsor.png"
+                      alt="Title Sponsor"
+                      className="relative max-h-48 sm:max-h-56 md:max-h-64 lg:max-h-56 w-auto object-contain transition-all duration-500 group-hover/logo:brightness-110 group-hover/logo:contrast-105"
+                      style={{ 
+                        filter: 'brightness(1.02) contrast(1.02) saturate(1.05)',
+                      }}
+                    />
+                    
+                    {/* Subtle highlight overlay for natural integration */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-white/20 opacity-0 group-hover/logo:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <p className="text-lg sm:text-xl text-gray-600 font-medium leading-tight">
+                presents
               </p>
+              
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-yellow-600 bg-clip-text text-transparent leading-tight">
+                Sparsh Premier League
+              </h2>
+              
+              <h3 className="text-xl sm:text-xl md:text-2xl font-bold text-yellow-600 hover:text-yellow-500 transition-colors duration-300 leading-tight">
+                Season 02
+              </h3>
+
+              {/* Date */}
+              <div className="text-xl sm:text-xl md:text-2xl font-bold text-blue-600 animate-pulse pt-4">
+                              🥎 15 & 16 November 2025 🥎
+                              <p className="text-base sm:text-lg hover:text-white text-green-600 transition-colors duration-300">
+                                  Join the most awaited Box Cricket Tournament
+                              </p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Error Display */}
         {submitError && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 animate-slide-up">
             <p className="text-red-800 text-sm">{submitError}</p>
           </div>
         )}
 
         {!selectedCategory ? (
-          /* Category Selection */
+          /* Enhanced Category Selection */
           <div className="space-y-6 sm:space-y-8">
-            <div className="text-center">
-              <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6">
+            <div className="text-center animate-fade-in">
+              <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4 sm:mb-6 hover:text-blue-600 transition-colors duration-300">
                 Choose Your Category
               </h2>
               <p className="text-gray-600 text-base sm:text-lg mb-8">
@@ -369,19 +418,24 @@ export default function RegisterPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {categories.map((category) => {
+              {categories.map((category, index) => {
                 const IconComponent = category.icon
                 return (
                   <div
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-3 border-transparent hover:border-blue-300 transform hover:-translate-y-2 hover:scale-105 min-h-[300px] flex flex-col relative overflow-hidden"
+                    className="group bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-8 shadow-large hover:shadow-glow-lg transition-all duration-500 cursor-pointer border-3 border-transparent hover:border-blue-300 transform hover:-translate-y-2 hover:scale-105 min-h-[300px] flex flex-col relative overflow-hidden"
+                    style={{
+                      animationDelay: `${index * 200}ms`,
+                      animation: 'slideUp 0.8s ease-out forwards'
+                    }}
                   >
+                    {/* Enhanced background effects */}
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-50/20 to-yellow-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div className="absolute inset-0 rounded-2xl sm:rounded-3xl border-2 border-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 rounded-3xl sm:rounded-4xl border-2 border-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-500"></div>
                     
                     <div className="relative z-10 flex-1 flex flex-col">
-                      <div className={`bg-gradient-to-br ${category.buttonGradient} p-4 sm:p-6 rounded-xl sm:rounded-2xl text-white text-center mb-4 sm:mb-6 transform group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-xl`}>
+                      <div className={`bg-gradient-to-br ${category.buttonGradient} p-4 sm:p-6 rounded-2xl sm:rounded-3xl text-white text-center mb-4 sm:mb-6 transform group-hover:scale-110 transition-transform duration-300 shadow-lg group-hover:shadow-xl`}>
                         <IconComponent size={32} className="sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 group-hover:animate-bounce" />
                         <h3 className="text-xl sm:text-2xl font-bold">{category.name}</h3>
                       </div>
@@ -396,7 +450,7 @@ export default function RegisterPage() {
                           <div className="text-lg font-bold text-gray-700 mb-1">
                             Registration Fee
                           </div>
-                          <div className="text-xl font-bold text-blue-600">
+                          <div className="text-xl font-bold text-blue-600 group-hover:scale-110 transition-transform duration-300">
                             {category.fee}
                           </div>
                         </div>
@@ -407,8 +461,8 @@ export default function RegisterPage() {
               })}
             </div>
             
-            {/* Non-refundable disclaimer */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            {/* Enhanced disclaimers */}
+            <div className="bg-yellow-50/80 backdrop-blur-sm border border-yellow-200 rounded-2xl p-4 mb-6 animate-fade-in hover:bg-yellow-100 transition-colors duration-300">
               <div className="flex items-center justify-center">
                 <div className="text-yellow-800 text-center">
                   <p className="text-sm font-medium">
@@ -421,50 +475,49 @@ export default function RegisterPage() {
               </div>
             </div>
             
-            {/* Privacy and Terms Notice */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="bg-blue-50/80 backdrop-blur-sm border border-blue-200 rounded-2xl p-4 mb-6 animate-fade-in hover:bg-blue-100 transition-colors duration-300">
               <div className="text-center text-blue-800">
                 <p className="text-sm">
                   By registering, you agree to our{' '}
-                  <a href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                  <a href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline font-medium transition-colors duration-300">
                     Privacy Policy
                   </a>
                   {' '}and{' '}
-                  <a href="/terms-and-conditions" className="text-blue-600 hover:text-blue-800 underline font-medium">
+                  <a href="/terms-and-conditions" className="text-blue-600 hover:text-blue-800 underline font-medium transition-colors duration-300">
                     Terms & Conditions
                   </a>
                 </p>
               </div>
             </div>
             
-            <div className="text-center mt-8">
+            <div className="text-center mt-8 animate-fade-in">
               <p className="text-gray-500 text-sm animate-pulse">
                 ✨ Hover over a category to see it come to life!
               </p>
             </div>
           </div>
         ) : !showPayment ? (
-          /* Registration Form */
-          <form onSubmit={handleFormSubmit} className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
+          /* Enhanced Registration Form */
+          <form onSubmit={handleFormSubmit} className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-8 shadow-large border border-white/50 hover:shadow-glow-lg transition-all duration-500 animate-slide-up">
             <div className="flex items-center justify-between mb-6 sm:mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-blue-800">
+              <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 hover:text-blue-600 transition-colors duration-300">
                 Registration Form - {categories.find(c => c.id === selectedCategory)?.name}
               </h2>
               <button
                 type="button"
                 onClick={() => setSelectedCategory('')}
-                className="text-gray-500 hover:text-gray-700 p-2"
+                className="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-100 transition-all duration-300"
               >
                 <X size={24} />
               </button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-              {/* Left Column */}
+              {/* Left Column - Enhanced */}
               <div className="space-y-4 sm:space-y-6">
                 {/* Parent Name - Only for Kids */}
                 {selectedCategory === 'kids' && (
-                  <div>
+                  <div className="animate-fade-in">
                     <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Father/Mother Name *
                     </label>
@@ -473,14 +526,14 @@ export default function RegisterPage() {
                       required
                       value={formData.parentName}
                       onChange={(e) => handleInputChange('parentName', e.target.value)}
-                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                       placeholder="Enter parent's full name"
                     />
                   </div>
                 )}
 
-                {/* Full Name */}
-                <div>
+                {/* Enhanced form fields with animations */}
+                <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Full Name *
                   </label>
@@ -489,13 +542,12 @@ export default function RegisterPage() {
                     required
                     value={formData.fullName}
                     onChange={(e) => handleInputChange('fullName', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                     placeholder="Enter your full name"
                   />
                 </div>
 
-                {/* Mobile Number */}
-                <div>
+                <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Mobile Number *
                   </label>
@@ -505,13 +557,12 @@ export default function RegisterPage() {
                     pattern="[0-9]{10}"
                     value={formData.mobileNumber}
                     onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                     placeholder="Enter 10-digit mobile number"
                   />
                 </div>
 
-                {/* Age */}
-                <div>
+                <div className="animate-fade-in" style={{ animationDelay: '300ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Age *
                   </label>
@@ -522,13 +573,12 @@ export default function RegisterPage() {
                     max={selectedCategory === 'kids' ? 12 : 60}
                     value={formData.age}
                     onChange={(e) => handleInputChange('age', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                     placeholder="Enter your age"
                   />
                 </div>
 
-                {/* Skillset */}
-                <div>
+                <div className="animate-fade-in" style={{ animationDelay: '400ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Skillset *
                   </label>
@@ -536,7 +586,7 @@ export default function RegisterPage() {
                     required
                     value={formData.skillset}
                     onChange={(e) => handleInputChange('skillset', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                   >
                     <option value="">Select your skillset</option>
                     {skillsets.map((skill) => (
@@ -547,8 +597,7 @@ export default function RegisterPage() {
                   </select>
                 </div>
 
-                {/* Bowling Arm */}
-                <div>
+                <div className="animate-fade-in" style={{ animationDelay: '500ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Bowling Arm *
                   </label>
@@ -556,7 +605,7 @@ export default function RegisterPage() {
                     required
                     value={formData.bowlingArm}
                     onChange={(e) => handleInputChange('bowlingArm', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                   >
                     <option value="">Select bowling arm</option>
                     {bowlingArms.map((arm) => (
@@ -569,14 +618,14 @@ export default function RegisterPage() {
 
                 {/* Cricket Experience for Male/Female */}
                 {(selectedCategory === 'male' || selectedCategory === 'female') && (
-                  <div>
+                  <div className="animate-fade-in" style={{ animationDelay: '600ms' }}>
                     <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Cricket Experience
                     </label>
                     <select
                       value={formData.cricketExperience || ''}
                       onChange={(e) => handleInputChange('cricketExperience', e.target.value)}
-                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                     >
                       <option value="">Select experience level</option>
                       <option value="beginner">Beginner (0-2 years)</option>
@@ -588,14 +637,14 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {/* Right Column */}
+              {/* Right Column - Enhanced */}
               <div className="space-y-4 sm:space-y-6">
-                {/* Photo Upload */}
-                <div>
+                {/* Enhanced Photo Upload */}
+                <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
                     Photo Upload *
                   </label>
-                  <div className={`border-2 border-dashed rounded-lg sm:rounded-xl p-1 text-center transition-colors ${formData.photo ? 'border-green-300 bg-green-50' : 'border-gray-300 hover:border-blue-500'}`}>
+                  <div className={`border-2 border-dashed rounded-2xl p-6 text-center transition-all duration-300 ${formData.photo ? 'border-green-300 bg-green-50 hover:bg-green-100' : 'border-gray-300 hover:border-blue-500 hover:bg-blue-50'}`}>
                     <input
                       type="file"
                       accept="image/jpeg,image/jpg,image/png,image/heic"
@@ -606,15 +655,15 @@ export default function RegisterPage() {
                     <label htmlFor="photo-upload" className="cursor-pointer">
                       {formData.photo ? (
                         <div className="text-green-600">
-                          <Check className="mx-auto mb-2" size={32} />
+                          <Check className="mx-auto mb-2 animate-bounce" size={32} />
                           <p className="text-sm sm:text-base font-medium">
                             {formData.photo.name}
                           </p>
                           <p className="text-xs text-green-500 mt-1">Photo uploaded successfully</p>
                         </div>
                       ) : (
-                        <div className="text-gray-400">
-                          <Camera className="mx-auto mb-2" size={32} />
+                        <div className="text-gray-400 hover:text-blue-500 transition-colors duration-300">
+                          <Camera className="mx-auto mb-2 hover:animate-bounce" size={32} />
                           <p className="text-sm sm:text-base">
                             Click to upload photo
                           </p>
@@ -625,8 +674,8 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Cric Heroes Link */}
-                <div>
+                {/* Enhanced Cric Heroes Link */}
+                <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
                   <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Cric Heroes Link *
                   </label>
@@ -635,7 +684,7 @@ export default function RegisterPage() {
                     required
                     value={formData.cricHeroesLink}
                     onChange={(e) => handleInputChange('cricHeroesLink', e.target.value)}
-                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
                     placeholder="https://cricheroes.com/player-profile/5594432/amit-gandhi/XXX"
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -643,15 +692,14 @@ export default function RegisterPage() {
                   </p>
                 </div>
 
-                {/* Jersey Section */}
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-yellow-200 dark:border-yellow-800">
+                {/* Enhanced Jersey Section */}
+                <div className="bg-yellow-50/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-yellow-200 hover:bg-yellow-100 transition-all duration-300 animate-fade-in" style={{ animationDelay: '300ms' }}>
                   <h3 className="text-lg sm:text-xl font-bold text-yellow-800 dark:text-yellow-300 mb-4 flex items-center">
-                    <Shirt className="mr-2" size={20} />
+                    <Shirt className="mr-2 group-hover:animate-bounce" size={20} />
                     Jersey Details
                   </h3>
                   
                   <div className="space-y-4">
-                    {/* Jersey Name */}
                     <div>
                       <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Name on Jersey *
@@ -662,12 +710,11 @@ export default function RegisterPage() {
                         maxLength={12}
                         value={formData.jerseyName}
                         onChange={(e) => handleInputChange('jerseyName', e.target.value)}
-                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-xl px-3 py-2 focus:border-yellow-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-yellow-400"
                         placeholder="Max 12 characters"
                       />
                     </div>
 
-                    {/* Jersey Number */}
                     <div>
                       <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Number on Jersey *
@@ -679,12 +726,11 @@ export default function RegisterPage() {
                         max="99"
                         value={formData.jerseyNumber}
                         onChange={(e) => handleInputChange('jerseyNumber', e.target.value)}
-                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-xl px-3 py-2 focus:border-yellow-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-yellow-400"
                         placeholder="1-99"
                       />
                     </div>
 
-                    {/* Jersey Size */}
                     <div>
                       <label className="block text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
                         Jersey Size *
@@ -693,7 +739,7 @@ export default function RegisterPage() {
                         required
                         value={formData.jerseySize}
                         onChange={(e) => handleInputChange('jerseySize', e.target.value)}
-                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-lg px-3 py-2 focus:border-yellow-500 focus:outline-none transition-colors text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        className="w-full border-2 border-yellow-300 dark:border-yellow-600 rounded-xl px-3 py-2 focus:border-yellow-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-yellow-400"
                       >
                         <option value="">Select size</option>
                         {jerseySizes.map((size) => (
@@ -708,26 +754,26 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-12">
+            {/* Enhanced Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-12 animate-fade-in" style={{ animationDelay: '700ms' }}>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:bg-gray-50 transition-all duration-300 text-sm sm:text-base"
+                className="flex-1 border-2 border-gray-400 text-gray-600 py-3 sm:py-4 rounded-2xl font-bold hover:bg-gray-50 hover:scale-105 transition-all duration-300 text-sm sm:text-base group"
               >
-                Cancel
+                <span className="group-hover:animate-pulse">Cancel</span>
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 rounded-2xl font-bold hover:shadow-glow hover:scale-105 transition-all duration-300 text-sm sm:text-base group"
               >
-                Proceed to Payment
+                <span className="group-hover:animate-pulse">Proceed to Payment</span>
               </button>
             </div>
           </form>
         ) : (
-          /* Payment Section */
-          <form onSubmit={handleFinalSubmit} className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg">
+          /* Enhanced Payment Section */
+          <form onSubmit={handleFinalSubmit} className="bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-8 shadow-large border border-white/50 hover:shadow-glow-lg transition-all duration-500 animate-slide-up">
             <RegistrationSummary
               selectedCategory={selectedCategory}
               categories={categories}
