@@ -67,6 +67,7 @@ export interface Registration {
   age: number
   skillset: string
   bowling_arm: string
+  batting_style: string
   cricket_experience?: string
   cric_heroes_link?: string
   jersey_name: string

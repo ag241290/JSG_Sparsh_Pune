@@ -13,6 +13,7 @@ interface FormData {
   age: string
   skillset: string
   bowlingArm: string
+  battingStyle: string
   photo: File | null
   cricHeroesLink: string
   jerseyName: string
@@ -35,6 +36,7 @@ export default function RegisterPage() {
     age: '',
     skillset: '',
     bowlingArm: '',
+    battingStyle: '',
     photo: null,
     cricHeroesLink: '',
     jerseyName: '',
@@ -92,6 +94,7 @@ export default function RegisterPage() {
 
   const skillsets = ['Batsman', 'Bowler', 'All Rounder']
   const bowlingArms = ['Left Arm', 'Right Arm']
+  const battingStyles = ['Left Handed', 'Right Handed']
   const jerseySizes = [
     { size: 'XXS', chest: '28-30', label: 'XXS (28-30") - Kids' },
     { size: 'XS', chest: '30-32', label: 'XS (30-32") - Kids/Adult' },
@@ -170,6 +173,7 @@ export default function RegisterPage() {
     if (!formData.age) return 'Please enter your age'
     if (!formData.skillset) return 'Please select your skillset'
     if (!formData.bowlingArm) return 'Please select your bowling arm'
+    if (!formData.battingStyle) return 'Please select your batting style'
     if (!formData.photo) return 'Please upload your photo'
     if (!formData.cricHeroesLink.trim()) return 'Please enter your Cric Heroes Link'
     if (!formData.jerseyName.trim()) return 'Please enter name for jersey'
@@ -235,6 +239,7 @@ export default function RegisterPage() {
       submitData.append('age', formData.age)
       submitData.append('skillset', formData.skillset)
       submitData.append('bowlingArm', formData.bowlingArm)
+      submitData.append('battingStyle', formData.battingStyle)
       if (formData.cricketExperience) submitData.append('cricketExperience', formData.cricketExperience)
       // Use the cricHeroesLink from formData (since it's no longer in paymentData)
       submitData.append('cricHeroesLink', formData.cricHeroesLink.trim())
@@ -297,6 +302,7 @@ export default function RegisterPage() {
       age: '',
       skillset: '',
       bowlingArm: '',
+      battingStyle: '',
       photo: null,
       cricHeroesLink: '',
       jerseyName: '',
@@ -611,6 +617,25 @@ export default function RegisterPage() {
                     {bowlingArms.map((arm) => (
                       <option key={arm} value={arm}>
                         {arm}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="animate-fade-in" style={{ animationDelay: '550ms' }}>
+                  <label className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Batting Style *
+                  </label>
+                  <select
+                    required
+                    value={formData.battingStyle}
+                    onChange={(e) => handleInputChange('battingStyle', e.target.value)}
+                    className="w-full border-2 border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 focus:border-blue-500 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:border-blue-300"
+                  >
+                    <option value="">Select batting style</option>
+                    {battingStyles.map((style) => (
+                      <option key={style} value={style}>
+                        {style}
                       </option>
                     ))}
                   </select>
