@@ -9,7 +9,7 @@ export default function MobileExitHandler() {
   useEffect(() => {
     if (!isMobileDevice()) return
 
-    let exitPromptTimer: NodeJS.Timeout
+    let exitPromptTimer: NodeJS.Timeout | null = null
 
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       // Only show for mobile users
@@ -35,7 +35,9 @@ export default function MobileExitHandler() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
-      clearTimeout(exitPromptTimer)
+      if (exitPromptTimer) {
+        clearTimeout(exitPromptTimer)
+      }
     }
   }, [])
 
