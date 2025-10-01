@@ -29,7 +29,7 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
     // Simulate a small delay for better UX
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+      if (username.toLowerCase() === ADMIN_USERNAME && password.toLowerCase() === ADMIN_PASSWORD) {
       // Success - redirect to admin page
       onClose()
       router.push('/admin')
@@ -171,11 +171,6 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
           <p className="text-xs text-gray-500 text-center">
             Access restricted to authorized administrators only
           </p>
-          <div className="text-xs text-gray-400 text-center mt-2">
-            <span className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">
-              admin / ilovesparsh
-            </span>
-          </div>
         </div>
       </div>
     </div>
