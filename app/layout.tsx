@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import MobileBackWrapper from './components/MobileBackWrapper'
+import MobileDebugInfo from './components/MobileDebugInfo'
 
 export const metadata: Metadata = {
   title: 'JSG SPARSH Pune - Jain Social Group',
@@ -28,11 +30,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className="font-sans" suppressHydrationWarning>
-        <Navbar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <MobileBackWrapper>
+          <Navbar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <MobileDebugInfo />
+        </MobileBackWrapper>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { UserCheck, Phone, Calendar, Trophy, Camera, Link, Shirt, X, Check, Users } from 'lucide-react'
 import RegistrationSummary from './components/RegistrationSummary'
 import PaymentDetails from './components/PaymentDetails'
@@ -52,6 +52,25 @@ export default function RegisterPage() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [registrationResult, setRegistrationResult] = useState<any>(null)
+
+  // Scroll to top utility function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Effect to scroll to top when category is selected
+  useEffect(() => {
+    if (selectedCategory) {
+      scrollToTop()
+    }
+  }, [selectedCategory])
+
+  // Effect to scroll to top when showing payment section
+  useEffect(() => {
+    if (showPayment) {
+      scrollToTop()
+    }
+  }, [showPayment])
 
   const categories = [
     {
@@ -315,12 +334,20 @@ export default function RegisterPage() {
     })
     setShowPayment(false)
     setSubmitError(null)
+    // Scroll to top when cancelling to show category selection
+    scrollToTop()
   }
 
   const handleSuccessModalClose = () => {
     setShowSuccessModal(false)
     setRegistrationResult(null)
     handleCancel()
+  }
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId)
+    // Additional scroll after state update to ensure it happens
+    setTimeout(() => scrollToTop(), 100)
   }
 
   return (
@@ -429,7 +456,7 @@ export default function RegisterPage() {
                 return (
                   <div
                     key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => handleCategorySelect(category.id)}
                     className="group bg-white/90 backdrop-blur-sm rounded-3xl sm:rounded-4xl p-6 sm:p-8 shadow-large hover:shadow-glow-lg transition-all duration-500 cursor-pointer border-3 border-transparent hover:border-blue-300 transform hover:-translate-y-2 hover:scale-105 min-h-[300px] flex flex-col relative overflow-hidden"
                     style={{
                       animationDelay: `${index * 200}ms`,
