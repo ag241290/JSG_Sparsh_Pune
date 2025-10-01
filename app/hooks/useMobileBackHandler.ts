@@ -7,14 +7,14 @@ export function useMobileBackHandler() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Detect if running in mobile environment
+    // Detect mobile environment
     const isMobile = () => {
       if (typeof window === 'undefined') return false
       const userAgent = navigator.userAgent.toLowerCase()
       return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
     }
 
-    // Detect if running in Android WebView
+    // Detect Android WebView
     const isAndroidWebView = () => {
       if (typeof window === 'undefined') return false
       const userAgent = navigator.userAgent.toLowerCase()
@@ -30,105 +30,95 @@ export function useMobileBackHandler() {
     let backPressCount = 0
     let backPressTimer: NodeJS.Timeout | null = null
 
-    const handlePopState = (event: PopStateEvent) => {
+    const handleBackButton = (event: PopStateEvent) => {
       const currentPath = window.location.pathname
       
-      // Define exit points where double-tap-to-exit should work
+      // Exit points where double-tap should work
       const exitPoints = ['/', '/register-now']
       const isAtExitPoint = exitPoints.includes(currentPath) || 
-                           (currentPath === '/register-now' && window.location.search === '')
+                           (currentPath === '/register-now' && !window.location.search)
 
       if (isAtExitPoint) {
-        // Prevent default back navigation
         event.preventDefault()
-        
         backPressCount++
         
         if (backPressCount === 1) {
-          // First back press - show toast
-          showExitToast('Press back again to exit JSG Sparsh Portal')
+          // First press - show message
+          showExitMessage('Press back again to exit')
           
-          // Reset counter after 2 seconds
+          // Reset after 2 seconds
           if (backPressTimer) clearTimeout(backPressTimer)
           backPressTimer = setTimeout(() => {
             backPressCount = 0
           }, 2000)
           
-          // Push state back to prevent navigation
+          // Stay on current page
           window.history.pushState(null, '', currentPath)
         } else {
-          // Second back press - try to close app
+          // Second press - try to exit
           if (backPressTimer) clearTimeout(backPressTimer)
           backPressCount = 0
           
           if (isAndroidWebView()) {
-            // For Android WebView - try to close
+            // Try to close WebView
             try {
               window.close()
             } catch (e) {
-              // Fallback - navigate to blank page
               window.location.href = 'about:blank'
             }
           } else {
-            // For mobile browsers - simple confirmation
-            if (confirm('Are you sure you want to exit JSG Sparsh Portal?')) {
+            // Mobile browser confirmation
+            if (confirm('Exit JSG Sparsh Portal?')) {
               try {
                 window.close()
               } catch (e) {
                 window.location.href = 'about:blank'
               }
             } else {
-              // User cancelled - push state back
               window.history.pushState(null, '', currentPath)
             }
           }
         }
       } else {
-        // Not at exit point - reset counter and allow normal navigation
+        // Normal navigation - reset counter
         backPressCount = 0
         if (backPressTimer) clearTimeout(backPressTimer)
       }
     }
 
-    const showExitToast = (message: string) => {
-      // Remove any existing toast
-      const existingToast = document.getElementById('mobile-exit-toast')
-      if (existingToast) {
-        existingToast.remove()
-      }
+    const showExitMessage = (message: string) => {
+      // Remove existing message
+      const existing = document.getElementById('exit-toast')
+      if (existing) existing.remove()
 
-      // Create new toast
+      // Create message
       const toast = document.createElement('div')
-      toast.id = 'mobile-exit-toast'
+      toast.id = 'exit-toast'
       toast.textContent = message
       toast.style.cssText = `
         position: fixed;
         bottom: 80px;
         left: 50%;
         transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.85);
+        background: rgba(0,0,0,0.8);
         color: white;
         padding: 12px 20px;
         border-radius: 20px;
         font-size: 14px;
-        font-weight: 500;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        max-width: 90%;
-        text-align: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        z-index: 9999;
+        font-family: system-ui, sans-serif;
         opacity: 0;
         transition: opacity 0.3s ease;
       `
 
       document.body.appendChild(toast)
-
-      // Animate in
+      
+      // Show message
       requestAnimationFrame(() => {
         toast.style.opacity = '1'
       })
 
-      // Remove after 1.8 seconds
+      // Hide after 1.5 seconds
       setTimeout(() => {
         toast.style.opacity = '0'
         setTimeout(() => {
@@ -136,24 +126,24 @@ export function useMobileBackHandler() {
             document.body.removeChild(toast)
           }
         }, 300)
-      }, 1800)
+      }, 1500)
     }
 
-    // Add popstate listener
-    window.addEventListener('popstate', handlePopState)
-
-    // Push initial state
+    // Add event listener
+    window.addEventListener('popstate', handleBackButton)
+    
+    // Initialize with current state
     window.history.pushState(null, '', pathname)
 
     // Cleanup
     return () => {
-      window.removeEventListener('popstate', handlePopState)
+      window.removeEventListener('popstate', handleBackButton)
       if (backPressTimer) clearTimeout(backPressTimer)
     }
   }, [pathname])
 }
 
-// Export utility functions
+// Simple utility exports
 export const isMobileDevice = () => {
   if (typeof window === 'undefined') return false
   const userAgent = navigator.userAgent.toLowerCase()

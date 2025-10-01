@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu, X, Home, Users, Calendar, Heart, Info, Trophy } from 'lucide-react'
+import { Menu, X, Home, Users, Calendar, Heart, Info, Trophy, Shield } from 'lucide-react'
 import JoinUsModal from './JoinUsModal'
+import AdminLoginModal from './AdminLoginModal'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isJoinUsModalOpen, setIsJoinUsModalOpen] = useState(false)
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +32,11 @@ export default function Navbar() {
 
   const handleJoinUsClick = () => {
     setIsJoinUsModalOpen(true)
+    setIsOpen(false) // Close mobile menu if open
+  }
+
+  const handleAdminClick = () => {
+    setIsAdminModalOpen(true)
     setIsOpen(false) // Close mobile menu if open
   }
 
@@ -61,23 +68,32 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden lg:flex items-center space-x-1">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex items-center space-x-2 text-neutral-700 hover:text-blue-600 px-4 py-2 rounded-xl transition-all duration-300 hover:bg-yellow-50"
+                  className="group flex items-center space-x-2 text-neutral-700 hover:text-blue-600 px-3 py-2 rounded-xl transition-all duration-300 hover:bg-yellow-50"
                 >
                   <item.icon size={18} className="group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">{item.label}</span>
+                  <span className="font-medium text-sm">{item.label}</span>
                 </Link>
               ))}
               
+              {/* Admin Button - Fixed responsive design */}
+              <button
+                onClick={handleAdminClick}
+                className="group flex items-center space-x-2 text-neutral-700 hover:text-red-600 px-3 py-2 rounded-xl transition-all duration-300 hover:bg-red-50"
+              >
+                <Shield size={18} className="group-hover:scale-110 transition-transform" />
+                <span className="font-medium text-sm">Admin</span>
+              </button>
+              
               {/* CTA Button */}
-              <div className="ml-6 pl-6 border-l border-neutral-300">
+              <div className="ml-4 pl-4 border-l border-neutral-300">
                 <button
                   onClick={handleJoinUsClick}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-4 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 text-sm"
                 >
                   Join Us
                 </button>
@@ -85,7 +101,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+            <div className="lg:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-neutral-700 hover:text-blue-600 focus:outline-none p-2 rounded-xl hover:bg-yellow-50 transition-colors duration-200"
@@ -98,8 +114,8 @@ export default function Navbar() {
 
           {/* Mobile Navigation */}
           {isOpen && (
-            <div className="md:hidden">
-              <div className="py-4 space-y-2 border-t border-neutral-200/50">
+            <div className="lg:hidden">
+              <div className="py-4 space-y-1 border-t border-neutral-200/50">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
@@ -112,8 +128,17 @@ export default function Navbar() {
                   </Link>
                 ))}
                 
+                {/* Mobile Admin Button - Fixed */}
+                <button
+                  onClick={handleAdminClick}
+                  className="flex items-center space-x-3 text-neutral-700 hover:text-red-600 hover:bg-red-50 px-4 py-3 rounded-xl transition-all duration-200 font-medium w-full text-left"
+                >
+                  <Shield size={20} />
+                  <span>Admin</span>
+                </button>
+                
                 {/* Mobile CTA */}
-                <div className="pt-4 mt-4 border-t border-neutral-200/50">
+                <div className="pt-3 mt-3 border-t border-neutral-200/50">
                   <button
                     onClick={handleJoinUsClick}
                     className="flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-6 py-3 rounded-xl font-semibold transition-all duration-300 w-full"
@@ -131,6 +156,12 @@ export default function Navbar() {
       <JoinUsModal 
         isOpen={isJoinUsModalOpen} 
         onClose={() => setIsJoinUsModalOpen(false)} 
+      />
+
+      {/* Admin Login Modal */}
+      <AdminLoginModal 
+        isOpen={isAdminModalOpen} 
+        onClose={() => setIsAdminModalOpen(false)} 
       />
     </>
   )
