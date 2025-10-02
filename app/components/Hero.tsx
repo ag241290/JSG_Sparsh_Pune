@@ -19,10 +19,7 @@ export default function Hero() {
               />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-3 sm:mb-4 tracking-tight text-white leading-tight">
-              JSG SPARSH
-              <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mt-2 sm:mt-3 text-yellow-300 tracking-wide">
-                Pune
-              </span>
+              JSG PUNE SPARSH
             </h1>
           </div>
           

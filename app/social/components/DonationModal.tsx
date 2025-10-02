@@ -189,7 +189,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
               Thank You for Your Contribution!
             </h2>
             <p className="text-green-600 text-sm mb-4">
-              Your donation details have been received successfully. We appreciate your support to JSG SPARSH initiatives.
+              Your donation details have been received successfully. We appreciate your support to JSG Pune Sparsh initiatives.
             </p>
             <p className="text-gray-600 text-sm">
               This window will close automatically...
@@ -225,7 +225,7 @@ const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
             <h2 className="text-2xl font-bold">Make a Contribution</h2>
           </div>
           <p className="text-white/90 text-sm">
-            Support JSG SPARSH Dan Patra initiatives
+            Support JSG Pune Sparsh Dan Patra initiatives
           </p>
         </div>
 

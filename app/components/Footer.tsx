@@ -83,9 +83,8 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-2xl bg-gradient-to-r from-yellow-300 to-yellow-400 bg-clip-text text-transparent">
-                  JSG SPARSH
+                  JSG Pune Sparsh
                 </span>
-                <span className="text-lg text-blue-200 font-medium">Pune</span>
               </div>
             </div>
             

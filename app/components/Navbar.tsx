@@ -60,9 +60,8 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-bold text-xl text-blue-700 group-hover:text-blue-800 transition-colors">
-                    JSG SPARSH
+                    JSG  Pune Sparsh
                   </span>
-                  <span className="text-sm text-neutral-600 font-medium">Pune</span>
                 </div>
               </Link>
             </div>

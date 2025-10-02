@@ -32,7 +32,7 @@ export default function AboutSection() {
         {/* Learn More About Us Section */}
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800 mb-4 sm:mb-6">
-            Discover JSG SPARSH Pune
+            Discover JSG Pune Sparsh
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
             Learn about our mission, values, and how we're building a unified Jain community in Pune 

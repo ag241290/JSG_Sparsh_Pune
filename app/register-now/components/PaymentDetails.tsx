@@ -229,7 +229,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           <p className="text-xs text-gray-600 dark:text-gray-400">
             Need help? Contact support at{' '}
             <a 
-              href="mailto:support@jsgsparhpune.com" 
+              href="mailto:jsgsparsh@gmail.com" 
               className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline font-medium transition-colors duration-300"
             >
               support@jsgsparhpune.com

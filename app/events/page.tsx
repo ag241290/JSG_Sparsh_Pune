@@ -70,7 +70,7 @@ export default function Events() {
           </h1>
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
             Discover our vibrant community events - from cultural celebrations and adventure trips 
-            to memorable experiences that brought our JSG SPARSH family together. Relive the moments 
+            to memorable experiences that brought our JSG Pune Sparsh family together. Relive the moments 
             that made our community stronger and more united.
           </p>
         </div>
@@ -187,7 +187,7 @@ export default function Events() {
               Want to Propose an Event?
             </h3>
             <p className="text-base sm:text-xl text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-2">
-              Have an exciting idea for a JSG SPARSH event? Whether it's cultural, adventure, 
+              Have an exciting idea for a JSG Pune Sparsh event? Whether it's cultural, adventure,
               or community bonding - we'd love to hear your suggestions and make it happen together!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">

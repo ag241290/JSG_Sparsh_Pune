@@ -5,7 +5,7 @@ export default function Committee() {
   const mentor = {
     name: 'Yuvraj Shah',
     position: 'Group Mentor',
-    description: 'Guiding JSG SPARSH Pune with wisdom and experience, providing strategic direction and mentorship to achieve community excellence.',
+    description: 'Guiding JSG Pune Sparsh with wisdom and experience, providing strategic direction and mentorship to achieve community excellence.',
     phone: '+91 9850958258',
     icon: Award,
     category: 'mentor'
@@ -15,7 +15,7 @@ export default function Committee() {
     {
       name: 'Dhiraj Shah',
       position: 'Founder President',
-      description: 'Visionary founder and leader driving JSG SPARSH Pune towards unity and community excellence.',
+      description: 'Visionary founder and leader driving JSG Pune Sparsh towards unity and community excellence.',
       phone: '+91 8975797500',
       icon: Crown,
       category: 'core'
@@ -133,7 +133,7 @@ export default function Committee() {
             Our Committee 2025-2026
           </h1>
           <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto px-2 leading-relaxed">
-            Meet the dedicated team of JSG SPARSH Pune who work tirelessly to serve our community. 
+            Meet the dedicated team of JSG Pune Sparsh who work tirelessly to serve our community.
             Our organizational structure includes the Core Group, specialized PROs (Public Relations Officers), 
             and dynamic Group Leaders managing our four vibrant member groups.
           </p>
@@ -305,7 +305,7 @@ export default function Committee() {
           {/* Group Information Text */}
           <div className="text-center mt-6 sm:mt-8">
             <p className="text-sm text-gray-600 max-w-3xl mx-auto leading-relaxed px-2">
-              JSG SPARSH Pune is organized into four vibrant groups, each with its unique identity and energy. 
+              JSG Pune Sparsh is organized into four vibrant groups, each with its unique identity and energy.
               These groups foster closer bonds among members and create exciting opportunities for participation 
               in various activities and events.
             </p>

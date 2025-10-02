@@ -61,7 +61,7 @@ export default function AboutPage() {
               />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">About JSG SPARSH Pune</h1>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">About JSG Pune Sparsh</h1>
           <p className="text-lg sm:text-xl lg:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed px-2">
             Building Unity, Preserving Traditions, Serving Community
           </p>
@@ -75,7 +75,7 @@ export default function AboutPage() {
           {/* About Section */}
           <div className="text-center mb-16 sm:mb-20">
             <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
-              In 2024, we launched JSG Pune SPARSH Group with a clear vision: to build a strong, 
+              In 2024, we launched JSG Pune Sparsh Group with a clear vision: to build a strong,
               unified community based on the principles of brotherhood and mutual respect. The group 
               is proud to have CORE COMMITTEE & members from all four Jain sects working together 
               as one cohesive Jain Social Group.

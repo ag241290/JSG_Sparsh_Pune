@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
           <div className="text-center mb-16">
             <div className="bg-gradient-to-r from-blue-50 to-yellow-50 p-8 rounded-3xl shadow-md border border-blue-200">
               <p className="text-gray-700 text-lg leading-relaxed mb-4">
-                At JSG SPARSH Pune, we are committed to protecting your privacy and ensuring the security 
+                At JSG Pune Sparsh, we are committed to protecting your privacy and ensuring the security
                 of your personal information. This Privacy Policy explains how we collect, use, and safeguard 
                 your data when you interact with our community and services.
               </p>

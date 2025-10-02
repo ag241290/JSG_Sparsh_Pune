@@ -173,7 +173,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
           {/* Volunteer Information */}
           <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-4 mb-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">
-              🌟 Why Volunteer with JSG SPARSH?
+              🌟 Why Volunteer with JSG Pune Sparsh?
             </h3>
             <div className="space-y-2 text-sm text-gray-700">
               <div className="flex items-start">
