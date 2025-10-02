@@ -70,7 +70,7 @@
 - **Comprehensive CSV export**: All registration data with proper formatting
 - **Better error handling**: Graceful handling of data loading states
 
-## ?? Database Schema
+## ??? Database Schema
 
 ### Registrations Table Fields Exported in CSV:
 1. Registration ID

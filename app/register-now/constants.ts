@@ -1,4 +1,4 @@
-import { UserCheck, Users, Trophy } from 'lucide-react'
+﻿import { UserCheck, Users, Trophy } from 'lucide-react'
 import { Category, JerseySize } from './types'
 
 export const categories: Category[] = [
@@ -12,7 +12,7 @@ export const categories: Category[] = [
     textColor: 'text-blue-800',
     buttonGradient: 'from-blue-500 to-blue-600',
     ageRequirement: 'Born before 14 November 2013',
-    fee: '?800'
+    fee: '₹800'
   },
   {
     id: 'female',
@@ -24,7 +24,7 @@ export const categories: Category[] = [
     textColor: 'text-pink-800',
     buttonGradient: 'from-pink-500 to-pink-600',
     ageRequirement: 'Born before 14 November 2013',
-    fee: '?800'
+    fee: '₹800'
   },
   {
     id: 'kids',
@@ -36,7 +36,7 @@ export const categories: Category[] = [
     textColor: 'text-green-800',
     buttonGradient: 'from-green-500 to-green-600',
     ageRequirement: 'Born on or after 14 November 2013 and before 14 November 2018',
-    fee: '?600'
+    fee: '₹600'
   }
 ]
 

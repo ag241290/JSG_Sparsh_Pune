@@ -4,8 +4,12 @@ import { createRegistration, uploadPhoto, uploadRegistrationTransactionScreensho
 // Force Node.js runtime instead of Edge runtime
 export const runtime = 'nodejs'
 
+// Configure timeout for large file uploads
+export const maxDuration = 120 // 2 minutes timeout
+
 export async function POST(request: NextRequest) {
-  console.log('Registration API called')
+  const startTime = Date.now()
+  console.log('Registration API called at', new Date().toISOString())
   
   // Network diagnostics
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -13,22 +17,29 @@ export async function POST(request: NextRequest) {
   console.log('SR_KEY_LEN', process.env.SUPABASE_SERVICE_ROLE_KEY?.length)
   
   try {
-    const healthResponse = await fetch(supabaseUrl + '/auth/v1/health')
+    const healthResponse = await fetch(supabaseUrl + '/auth/v1/health', { 
+      timeout: 5000 // 5 second timeout for health check
+    })
     console.log('AUTH_HEALTH_STATUS', healthResponse.status)
   } catch (healthError) {
     console.error('AUTH_HEALTH_FETCH_FAIL', healthError)
+    // Continue anyway as this is just a health check
   }
   
   try {
-    const storageResponse = await fetch(supabaseUrl + '/storage/v1/bucket')
+    const storageResponse = await fetch(supabaseUrl + '/storage/v1/bucket', {
+      timeout: 5000 // 5 second timeout for health check
+    })
     console.log('STORAGE_HEALTH_STATUS', storageResponse.status)
   } catch (storageError) {
     console.error('STORAGE_HEALTH_FETCH_FAIL', storageError)
+    // Continue anyway as this is just a health check
   }
   
   try {
+    console.log('Parsing form data...')
     const formData = await request.formData()
-    console.log('FormData received')
+    console.log('FormData parsed successfully, processing fields...')
 
     // Extract and validate form fields
     const category = formData.get('category') as string
@@ -50,7 +61,10 @@ export async function POST(request: NextRequest) {
     if (!category || !fullName || !mobileNumber || !dateOfBirth || !skillset || !bowlingArm || !battingStyle || !jerseyName || !jerseyNumber || !jerseySize) {
       console.error('Missing required fields')
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { 
+          error: 'Missing required fields. Please check that all form fields are filled out properly.',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -59,7 +73,10 @@ export async function POST(request: NextRequest) {
     if (paymentStatus === 'completed' && !transactionId) {
       console.error('Missing transaction ID for completed payment')
       return NextResponse.json(
-        { error: 'Transaction ID is required for completed payments' },
+        { 
+          error: 'Transaction ID is required for completed payments',
+          code: 'PAYMENT_VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -68,7 +85,10 @@ export async function POST(request: NextRequest) {
     const birthDate = new Date(dateOfBirth)
     if (isNaN(birthDate.getTime())) {
       return NextResponse.json(
-        { error: 'Invalid date of birth' },
+        { 
+          error: 'Invalid date of birth. Please provide a valid date.',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -77,7 +97,10 @@ export async function POST(request: NextRequest) {
     const jerseyNum = parseInt(jerseyNumber)
     if (isNaN(jerseyNum)) {
       return NextResponse.json(
-        { error: 'Invalid jersey number' },
+        { 
+          error: 'Invalid jersey number. Please provide a numeric jersey number.',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -95,7 +118,10 @@ export async function POST(request: NextRequest) {
     // Validate gender for Kids category
     if (category === 'kids' && !gender) {
       return NextResponse.json(
-        { error: 'Gender is required for Kids category' },
+        { 
+          error: 'Gender is required for Kids category',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -118,21 +144,30 @@ export async function POST(request: NextRequest) {
         } else {
           console.error('Photo upload returned null')
           return NextResponse.json(
-            { error: 'Failed to upload participant photo. Please check file format and try again.' },
+            { 
+              error: 'Failed to upload participant photo. Please check file format and try again.',
+              code: 'UPLOAD_ERROR'
+            },
             { status: 500 }
           )
         }
       } catch (photoError) {
         console.error('Photo upload error:', photoError)
         return NextResponse.json(
-          { error: 'Error processing participant photo. Please try again.' },
+          { 
+            error: 'Error processing participant photo. Please try again.',
+            code: 'UPLOAD_ERROR'
+          },
           { status: 500 }
         )
       }
     } else {
       console.error('No photo provided or photo is empty')
       return NextResponse.json(
-        { error: 'Participant photo is required' },
+        { 
+          error: 'Participant photo is required',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -152,21 +187,30 @@ export async function POST(request: NextRequest) {
         } else {
           console.error('Transaction screenshot upload returned null')
           return NextResponse.json(
-            { error: 'Failed to upload transaction screenshot. Please check file format and try again.' },
+            { 
+              error: 'Failed to upload transaction screenshot. Please check file format and try again.',
+              code: 'UPLOAD_ERROR'
+            },
             { status: 500 }
           )
         }
       } catch (screenshotError) {
         console.error('Transaction screenshot upload error:', screenshotError)
         return NextResponse.json(
-          { error: 'Error processing transaction screenshot. Please try again.' },
+          { 
+            error: 'Error processing transaction screenshot. Please try again.',
+            code: 'UPLOAD_ERROR'
+          },
           { status: 500 }
         )
       }
     } else if (paymentStatus === 'completed') {
       console.error('No transaction screenshot provided for completed payment')
       return NextResponse.json(
-        { error: 'Transaction screenshot is required for completed payments' },
+        { 
+          error: 'Transaction screenshot is required for completed payments',
+          code: 'VALIDATION_ERROR'
+        },
         { status: 400 }
       )
     }
@@ -208,7 +252,10 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Registration creation failed:', error)
       return NextResponse.json(
-        { error: `Database error: ${error.message || 'Failed to save registration'}` },
+        { 
+          error: `Database error: ${error.message || 'Failed to save registration'}`,
+          code: 'DATABASE_ERROR'
+        },
         { status: 500 }
       )
     }
@@ -216,7 +263,10 @@ export async function POST(request: NextRequest) {
     if (!registration) {
       console.error('No registration data returned')
       return NextResponse.json(
-        { error: 'Failed to create registration - no data returned' },
+        { 
+          error: 'Failed to create registration - no data returned',
+          code: 'UNKNOWN_ERROR'
+        },
         { status: 500 }
       )
     }
@@ -244,14 +294,52 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Registration API error:', error)
+    const processingTime = Date.now() - startTime
+    console.error('Registration API error after', processingTime, 'ms:', error)
+    
+    let errorMessage = 'Internal server error occurred. Please try again.'
+    let errorCode = 'INTERNAL_ERROR'
+    let statusCode = 500
+    
+    if (error instanceof Error) {
+      // Handle timeout errors
+      if (error.message.includes('timeout') || error.message.includes('TIMEOUT')) {
+        errorMessage = 'Request timeout. This may be due to large file uploads or slow internet connection. Please try again.'
+        errorCode = 'TIMEOUT_ERROR'
+        statusCode = 408
+      }
+      // Handle network/connection errors
+      else if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('ECONNRESET')) {
+        errorMessage = 'Network connection error. Please check your internet connection and try again.'
+        errorCode = 'NETWORK_ERROR'
+        statusCode = 503
+      }
+      // Handle Supabase specific errors
+      else if (error.message.includes('supabase') || error.message.includes('storage')) {
+        errorMessage = 'Storage service temporarily unavailable. Please try again in a few moments.'
+        errorCode = 'STORAGE_ERROR'
+        statusCode = 503
+      }
+      // Handle validation errors
+      else if (error.message.includes('validation') || error.message.includes('invalid')) {
+        errorMessage = `Validation error: ${error.message}`
+        errorCode = 'VALIDATION_ERROR'
+        statusCode = 400
+      }
+      // Generic error with message
+      else {
+        errorMessage = `Server error: ${error.message}`
+      }
+    }
     
     return NextResponse.json(
       { 
-        error: 'Internal server error occurred. Please try again.',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        error: errorMessage,
+        code: errorCode,
+        processingTime,
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : String(error)) : undefined
       },
-      { status: 500 }
+      { status: statusCode }
     )
   }
 }

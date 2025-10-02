@@ -52,7 +52,7 @@ export const CategorySelection: React.FC<CategorySelectionProps> = ({ onCategory
                       Registration Fee
                     </div>
                     <div className="text-xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
-                      {category.fee}
+                    {category.fee}
                     </div>
                   </div>
                 </div>

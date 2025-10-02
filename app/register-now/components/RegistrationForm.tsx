@@ -121,7 +121,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
             <ErrorMessage error={fieldErrors.mobileNumber} />
           </div>
 
-          {/* Date of Birth */}
+          {/* Date of Birth - Fixed width for mobile */}
           <div className="animate-fade-in" style={{ animationDelay: '300ms' }}>
             <label htmlFor="dateOfBirth" className="block text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Date of Birth *
@@ -132,7 +132,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
               required
               value={formData.dateOfBirth}
               onChange={(e) => onInputChange('dateOfBirth', e.target.value)}
-              className={`w-full border-2 ${fieldErrors.dateOfBirth ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'} rounded-2xl px-4 py-3 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white hover:border-blue-300 dark:hover:border-blue-500`}
+              className={`w-full max-w-full sm:max-w-none border-2 ${fieldErrors.dateOfBirth ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'} rounded-2xl px-3 sm:px-4 py-3 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white hover:border-blue-300 dark:hover:border-blue-500 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70 hover:[&::-webkit-calendar-picker-indicator]:opacity-100`}
               max={new Date().toISOString().split('T')[0]}
               min="1920-01-01"
             />
@@ -375,7 +375,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
             <>
               <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 016-7.745V5a10 10 0 000 14v-1.255A8 8 0 014 12z"></path>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 616-7.745V5a10 10 0 000 14v-1.255A8 8 0 614 12z"></path>
               </svg>
               Submitting...
             </>
