@@ -99,17 +99,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             </div>
           </div>
 
-          {/* Tournament Info */}
-          <div className="bg-yellow-50 rounded-2xl p-4 mb-6">
-                      <h4 className="font-bold text-yellow-800 mb-2 text-center">🏆 Tournament Details</h4>
-            <p className="text-yellow-700 text-sm mb-1">
-              <strong>Date:</strong> November 15-16, 2025
-            </p>
-            <p className="text-yellow-700 text-sm">
-              <strong>Venue:</strong> Pushpa Sports Arena (PSA)
-            </p>
-          </div>
-
           {/* Next Steps */}
           <div className="bg-blue-50 rounded-2xl p-4 mb-6">
             <h4 className="font-bold text-blue-800 mb-3 text-center">🔜 What's Next?</h4>
@@ -143,7 +132,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             onClick={onClose}
             className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white py-4 rounded-2xl font-bold hover:from-green-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            Continue to Homepage
+            New Registration
           </button>
         </div>
       </div>
