@@ -16,10 +16,25 @@ export async function POST(request: NextRequest) {
   console.log('SUPA_URL_OK', supabaseUrl?.length, supabaseUrl?.slice(0, 30))
   console.log('SR_KEY_LEN', process.env.SUPABASE_SERVICE_ROLE_KEY?.length)
   
+  // Helper function to create fetch with timeout
+  const fetchWithTimeout = async (url: string, timeoutMs: number = 5000) => {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+    
+    try {
+      const response = await fetch(url, { 
+        signal: controller.signal
+      })
+      clearTimeout(timeoutId)
+      return response
+    } catch (error) {
+      clearTimeout(timeoutId)
+      throw error
+    }
+  }
+  
   try {
-    const healthResponse = await fetch(supabaseUrl + '/auth/v1/health', { 
-      timeout: 5000 // 5 second timeout for health check
-    })
+    const healthResponse = await fetchWithTimeout(supabaseUrl + '/auth/v1/health', 5000)
     console.log('AUTH_HEALTH_STATUS', healthResponse.status)
   } catch (healthError) {
     console.error('AUTH_HEALTH_FETCH_FAIL', healthError)
@@ -27,9 +42,7 @@ export async function POST(request: NextRequest) {
   }
   
   try {
-    const storageResponse = await fetch(supabaseUrl + '/storage/v1/bucket', {
-      timeout: 5000 // 5 second timeout for health check
-    })
+    const storageResponse = await fetchWithTimeout(supabaseUrl + '/storage/v1/bucket', 5000)
     console.log('STORAGE_HEALTH_STATUS', storageResponse.status)
   } catch (storageError) {
     console.error('STORAGE_HEALTH_FETCH_FAIL', storageError)

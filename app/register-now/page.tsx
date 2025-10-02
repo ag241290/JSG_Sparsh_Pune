@@ -1,5 +1,4 @@
-﻿
-'use client'
+﻿'use client'
 
 import React, { useState, useEffect } from 'react'
 import { AlertCircle, Wifi, WifiOff } from 'lucide-react'
@@ -343,35 +342,37 @@ export default function RegisterPage() {
           clearTimeout(timeoutId)
           
           // Handle different error types
-          if (fetchError.name === 'AbortError') {
-            const timeoutMessage = `Request timeout after ${timeoutMs / 1000} seconds. This may be due to slow internet connection or large file uploads.`
-            
-            if (retryCount < maxRetries) {
-              console.log(`Attempt ${retryCount + 1} timed out, retrying...`)
-              await new Promise(resolve => setTimeout(resolve, 2000)) // 2s delay for timeouts
-              return submitWithRetry(retryCount + 1)
+          if (fetchError instanceof Error) {
+            if (fetchError.name === 'AbortError') {
+              const timeoutMessage = `Request timeout after ${timeoutMs / 1000} seconds. This may be due to slow internet connection or large file uploads.`
+              
+              if (retryCount < maxRetries) {
+                console.log(`Attempt ${retryCount + 1} timed out, retrying...`)
+                await new Promise(resolve => setTimeout(resolve, 2000)) // 2s delay for timeouts
+                return submitWithRetry(retryCount + 1)
+              }
+              
+              throw new Error(timeoutMessage + ' Please check your internet connection and try again.')
             }
             
-            throw new Error(timeoutMessage + ' Please check your internet connection and try again.')
-          }
-          
-          if (fetchError.message === 'Failed to fetch') {
-            const networkMessage = 'Network connection failed. This could be due to internet connectivity issues or server problems.'
-            
-            if (retryCount < maxRetries) {
-              console.log(`Network error on attempt ${retryCount + 1}, retrying...`)
-              await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1))) // 2s, 4s delay
-              return submitWithRetry(retryCount + 1)
+            if (fetchError.message === 'Failed to fetch') {
+              const networkMessage = 'Network connection failed. This could be due to internet connectivity issues or server problems.'
+              
+              if (retryCount < maxRetries) {
+                console.log(`Network error on attempt ${retryCount + 1}, retrying...`)
+                await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1))) // 2s, 4s delay
+                return submitWithRetry(retryCount + 1)
+              }
+              
+              throw new Error(networkMessage + ' Please check your internet connection and try again.')
             }
-            
-            throw new Error(networkMessage + ' Please check your internet connection and try again.')
           }
           
           throw fetchError
         }
 
       } catch (error) {
-        if (retryCount < maxRetries && 
+        if (retryCount < maxRetries && error instanceof Error &&
             (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('timeout'))) {
           console.log(`Retrying due to error: ${error.message}`)
           await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)))
@@ -447,6 +448,16 @@ export default function RegisterPage() {
     setTimeout(() => scrollToTop(), 100)
   }
 
+  const handleRetry = () => {
+    if (showPayment) {
+      const fakeEvent = { preventDefault: () => {} } as React.FormEvent
+      handleFinalSubmit(fakeEvent)
+    } else {
+      const fakeEvent = { preventDefault: () => {} } as React.FormEvent
+      handleFormSubmit(fakeEvent)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 sm:py-12 animate-fade-in">
       <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
@@ -497,7 +508,7 @@ export default function RegisterPage() {
             
             <TroubleshootingGuide 
               error={submitError} 
-              onRetry={showPayment ? handleFinalSubmit : handleFormSubmit}
+              onRetry={handleRetry}
             />
           </>
         )}
