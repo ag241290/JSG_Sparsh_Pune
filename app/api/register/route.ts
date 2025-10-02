@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const category = formData.get('category') as string
     const fullName = formData.get('fullName') as string
     const mobileNumber = formData.get('mobileNumber') as string
-    const age = formData.get('age') as string
+    const dateOfBirth = formData.get('dateOfBirth') as string  // Changed from age
     const skillset = formData.get('skillset') as string
     const bowlingArm = formData.get('bowlingArm') as string
     const battingStyle = formData.get('battingStyle') as string
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const paymentStatus = formData.get('paymentStatus') as string || 'completed'
 
     // Validate required fields
-    if (!category || !fullName || !mobileNumber || !age || !skillset || !bowlingArm || !battingStyle || !jerseyName || !jerseyNumber || !jerseySize) {
+    if (!category || !fullName || !mobileNumber || !dateOfBirth || !skillset || !bowlingArm || !battingStyle || !jerseyName || !jerseyNumber || !jerseySize) {
       console.error('Missing required fields')
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -64,13 +64,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate data types
-    const ageNum = parseInt(age)
-    const jerseyNum = parseInt(jerseyNumber)
-
-    if (isNaN(ageNum) || isNaN(jerseyNum)) {
+    // Validate date of birth and calculate age for validation
+    const birthDate = new Date(dateOfBirth)
+    if (isNaN(birthDate.getTime())) {
       return NextResponse.json(
-        { error: 'Invalid age or jersey number' },
+        { error: 'Invalid date of birth' },
+        { status: 400 }
+      )
+    }
+
+    // Validate jersey number
+    const jerseyNum = parseInt(jerseyNumber)
+    if (isNaN(jerseyNum)) {
+      return NextResponse.json(
+        { error: 'Invalid jersey number' },
         { status: 400 }
       )
     }
@@ -80,6 +87,18 @@ export async function POST(request: NextRequest) {
     const parentName = parentNameValue ? parentNameValue.trim() : undefined
     const cricHeroesLinkValue = formData.get('cricHeroesLink') as string | null
     const cricHeroesLink = cricHeroesLinkValue ? cricHeroesLinkValue.trim() : undefined
+
+    // Handle gender field for Kids category
+    const genderValue = formData.get('gender') as string | null
+    const gender = genderValue ? genderValue.trim() : undefined
+
+    // Validate gender for Kids category
+    if (category === 'kids' && !gender) {
+      return NextResponse.json(
+        { error: 'Gender is required for Kids category' },
+        { status: 400 }
+      )
+    }
 
     // Generate unique ID for file uploads
     const uniqueId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
@@ -152,13 +171,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create registration data with all details including transaction info
+    // Create registration data with all details including gender for Kids
     const registrationData = {
       category: category as 'male' | 'female' | 'kids',
       full_name: fullName.trim(),
       parent_name: parentName,
       mobile_number: mobileNumber.trim(),
-      age: ageNum,
+      date_of_birth: dateOfBirth,  // Changed from age: ageNum to date_of_birth: dateOfBirth
+      gender: gender, // Added gender field for Kids category
       skillset: skillset,
       bowling_arm: bowlingArm,
       batting_style: battingStyle,
@@ -176,6 +196,7 @@ export async function POST(request: NextRequest) {
     console.log('Creating registration with data:', {
       category: registrationData.category,
       full_name: registrationData.full_name,
+      gender: registrationData.gender,
       hasPhoto: !!photoUrl,
       hasTransactionScreenshot: !!transactionScreenshotUrl,
       hasTransactionId: !!transactionId,
@@ -203,6 +224,7 @@ export async function POST(request: NextRequest) {
     console.log('Registration created successfully:', {
       id: registration.id,
       category: registration.category,
+      gender: registration.gender,
       payment_status: registration.payment_status
     })
 
@@ -212,6 +234,7 @@ export async function POST(request: NextRequest) {
         id: registration.id,
         category: registration.category,
         full_name: registration.full_name,
+        gender: registration.gender,
         mobile_number: registration.mobile_number,
         payment_status: registration.payment_status,
         transaction_id: registration.transaction_id,

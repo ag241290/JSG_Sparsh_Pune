@@ -19,7 +19,7 @@ export default function Social() {
   const danPatraInitiatives = [
     {
       id: 1,
-      title: 'SPARSH Education Dan',
+      title: 'SPARSH Education Daan',
       subtitle: 'JSG EDUCON',
       icon: BookOpen,
       description: 'Supporting education for underprivileged children in our community and beyond. Providing scholarships, books, and educational resources to help students achieve their dreams.',
@@ -31,7 +31,7 @@ export default function Social() {
     },
     {
       id: 2,
-      title: 'SPARSH Go-Mata Dan',
+      title: 'SPARSH Go-Mata Daan',
       subtitle: 'JSG GO GRASS',
       icon: Leaf,
       description: 'Cow protection and care initiatives. Supporting gaushalas, providing fodder, and promoting sustainable cow welfare programs for the protection of these sacred animals.',
@@ -43,7 +43,7 @@ export default function Social() {
     },
     {
       id: 3,
-      title: 'SPARSH Sadharmik Seva Dan',
+      title: 'SPARSH Sadharmik Seva Daan',
       subtitle: 'Helping Jain Needy Families',
       icon: Users,
       description: 'Direct financial and material support to Jain families in need. Emergency assistance, medical support, and livelihood programs to strengthen our community bonds.',
@@ -67,7 +67,7 @@ export default function Social() {
     },
     {
       id: 5,
-      title: 'SPARSH Social Activity Dan',
+      title: 'SPARSH Social Activity Daan',
       subtitle: 'Community Programs',
       icon: Target,
       description: 'Funding and supporting various social activities, community events, and programs that benefit society at large and promote social welfare in the community.',
@@ -79,7 +79,7 @@ export default function Social() {
     },
     {
       id: 6,
-      title: 'SPARSH Rakta Dan',
+      title: 'SPARSH Rakta Daan',
       subtitle: 'Blood Donation Drive',
       icon: Droplets,
       description: 'Regular blood donation camps in collaboration with hospitals. Organizing 4-day drives and emergency blood support to save lives in critical situations.',
@@ -142,8 +142,8 @@ export default function Social() {
             Social Initiatives
           </h1>
           <p className="text-lg text-gray-600 max-w-4xl mx-auto mb-6">
-            JSG PUNE SPARSH DAN PATRA platform encourages members to contribute to various charitable 
-            initiatives, giving them multiple choices for CHARITY (DAN). Our social programs reflect 
+            JSG PUNE SPARSH DAAN PATRA platform encourages members to contribute to various charitable
+            initiatives, giving them multiple choices for CHARITY (DAAN). Our social programs reflect 
             the core values of Ahimsa, Seva, and Karuna - non-violence, service, and compassion.
           </p>
           <div className="bg-gradient-to-r from-primary-50 to-secondary-50 p-6 rounded-lg max-w-2xl mx-auto">
@@ -156,7 +156,7 @@ export default function Social() {
         {/* Dan Patra Initiatives */}
         <div className="mb-16">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Dan Patra Initiatives</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Daan Patra Initiatives</h2>
             <select 
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
@@ -281,7 +281,7 @@ export default function Social() {
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg p-6 text-center shadow-md">
             <div className="text-2xl font-bold text-primary-600">6</div>
-            <div className="text-sm text-gray-600">Dan Patra Categories</div>
+            <div className="text-sm text-gray-600">Daan Patra Categories</div>
           </div>
           <div className="bg-white rounded-lg p-6 text-center shadow-md">
             <div className="text-2xl font-bold text-green-600">1000+</div>

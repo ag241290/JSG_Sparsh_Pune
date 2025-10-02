@@ -19,14 +19,16 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('')
   const [showExportOptions, setShowExportOptions] = useState(false)
 
-  // CSV Export column options - Removed team_assigned and approved
+  // CSV Export column options - Updated for date_of_birth and gender
   const [exportColumns, setExportColumns] = useState<ExportColumn[]>([
     { key: 'id', label: 'Registration ID', defaultSelected: true },
     { key: 'category', label: 'Category', defaultSelected: true },
     { key: 'full_name', label: 'Full Name', defaultSelected: true },
     { key: 'parent_name', label: 'Parent Name', defaultSelected: true },
+    { key: 'gender', label: 'Gender (Kids)', defaultSelected: true }, // Added gender field
     { key: 'mobile_number', label: 'Mobile Number', defaultSelected: true },
-    { key: 'age', label: 'Age', defaultSelected: true },
+    { key: 'date_of_birth', label: 'Date of Birth', defaultSelected: true },
+    { key: 'age', label: 'Age (Calculated)', defaultSelected: true },
     { key: 'skillset', label: 'Skillset', defaultSelected: true },
     { key: 'bowling_arm', label: 'Bowling Arm', defaultSelected: true },
     { key: 'cricket_experience', label: 'Cricket Experience', defaultSelected: false },
@@ -71,7 +73,8 @@ export default function AdminDashboard() {
       reg.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.mobile_number.includes(searchTerm) ||
       reg.jersey_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (reg.transaction_id && reg.transaction_id.toLowerCase().includes(searchTerm.toLowerCase()))
+      (reg.transaction_id && reg.transaction_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (reg.gender && reg.gender.toLowerCase().includes(searchTerm.toLowerCase())) // Added gender to search
     
     return matchesCategory && matchesSearch
   })
@@ -80,13 +83,30 @@ export default function AdminDashboard() {
     total: registrations.length,
     male: registrations.filter(r => r.category === 'male').length,
     female: registrations.filter(r => r.category === 'female').length,
-    kids: registrations.filter(r => r.category === 'kids').length
+    kids: registrations.filter(r => r.category === 'kids').length,
+    boys: registrations.filter(r => r.category === 'kids' && r.gender === 'Boy').length,
+    girls: registrations.filter(r => r.category === 'kids' && r.gender === 'Girl').length
   }
 
   const toggleExportColumn = (index: number) => {
     setExportColumns(prev => prev.map((col, i) => 
       i === index ? { ...col, defaultSelected: !col.defaultSelected } : col
     ))
+  }
+
+  // Helper function to calculate age from date of birth
+  const calculateAge = (dateOfBirth: string): number => {
+    if (!dateOfBirth) return 0
+    const today = new Date()
+    const birthDate = new Date(dateOfBirth)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--
+    }
+    
+    return age
   }
 
   const exportToCsv = () => {
@@ -105,10 +125,14 @@ export default function AdminDashboard() {
             return reg.full_name || ''
           case 'parent_name':
             return reg.parent_name || ''
+          case 'gender':
+            return reg.gender || '' // Added gender export
           case 'mobile_number':
             return reg.mobile_number || ''
+          case 'date_of_birth':
+            return reg.date_of_birth ? new Date(reg.date_of_birth).toLocaleDateString() : ''
           case 'age':
-            return reg.age || ''
+            return reg.date_of_birth ? calculateAge(reg.date_of_birth).toString() : ''
           case 'skillset':
             return reg.skillset || ''
           case 'bowling_arm':
@@ -199,8 +223,8 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Stats Cards - No payment stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Stats Cards - Enhanced with gender breakdown */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
           <div className="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
             <div className="flex items-center">
               <Users className="text-blue-600 mr-2" size={20} />
@@ -235,8 +259,29 @@ export default function AdminDashboard() {
             <div className="flex items-center">
               <div className="w-3 h-3 bg-green-600 rounded-full mr-2"></div>
               <div>
-                <p className="text-sm text-gray-600">Kids</p>
+                <p className="text-sm text-gray-600">Kids (Total)</p>
                 <p className="text-2xl font-bold text-green-600">{stats.kids}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* New gender breakdown for Kids */}
+          <div className="bg-white p-4 rounded-lg shadow border-l-4 border-cyan-500">
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-cyan-600 rounded-full mr-2"></div>
+              <div>
+                <p className="text-sm text-gray-600">Boys</p>
+                <p className="text-2xl font-bold text-cyan-600">{stats.boys}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-lg shadow border-l-4 border-purple-500">
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-purple-600 rounded-full mr-2"></div>
+              <div>
+                <p className="text-sm text-gray-600">Girls</p>
+                <p className="text-2xl font-bold text-purple-600">{stats.girls}</p>
               </div>
             </div>
           </div>
@@ -252,7 +297,7 @@ export default function AdminDashboard() {
               </label>
               <input
                 type="text"
-                placeholder="Name, mobile, jersey, or transaction ID..."
+                placeholder="Name, mobile, jersey, gender, or transaction ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
@@ -338,7 +383,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Registrations Table - Removed Team Assigned and Approved columns */}
+        {/* Registrations Table - Added gender display */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -377,8 +422,17 @@ export default function AdminDashboard() {
                             Parent: {registration.parent_name}
                           </div>
                         )}
+                        {/* Show gender for Kids category */}
+                        {registration.category === 'kids' && registration.gender && (
+                          <div className="text-sm text-blue-600 font-medium">
+                            {registration.gender}
+                          </div>
+                        )}
                         <div className="text-sm text-gray-500">
-                          Age: {registration.age}
+                          DOB: {registration.date_of_birth ? new Date(registration.date_of_birth).toLocaleDateString() : 'N/A'}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          Age: {registration.date_of_birth ? calculateAge(registration.date_of_birth) : 'N/A'}
                         </div>
                       </div>
                     </td>
@@ -421,6 +475,11 @@ export default function AdminDashboard() {
         {/* Summary */}
         <div className="mt-6 text-center text-sm text-gray-500">
           Showing {filteredRegistrations.length} of {registrations.length} registrations
+          {stats.kids > 0 && (
+            <span className="ml-4">
+              Kids breakdown: {stats.boys} Boys, {stats.girls} Girls
+            </span>
+          )}
         </div>
       </div>
     </div>

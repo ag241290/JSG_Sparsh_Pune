@@ -64,7 +64,8 @@ export interface Registration {
   full_name: string
   parent_name?: string
   mobile_number: string
-  age: number
+  date_of_birth: string  // Changed from age: number to date_of_birth: string
+  gender?: string // Added for Kids category - Boy/Girl
   skillset: string
   bowling_arm: string
   batting_style: string
