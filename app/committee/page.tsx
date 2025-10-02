@@ -1,6 +1,16 @@
-import { Phone, User, Crown, Users, Trophy, Smartphone, Heart, Zap } from 'lucide-react'
+import { Phone, User, Crown, Users, Trophy, Smartphone, Heart, Zap, Award } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Committee() {
+  const mentor = {
+    name: 'Yuvraj Shah',
+    position: 'Group Mentor',
+    description: 'Guiding JSG SPARSH Pune with wisdom and experience, providing strategic direction and mentorship to achieve community excellence.',
+    phone: '+91 9850958258',
+    icon: Award,
+    category: 'mentor'
+  }
+
   const coreGroup = [
     {
       name: 'Dhiraj Shah',
@@ -129,6 +139,43 @@ export default function Committee() {
           </p>
         </div>
 
+        {/* Mentor Section - GOLD THEME */}
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
+            Mentor
+          </h2>
+          <div className="flex justify-center">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden card-hover max-w-sm w-full">
+              <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-4 sm:p-6 text-white text-center">
+                <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src={`/images/Committee/${mentor.name}.jpeg`}
+                    alt={mentor.name}
+                    width={144}
+                    height={144}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 leading-tight">{mentor.name}</h3>
+                <p className="text-amber-100 font-medium text-sm sm:text-base">{mentor.position}</p>
+              </div>
+              <div className="p-4 sm:p-6">
+                <p className="text-gray-600 text-sm mb-3 sm:mb-4 leading-relaxed min-h-[4rem]">
+                  {mentor.description}
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center text-gray-500 text-sm">
+                    <Phone size={12} className="mr-2 flex-shrink-0" />
+                    <a href={`tel:${mentor.phone}`} className="hover:text-amber-600 text-xs">
+                      {mentor.phone}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Core Group - BLUE THEME */}
         <div className="mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">
@@ -140,14 +187,14 @@ export default function Committee() {
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
                   <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 sm:p-6 text-white text-center">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                      {member.position === 'Founder President' ? (
-                        <IconComponent size={20} className="sm:w-7 sm:h-7" />
-                      ) : (
-                        <span className="text-lg sm:text-2xl font-bold">
-                          {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                        </span>
-                      )}
+                    <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={`/images/Committee/${member.name}.jpeg`}
+                        alt={member.name}
+                        width={144}
+                        height={144}
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </div>
                     <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 leading-tight">{member.name}</h3>
                     <p className="text-blue-100 font-medium text-sm sm:text-base">{member.position}</p>
@@ -182,8 +229,14 @@ export default function Committee() {
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
                   <div className="bg-yellow-500 p-4 sm:p-6 text-white text-center">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                      <IconComponent size={20} className="sm:w-7 sm:h-7" />
+                    <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={`/images/Committee/${member.name}.jpeg`}
+                        alt={member.name}
+                        width={144}
+                        height={144}
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </div>
                     <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 leading-tight">{member.name}</h3>
                     <p className="text-yellow-100 font-medium text-sm sm:text-base">{member.position}</p>
@@ -218,8 +271,14 @@ export default function Committee() {
               return (
                 <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
                   <div className={`bg-gradient-to-r ${member.color} p-4 sm:p-6 text-white text-center`}>
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                      <IconComponent size={20} className="sm:w-7 sm:h-7" />
+                    <div className="w-32 h-32 sm:w-36 sm:h-36 bg-white/20 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={`/images/Committee/${member.name}.jpeg`}
+                        alt={member.name}
+                        width={144}
+                        height={144}
+                        className="w-full h-full object-cover rounded-full"
+                      />
                     </div>
                     <h3 className="text-lg sm:text-xl font-semibold mb-1 leading-tight">{member.name}</h3>
                     <p className="text-white/90 font-medium mb-1 text-sm sm:text-base">{member.position}</p>

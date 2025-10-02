@@ -116,7 +116,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <div className="space-y-2 text-sm text-blue-700">
               <div className="flex items-start">
                 <span className="text-blue-500 mr-2">🏆</span>
-                <span>See you in Auction on 10th October</span>
+                <span>See you in Auction..!!</span>
               </div>
               <div className="flex items-start">
                 <span className="text-blue-500 mr-2">📋</span>
