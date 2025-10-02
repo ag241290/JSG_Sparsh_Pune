@@ -178,7 +178,7 @@ export default function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProp
           <div className="flex items-center justify-center space-x-2">
             <div className="w-2 h-2 bg-red-500 dark:bg-red-400 rounded-full animate-pulse"></div>
             <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-              Restricted access • Authorized personnel only
+              Restricted access â€¢ Authorized personnel only
             </p>
           </div>
         </div>
