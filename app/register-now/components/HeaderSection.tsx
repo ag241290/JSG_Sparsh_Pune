@@ -57,7 +57,7 @@ export const HeaderSection: React.FC<HeaderSectionProps> = () => {
           <div className="text-xl sm:text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400 animate-pulse pt-4">
             <span className="inline-block">&#127952;</span> 15 & 16 November 2025 <span className="inline-block">&#127952;</span>
             <p className="text-base sm:text-lg hover:text-white text-green-600 dark:text-green-400 transition-colors duration-300">
-                Join the most awaited Box Cricket Tournament
+                Venue : Pushpa Sports Arena, Kondhwa, Pune-48
             </p>
           </div>
         </div>
