@@ -288,10 +288,10 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
               value={formData.cricHeroesLink}
               onChange={(e) => onInputChange('cricHeroesLink', e.target.value)}
               className={`w-full border-2 ${fieldErrors.cricHeroesLink ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'} rounded-2xl px-4 py-3 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white hover:border-blue-300 dark:hover:border-blue-500`}
-              placeholder="https://cricheroes.com/player-profile/5594432/amit-gandhi"
+              placeholder="https://cricheroes.in/player-profile/5594432/amit-gandhi"
             />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Format: https://cricheroes.com/player-profile/[ID]/[name]
+              Format: https://cricheroes.[in/com]/player-profile/[ID]/[name]
             </p>
             <ErrorMessage error={fieldErrors.cricHeroesLink} />
           </div>

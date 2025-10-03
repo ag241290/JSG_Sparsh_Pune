@@ -106,9 +106,10 @@ export function useFormValidation(selectedCategory: string) {
           return 'Cric Heroes Link is required'
         }
         if (typeof value === 'string') {
-          const cricHeroesPattern = /^https:\/\/cricheroes\.com\/player-profile\/\d+\/[^\/\s]+.*$/;
+          // Updated pattern to accept both .in and .com domains
+          const cricHeroesPattern = /^https:\/\/cricheroes\.(in|com)\/player-profile\/\d+\/[^\/\s]+.*$/;
           if (!cricHeroesPattern.test(value)) {
-            return 'Please enter a valid Cric Heroes Link format: https://cricheroes.com/player-profile/ID/name'
+            return 'Please enter a valid Cric Heroes Link format: https://cricheroes.[in/com]/player-profile/ID/name'
           }
         }
         return ''
