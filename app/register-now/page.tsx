@@ -11,6 +11,14 @@ import { PaymentForm } from './components/PaymentForm'
 import ConfirmationModal from './components/ConfirmationModal'
 import { TroubleshootingGuide } from './components/TroubleshootingGuide'
 
+// Constants for localStorage keys
+const STORAGE_KEYS = {
+  CATEGORY: 'jsg_registration_category',
+  FORM_DATA: 'jsg_registration_form_data',
+  PAYMENT_DATA: 'jsg_registration_payment_data',
+  SHOW_PAYMENT: 'jsg_registration_show_payment'
+}
+
 export default function RegisterPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [formData, setFormData] = useState<RegistrationFormData>({
@@ -39,6 +47,7 @@ export default function RegisterPage() {
   const [registrationResult, setRegistrationResult] = useState<any>(null)
   const [isOnline, setIsOnline] = useState(true)
   const [connectionType, setConnectionType] = useState<string>('unknown')
+  const [dataRestored, setDataRestored] = useState(false)
 
   // Use the form validation hook
   const {
@@ -54,6 +63,127 @@ export default function RegisterPage() {
     setPaymentError,
     clearAllErrors
   } = useFormValidation(selectedCategory)
+
+  // Helper functions for localStorage
+  const saveToStorage = (key: string, data: any) => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(key, JSON.stringify(data))
+      }
+    } catch (error) {
+      console.warn('Failed to save to localStorage:', error)
+    }
+  }
+
+  const loadFromStorage = (key: string) => {
+    try {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem(key)
+        return saved ? JSON.parse(saved) : null
+      }
+    } catch (error) {
+      console.warn('Failed to load from localStorage:', error)
+    }
+    return null
+  }
+
+  const clearStorage = () => {
+    try {
+      if (typeof window !== 'undefined') {
+        Object.values(STORAGE_KEYS).forEach(key => {
+          localStorage.removeItem(key)
+        })
+      }
+    } catch (error) {
+      console.warn('Failed to clear localStorage:', error)
+    }
+  }
+
+  // Load saved data on component mount
+  useEffect(() => {
+    const savedCategory = loadFromStorage(STORAGE_KEYS.CATEGORY)
+    const savedFormData = loadFromStorage(STORAGE_KEYS.FORM_DATA)
+    const savedPaymentData = loadFromStorage(STORAGE_KEYS.PAYMENT_DATA)
+    const savedShowPayment = loadFromStorage(STORAGE_KEYS.SHOW_PAYMENT)
+
+    let hasRestoredData = false
+
+    if (savedCategory) {
+      setSelectedCategory(savedCategory)
+      hasRestoredData = true
+    }
+
+    if (savedFormData) {
+      // Restore form data except for file objects which can't be serialized
+      const restoredFormData = {
+        ...savedFormData,
+        photo: null // Files can't be restored from localStorage
+      }
+      setFormData(restoredFormData)
+      hasRestoredData = true
+    }
+
+    if (savedPaymentData) {
+      // Restore payment data except for file objects
+      const restoredPaymentData = {
+        ...savedPaymentData,
+        transactionScreenshot: null // Files can't be restored from localStorage
+      }
+      setPaymentData(restoredPaymentData)
+      hasRestoredData = true
+    }
+
+    if (savedShowPayment) {
+      setShowPayment(savedShowPayment)
+      hasRestoredData = true
+    }
+
+    if (hasRestoredData) {
+      setDataRestored(true)
+      // Show a brief notification that data was restored
+      setTimeout(() => setDataRestored(false), 5000)
+    }
+  }, [])
+
+  // Save data to localStorage whenever state changes
+  useEffect(() => {
+    if (selectedCategory) {
+      saveToStorage(STORAGE_KEYS.CATEGORY, selectedCategory)
+    }
+  }, [selectedCategory])
+
+  useEffect(() => {
+    // Only save non-empty form data
+    const hasData = Object.values(formData).some(value => 
+      value && value !== '' && value !== null
+    )
+    if (hasData) {
+      // Create a serializable version of form data (excluding File objects)
+      const serializableFormData = {
+        ...formData,
+        photo: formData.photo ? { name: formData.photo.name, size: formData.photo.size } : null
+      }
+      saveToStorage(STORAGE_KEYS.FORM_DATA, serializableFormData)
+    }
+  }, [formData])
+
+  useEffect(() => {
+    // Only save non-empty payment data
+    const hasPaymentData = paymentData.transactionId.trim() !== ''
+    if (hasPaymentData) {
+      // Create a serializable version of payment data (excluding File objects)
+      const serializablePaymentData = {
+        ...paymentData,
+        transactionScreenshot: paymentData.transactionScreenshot ? 
+          { name: paymentData.transactionScreenshot.name, size: paymentData.transactionScreenshot.size } : null
+      }
+      saveToStorage(STORAGE_KEYS.PAYMENT_DATA, serializablePaymentData)
+    }
+  }, [paymentData])
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.SHOW_PAYMENT, showPayment)
+  }, [showPayment])
 
   // Network monitoring
   useEffect(() => {
@@ -386,6 +516,8 @@ export default function RegisterPage() {
       const result = await submitWithRetry()
       setRegistrationResult(result)
       setShowSuccessModal(true)
+      // Clear saved data after successful submission
+      clearStorage()
 
     } catch (error) {
       console.error('Registration error:', error)
@@ -433,6 +565,8 @@ export default function RegisterPage() {
     setShowPayment(false)
     setSubmitError(null)
     clearAllErrors()
+    // Clear saved data when user cancels
+    clearStorage()
     scrollToTop()
   }
 
@@ -470,6 +604,18 @@ export default function RegisterPage() {
           category={selectedCategory}
         />
 
+        {/* Data Restored Notification */}
+        {dataRestored && (
+          <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6 animate-slide-up">
+            <div className="flex items-center">
+              <AlertCircle className="text-green-600 dark:text-green-400 mr-2 flex-shrink-0" size={20} />
+              <p className="text-green-800 dark:text-green-200 text-sm">
+                Your previously entered data has been restored. You can continue from where you left off. Note: You'll need to re-upload any photos.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Header Section */}
         <HeaderSection />
 
@@ -479,7 +625,7 @@ export default function RegisterPage() {
             <div className="flex items-center">
               <WifiOff className="text-red-600 dark:text-red-400 mr-2 flex-shrink-0" size={20} />
               <p className="text-red-800 dark:text-red-200 text-sm">
-                No internet connection detected. Please check your connection before submitting.
+                No internet connection detected. Please check your connection before submitting. Your form data is being saved automatically.
               </p>
             </div>
           </div>
@@ -490,7 +636,7 @@ export default function RegisterPage() {
             <div className="flex items-center">
               <Wifi className="text-yellow-600 dark:text-yellow-400 mr-2 flex-shrink-0" size={20} />
               <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                Slow internet connection detected ({connectionType}). File uploads may take longer than usual.
+                Slow internet connection detected ({connectionType}). File uploads may take longer than usual. Your form data is being saved automatically.
               </p>
             </div>
           </div>
