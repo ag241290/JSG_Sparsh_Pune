@@ -55,21 +55,9 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
           </h3>
           
           <div className="text-center mb-4">
-            <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
-              Click the button below to pay using any UPI app
-            </p>
             <p className="text-xs text-blue-600 dark:text-blue-400 mb-4">
                           UPI ID: <span className="font-mono bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">MAB.037324053200005@AXISBANK</span>
             </p>
-          </div>
-
-          <div className="text-center">
-            <a
-              href={getUPILink()}
-              className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
-            >
-              <span className="inline-block">&#128640;</span> Pay ₹{getPaymentAmount()} via UPI
-            </a>
           </div>
 
           <div className="mt-4 text-center">
