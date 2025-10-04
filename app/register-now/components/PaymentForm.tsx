@@ -51,102 +51,36 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
         {/* UPI Payment Section */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 mb-6 border border-blue-200 dark:border-blue-800">
           <h3 className="text-lg font-bold text-blue-800 dark:text-blue-300 mb-4 text-center">
-            <span className="inline-block">&#128179;</span> Pay via UPI
+            <span className="inline-block">&#128179;</span> Payment Details
           </h3>
           
-          <div className="text-center mb-4">
-            <p className="text-xs text-blue-600 dark:text-blue-400 mb-4">
-                          UPI ID: <span className="font-mono bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">MAB.037324053200005@AXISBANK</span>
-            </p>
+          <div className="text-center space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                UPI ID for Payment:
+              </p>
+              <p className="text-lg font-mono bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-lg text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700">
+                MAB.037324053200005@AXISBANK
+              </p>
+            </div>
             
-            {/* UPI Payment Button */}
-            <button
-              type="button"
-              onClick={() => {
-                const amount = getPaymentAmount()
-                const upiId = 'MAB.037324053200005@AXISBANK'
-                const payeeName = 'JSG SPARSH Tournament'
-                const transactionNote = `Registration fee for ${categories.find(c => c.id === selectedCategory)?.name} category`
-                
-                // Create UPI payment URL with proper encoding
-                const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`
-                
-                // Alternative UPI URL format for better compatibility
-                const alternativeUpiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`
-                
-                // Try multiple approaches for UPI payment
-                const tryUPIPayment = () => {
-                  // First try: Standard UPI URL
-                  const link1 = document.createElement('a')
-                  link1.href = upiUrl
-                  link1.target = '_blank'
-                  document.body.appendChild(link1)
-                  link1.click()
-                  document.body.removeChild(link1)
-                  
-                  // Fallback after 3 seconds if first method doesn't work
-                  setTimeout(() => {
-                    // Show manual payment instructions
-                    const paymentInstructions = `
-Payment Details:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📱 UPI ID: ${upiId}
-💰 Amount: ₹${amount}
-🏷️ Note: ${transactionNote}
-
-Instructions:
-1. Open any UPI app (Google Pay, PhonePe, Paytm, etc.)
-2. Choose "Pay to UPI ID" or "Send Money"
-3. Enter the UPI ID above
-4. Enter amount ₹${amount}
-5. Add the note for reference
-6. Complete payment with your UPI PIN
-
-After payment, enter Transaction ID and upload screenshot below.
-                    `
-                    
-                    // Try to copy UPI ID to clipboard
-                    if (navigator.clipboard) {
-                      navigator.clipboard.writeText(upiId).then(() => {
-                        alert(paymentInstructions + '\n\n✅ UPI ID copied to clipboard!')
-                      }).catch(() => {
-                        alert(paymentInstructions)
-                      })
-                    } else {
-                      alert(paymentInstructions)
-                    }
-                  }, 3000)
-                }
-                
-                tryUPIPayment()
-              }}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center mx-auto gap-2 text-sm"
-            >
-              <span className="text-lg">📱</span>
-              Pay ₹{getPaymentAmount()} via UPI
-            </button>
+            <div>
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                Amount to Pay:
+              </p>
+              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                ₹{getPaymentAmount()}
+              </p>
+            </div>
             
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-              Click to open your UPI app or get payment instructions
-            </p>
-            
-            {/* Manual Payment Instructions */}
-            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-              <h4 className="font-semibold text-gray-700 dark:text-gray-300 mb-2 text-sm">
-                💡 Manual Payment Instructions:
-              </h4>
-              <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                <p>1. Open any UPI app (Google Pay, PhonePe, Paytm, BHIM, etc.)</p>
-                <p>2. Select "Pay to UPI ID" or "Send Money"</p>
-                <p>3. Enter UPI ID: <span className="font-mono bg-gray-200 dark:bg-gray-700 px-1 rounded">MAB.037324053200005@AXISBANK</span></p>
-                <p>4. Enter amount: <span className="font-semibold">₹{getPaymentAmount()}</span></p>
-                <p>5. Add note: Registration fee for {categories.find(c => c.id === selectedCategory)?.name} category</p>
-                <p>6. Complete payment with your UPI PIN</p>
-              </div>
+            <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded-lg p-3 mt-4">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200 font-medium">
+                📱 <span className="font-semibold">Note:</span> QR Code is shared on SPARSH WhatsApp group
+              </p>
             </div>
           </div>
 
-          <div className="mt-4 text-center">
+          <div className="mt-6 text-center">
             <p className="text-xs text-gray-600 dark:text-gray-400">
               After payment, please enter your Transaction ID and upload screenshot below
             </p>

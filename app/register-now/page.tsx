@@ -133,7 +133,26 @@ export default function RegisterPage() {
       hasRestoredData = true
     }
 
-    if (savedShowPayment) {
+    // Smart restoration logic: Always start with registration form if photo is missing
+    if (savedShowPayment && savedFormData) {
+      // Check if we had photo data before (indicated by photo metadata in saved data)
+      const hadPhotoData = savedFormData.photo && (savedFormData.photo.name || savedFormData.photo.size)
+      
+      if (hadPhotoData) {
+        // User had uploaded a photo before, but it can't be restored
+        // Force them to start with registration form to re-upload photo
+        setShowPayment(false)
+        hasRestoredData = true
+        
+        // Set a flag to highlight the photo field
+        setTimeout(() => {
+          setFieldError('photo', 'Please re-upload your photo (photos cannot be restored from saved data)')
+        }, 1000)
+      } else {
+        // No photo was uploaded before, safe to restore payment form
+        setShowPayment(savedShowPayment)
+      }
+    } else if (savedShowPayment) {
       setShowPayment(savedShowPayment)
       hasRestoredData = true
     }
@@ -141,7 +160,7 @@ export default function RegisterPage() {
     if (hasRestoredData) {
       setDataRestored(true)
       // Show a brief notification that data was restored
-      setTimeout(() => setDataRestored(false), 5000)
+      setTimeout(() => setDataRestored(false), 8000) // Increased to 8 seconds for better visibility
     }
   }, [])
 
@@ -607,11 +626,16 @@ export default function RegisterPage() {
         {/* Data Restored Notification */}
         {dataRestored && (
           <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6 animate-slide-up">
-            <div className="flex items-center">
-              <AlertCircle className="text-green-600 dark:text-green-400 mr-2 flex-shrink-0" size={20} />
-              <p className="text-green-800 dark:text-green-200 text-sm">
-                Your previously entered data has been restored. You can continue from where you left off. Note: You'll need to re-upload any photos.
-              </p>
+            <div className="flex items-start">
+              <AlertCircle className="text-green-600 dark:text-green-400 mr-2 flex-shrink-0 mt-0.5" size={20} />
+              <div className="text-green-800 dark:text-green-200 text-sm">
+                <p className="font-semibold mb-1">Your previously entered data has been restored!</p>
+                <div className="space-y-1">
+                  <p>✅ All form fields have been recovered</p>
+                  <p>📸 <span className="font-semibold">Important:</span> You'll need to re-upload your photo and any payment screenshots</p>
+                  <p>🔄 Continue from where you left off - your progress is saved automatically</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
