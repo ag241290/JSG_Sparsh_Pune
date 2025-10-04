@@ -58,6 +58,40 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
             <p className="text-xs text-blue-600 dark:text-blue-400 mb-4">
                           UPI ID: <span className="font-mono bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">MAB.037324053200005@AXISBANK</span>
             </p>
+            
+            {/* UPI Payment Button */}
+            <button
+              type="button"
+              onClick={() => {
+                const amount = getPaymentAmount()
+                const upiId = 'MAB.037324053200005@AXISBANK'
+                const payeeName = 'JSG SPARSH Tournament'
+                const transactionNote = `Registration fee for ${categories.find(c => c.id === selectedCategory)?.name} category`
+                
+                // Create UPI payment URL
+                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`
+                
+                // Try to open UPI app, fallback to showing the UPI ID
+                try {
+                  window.open(upiUrl, '_self')
+                } catch (error) {
+                  // Fallback for browsers that don't support UPI URLs
+                  navigator.clipboard.writeText(upiId).then(() => {
+                    alert('UPI ID copied to clipboard: ' + upiId)
+                  }).catch(() => {
+                    alert('UPI ID: ' + upiId)
+                  })
+                }
+              }}
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center mx-auto gap-2 text-sm"
+            >
+              <span className="text-lg">📱</span>
+              Pay ₹{getPaymentAmount()} via UPI
+            </button>
+            
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              Click to open your UPI app with payment details pre-filled
+            </p>
           </div>
 
           <div className="mt-4 text-center">
