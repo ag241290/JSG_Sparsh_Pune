@@ -27,7 +27,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   onSubmit,
   onBack
 }) => {
-  const getPaymentAmount = () => selectedCategory === 'kids' ? '600' : '800'
+  const getPaymentAmount = () => selectedCategory === 'kids' ? '11' : '12'
   const getUPILink = () => {
     const amount = getPaymentAmount()
       return `MAB.037324053200005@AXISBANK`
@@ -59,8 +59,14 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 UPI ID for Payment:
               </p>
-              <p className="text-lg font-mono bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-lg text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700">
+              <a
+                href={`upi://pay?pa=MAB.037324053200005@AXISBANK&pn=${encodeURIComponent('JSG SPARSH Tournament')}&am=${Number(getPaymentAmount()).toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Registration fee for ${categories.find(c => c.id === selectedCategory)?.name} category`)}`}
+                className="inline-block text-sm font-mono bg-blue-100 dark:bg-blue-900/30 px-3 py-2 rounded-lg text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors duration-200 cursor-pointer break-all"
+              >
                 MAB.037324053200005@AXISBANK
+              </a>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Click to open UPI app with payment details
               </p>
             </div>
             
