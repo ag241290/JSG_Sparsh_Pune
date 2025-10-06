@@ -182,6 +182,9 @@ export default function Footer() {
               <p className="text-blue-200 text-sm">
                 Copyright {currentYear} JAIN SOCIAL GROUP PUNE SPARSH. All rights reserved.
               </p>
+              <p className="text-blue-500 text-sm">
+                App developer: AMIT GANDHI
+              </p>
             </div>
             
             <div className="flex items-center space-x-6 text-sm text-blue-200">
