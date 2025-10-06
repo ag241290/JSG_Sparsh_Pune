@@ -27,7 +27,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   onSubmit,
   onBack
 }) => {
-  const getPaymentAmount = () => selectedCategory === 'kids' ? '11' : '12'
+  const getPaymentAmount = () => selectedCategory === 'kids' ? '600' : '800'
   const getUPILink = () => {
     const amount = getPaymentAmount()
       return `MAB.037324053200005@AXISBANK`
