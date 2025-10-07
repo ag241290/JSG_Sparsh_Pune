@@ -13,6 +13,39 @@ export default function Footer() {
     setCurrentYear(new Date().getFullYear())
   }, [])
 
+  // Function to handle external link clicks for native app compatibility
+  const handleExternalLink = (url: string) => {
+    // Check if we're in a native app environment
+    const isNativeApp = window.navigator.userAgent.includes('wv') || 
+                       window.navigator.userAgent.includes('WebView') ||
+                       (window as any).ReactNativeWebView ||
+                       (window as any).webkit?.messageHandlers ||
+                       (window as any).Android;
+
+    if (isNativeApp) {
+      // For native apps, use window.open with '_system' or fallback methods
+      try {
+        // Try different methods for opening external URLs in native apps
+        if ((window as any).open) {
+          window.open(url, '_system', 'location=yes');
+        } else if ((window as any).cordova) {
+          // Cordova/PhoneGap
+          (window as any).cordova.InAppBrowser.open(url, '_system');
+        } else {
+          // Fallback: change window location
+          window.location.href = url;
+        }
+      } catch (error) {
+        console.warn('Could not open external URL:', error);
+        // Final fallback
+        window.location.href = url;
+      }
+    } else {
+      // Standard web behavior
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   const quickLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
@@ -94,21 +127,20 @@ export default function Footer() {
               and serving society with unity in diversity.
             </p>
 
-            {/* Social Links - Now with Brand Colors */}
+            {/* Social Links - Now with Native App Compatibility */}
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {
                 const IconComponent = social.icon
                 return (
-                  <a
+                  <button
                     key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group p-3 ${social.bgColor} rounded-xl transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl`}
+                    onClick={() => handleExternalLink(social.href)}
+                    className={`group p-3 ${social.bgColor} rounded-xl transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl cursor-pointer`}
                     aria-label={social.label}
+                    type="button"
                   >
                     <IconComponent size={20} className={`${social.textColor} transition-colors`} />
-                  </a>
+                  </button>
                 )
               })}
             </div>
