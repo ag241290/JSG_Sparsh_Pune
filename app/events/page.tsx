@@ -57,54 +57,11 @@ export default function Events() {
     }
   ]
 
-  // Function to handle external gallery links for native app compatibility
+  // Function to handle external gallery links - Always show modal
   const handleGalleryLink = (url: string) => {
-    // Check if we're in a native app environment
-    const isNativeApp = typeof window !== 'undefined' && (
-      window.navigator.userAgent.includes('wv') || 
-      window.navigator.userAgent.includes('WebView') ||
-      (window as any).ReactNativeWebView ||
-      (window as any).webkit?.messageHandlers ||
-      (window as any).Android
-    );
-
-    if (isNativeApp) {
-      // For native apps, use window.open with '_system' or fallback methods
-      try {
-        if ((window as any).open) {
-          window.open(url, '_system', 'location=yes');
-        } else if ((window as any).cordova) {
-          // Cordova/PhoneGap
-          (window as any).cordova.InAppBrowser.open(url, '_system');
-        } else {
-          // Show custom modal instead of alert
-          setModalUrl(url);
-          setShowModal(true);
-        }
-      } catch (error) {
-        console.warn('Could not open external URL:', error);
-        // Show custom modal instead of alert
-        setModalUrl(url);
-        setShowModal(true);
-      }
-    } else {
-      // Standard web behavior - simple window.open without detection
-      try {
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        
-        // Only show modal if window.open completely fails (returns null)
-        if (!newWindow) {
-          setModalUrl(url);
-          setShowModal(true);
-        }
-        
-      } catch (error) {
-        console.warn('Could not open URL:', error);
-        // Show custom modal instead of alert
-        setModalUrl(url);
-        setShowModal(true);
-      }
-    }
+    // Always show the modal instead of trying to navigate to Facebook
+    setModalUrl(url);
+    setShowModal(true);
   };
 
   const copyToClipboard = async () => {
@@ -257,7 +214,7 @@ export default function Events() {
         </div>
       </div>
 
-      {/* Custom Modal - Matches App UI Design */}
+      {/* Custom Modal - Enhanced for Mobile */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-gray-100 max-w-md w-full relative overflow-hidden">
@@ -267,7 +224,7 @@ export default function Events() {
                 <div className="w-32 h-32 bg-yellow-300 rounded-full -top-16 -right-16"></div>
               </div>
               <div className="relative z-10 flex justify-between items-center">
-                <h3 className="text-xl font-bold">Gallery Link</h3>
+                <h3 className="text-xl font-bold">Event Gallery</h3>
                 <button 
                   onClick={() => setShowModal(false)}
                   className="p-2 hover:bg-blue-700 rounded-lg transition-colors"
@@ -280,7 +237,7 @@ export default function Events() {
             {/* Modal Content */}
             <div className="p-6 space-y-4">
               <p className="text-gray-700 leading-relaxed">
-                Unable to open the gallery automatically. You can copy the link below and paste it in your browser to view the event photos.
+                Choose how you'd like to view the event gallery:
               </p>
               
               <div className="bg-gray-50 p-4 rounded-lg border">
@@ -290,16 +247,26 @@ export default function Events() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <div className="flex flex-col gap-3 pt-2">
+                <button 
+                  onClick={() => {
+                    // Try to open directly
+                    window.open(modalUrl, '_blank', 'noopener,noreferrer');
+                    setShowModal(false);
+                  }}
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Open Gallery Now
+                </button>
                 <button 
                   onClick={copyToClipboard}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   Copy Link
                 </button>
                 <button 
                   onClick={() => setShowModal(false)}
-                  className="flex-1 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300"
+                  className="w-full border-2 border-gray-300 text-gray-600 hover:bg-gray-50 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300"
                 >
                   Close
                 </button>
