@@ -1,9 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { Calendar, MapPin, Clock, Users, ArrowRight } from 'lucide-react'
+import { Calendar, MapPin, Clock, Users, ArrowRight, X } from 'lucide-react'
+import { useState } from 'react'
 
 export default function Events() {
+  const [showModal, setShowModal] = useState(false)
+  const [modalUrl, setModalUrl] = useState('')
+
   const events = [
     // Past Programs (for reference and inspiration)
     {
@@ -27,7 +31,8 @@ export default function Events() {
       attendees: 200,
       highlights: ['Committee Installation', 'Cultural Performances', 'Traditional Attire', 'Award Ceremony'],
       galleryUrl: 'https://www.facebook.com/media/set/?set=a.122192890292263798&type=3'
-    },
+    }
+    ,
     {
       id: 3,
       title: 'Aqua Magic',
@@ -72,17 +77,43 @@ export default function Events() {
           // Cordova/PhoneGap
           (window as any).cordova.InAppBrowser.open(url, '_system');
         } else {
-          // Fallback: change window location
-          window.location.href = url;
+          // Show custom modal instead of alert
+          setModalUrl(url);
+          setShowModal(true);
         }
       } catch (error) {
         console.warn('Could not open external URL:', error);
-        // Final fallback
-        window.location.href = url;
+        // Show custom modal instead of alert
+        setModalUrl(url);
+        setShowModal(true);
       }
     } else {
-      // Standard web behavior
-      window.open(url, '_blank', 'noopener,noreferrer');
+      // Standard web behavior - simple window.open without detection
+      try {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        
+        // Only show modal if window.open completely fails (returns null)
+        if (!newWindow) {
+          setModalUrl(url);
+          setShowModal(true);
+        }
+        
+      } catch (error) {
+        console.warn('Could not open URL:', error);
+        // Show custom modal instead of alert
+        setModalUrl(url);
+        setShowModal(true);
+      }
+    }
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(modalUrl);
+      setShowModal(false);
+      // You could add a toast notification here instead
+    } catch (error) {
+      console.warn('Could not copy to clipboard:', error);
     }
   };
 
@@ -225,6 +256,58 @@ export default function Events() {
           </div>
         </div>
       </div>
+
+      {/* Custom Modal - Matches App UI Design */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-gray-100 max-w-md w-full relative overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white relative">
+              <div className="absolute inset-0 opacity-10">
+                <div className="w-32 h-32 bg-yellow-300 rounded-full -top-16 -right-16"></div>
+              </div>
+              <div className="relative z-10 flex justify-between items-center">
+                <h3 className="text-xl font-bold">Gallery Link</h3>
+                <button 
+                  onClick={() => setShowModal(false)}
+                  className="p-2 hover:bg-blue-700 rounded-lg transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-4">
+              <p className="text-gray-700 leading-relaxed">
+                Unable to open the gallery automatically. You can copy the link below and paste it in your browser to view the event photos.
+              </p>
+              
+              <div className="bg-gray-50 p-4 rounded-lg border">
+                <p className="text-sm text-gray-600 mb-2 font-medium">Gallery URL:</p>
+                <p className="text-xs text-blue-600 break-all font-mono bg-white p-2 rounded border">
+                  {modalUrl}
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button 
+                  onClick={copyToClipboard}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  Copy Link
+                </button>
+                <button 
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
